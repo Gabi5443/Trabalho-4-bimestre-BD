@@ -41,7 +41,7 @@ class productModel {
         return []; // Retorna um array vazio caso dê erro
     }
 
-    public function listById($id) {
+    public function listById($ID_PRODUCT) {
         $sql = "SELECT * FROM PRODUCT WHERE ID_PRODUCT = ?";
         
         $stmt = $this->conexao->prepare($sql);
@@ -50,8 +50,7 @@ class productModel {
             return null; // Retorna nulo se houver erro na query
         }
 
-        // "i" significa que o parâmetro $id é um número inteiro (integer)
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $ID_PRODUCT);
         
         $stmt->execute();
         
@@ -67,7 +66,7 @@ class productModel {
         return $produto;
     }
 
-    public function alter($id, $NAME_PRODUCT, $DESCRIPTION_PRODUCT, $PRICE_PRODUCT, $PHOTO_PRODUCT, $STOCK_PRODUCT, $ID_CATEGORY_FK) {
+    public function alter($ID_PRODUCT, $NAME_PRODUCT, $DESCRIPTION_PRODUCT, $PRICE_PRODUCT, $PHOTO_PRODUCT, $STOCK_PRODUCT, $ID_CATEGORY_FK) {
         
         $sql = "UPDATE PRODUCT SET 
                     NAME_PRODUCT = ?, 
@@ -84,7 +83,7 @@ class productModel {
             return false;
         }
 
-        $stmt->bind_param("ssdssii", $NAME_PRODUCT, $DESCRIPTION_PRODUCT, $PRICE_PRODUCT, $PHOTO_PRODUCT, $STOCK_PRODUCT, $ID_CATEGORY_FK, $id);
+        $stmt->bind_param("ssdsiii", $NAME_PRODUCT, $DESCRIPTION_PRODUCT, $PRICE_PRODUCT, $PHOTO_PRODUCT, $STOCK_PRODUCT, $ID_CATEGORY_FK, $ID_PRODUCT);
 
         $resultado = $stmt->execute();
         
@@ -93,7 +92,7 @@ class productModel {
         return $resultado; // Retorna true se deu certo ou false se deu erro
     }
 
-    public function delete($id) {
+    public function delete($ID_PRODUCT) {
         $sql = "DELETE FROM PRODUCT WHERE ID_PRODUCT = ?";
 
         $stmt = $this->conexao->prepare($sql);
@@ -102,7 +101,7 @@ class productModel {
             return false;
         }
 
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $ID_PRODUCT);
 
         $resultado = $stmt->execute();
         
