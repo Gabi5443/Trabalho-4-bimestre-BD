@@ -107,6 +107,36 @@ class workerModel {
 
         return $resultado; // Retorna true se deu certo ou false se deu erro
     }
+
+
+    // Busca Nome, E-mail e Foto do Funcionário
+public function getProfileData($idAccount) {
+    $sql = "SELECT A.NAME_ACCOUNT, A.EMAIL_ACCOUNT, W.PHOTO_WORKER, W.ROLE_WORKER 
+            FROM ACCOUNT A 
+            INNER JOIN WORKER W ON A.ID_ACCOUNT = W.ID_ACCOUNT_FK 
+            WHERE A.ID_ACCOUNT = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bind_param("i", $idAccount);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+// Atualiza Nome/E-mail na ACCOUNT e insere/atualiza o nome da Foto na WORKER
+public function updateProfileData($idAccount, $nome, $email, $nomeFoto = null) {
+    // 1. Atualiza ACCOUNT
+    $sqlA = "UPDATE ACCOUNT SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ? WHERE ID_ACCOUNT = ?";
+    $stmtA = $this->db->prepare($sqlA);
+    $stmtA->bind_param("ssi", $nome, $email, $idAccount);
+    $stmtA->execute();
+
+    // 2. Insere/atualiza o caminho da foto na WORKER se enviado
+    if (!empty($nomeFoto)) {
+        $sqlW = "UPDATE WORKER SET PHOTO_WORKER = ? WHERE ID_ACCOUNT_FK = ?";
+        $stmtW = $this->db->prepare($sqlW);
+        $stmtW->bind_param("si", $nomeFoto, $idAccount);
+        $stmtW->execute();
+    }
+}
     
 }
 ?>
