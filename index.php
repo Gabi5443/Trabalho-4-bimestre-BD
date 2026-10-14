@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // 2. Conexão com o Banco de Dados
-require_once 'conexao.php';
+require_once 'conection.php';
 
 // 3. Importação das Models
 require_once 'models/AccountModel.php';
