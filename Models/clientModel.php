@@ -107,6 +107,33 @@ class clientModel {
 
         return $resultado; // Retorna true se deu certo ou false se deu erro
     }
+
+    // Busca Nome, E-mail e Foto do Cliente
+public function getProfileData($idAccount) {
+    $sql = "SELECT A.NAME_ACCOUNT, A.EMAIL_ACCOUNT, C.PHOTO_CLIENT 
+            FROM ACCOUNT A 
+            INNER JOIN CLIENT C ON A.ID_ACCOUNT = C.ID_ACCOUNT_FK 
+            WHERE A.ID_ACCOUNT = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bind_param("i", $idAccount);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+// Atualiza ACCOUNT e insere/atualiza a Foto na CLIENT
+public function updateProfileData($idAccount, $nome, $email, $nomeFoto = null) {
+    $sqlA = "UPDATE ACCOUNT SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ? WHERE ID_ACCOUNT = ?";
+    $stmtA = $this->db->prepare($sqlA);
+    $stmtA->bind_param("ssi", $nome, $email, $idAccount);
+    $stmtA->execute();
+
+    if (!empty($nomeFoto)) {
+        $sqlC = "UPDATE CLIENT SET PHOTO_CLIENT = ? WHERE ID_ACCOUNT_FK = ?";
+        $stmtC = $this->db->prepare($sqlC);
+        $stmtC->bind_param("si", $nomeFoto, $idAccount);
+        $stmtC->execute();
+    }
+}
     
 }
 ?>
