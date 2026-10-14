@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        
+    </style>
 </head>
 
 <body>
@@ -16,7 +19,7 @@
             <div class="msg success-msg">Conta criada com sucesso! Faça login.</div>
         <?php endif; ?>
 
-        <form action="../controllers/accountController.php?action=login" method="POST">
+        <form action="../Controllers/accountController.php?action=login" method="POST">
             <div class="form-group">
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" name="email" required>
