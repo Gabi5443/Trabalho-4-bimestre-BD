@@ -12,7 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // 2. Importa a conexão com o banco de dados
-require_once 'conexao.php';
+require_once 'conection.php';
+
 
 // 3. Importa todas as Models
 require_once 'models/AccountModel.php';
