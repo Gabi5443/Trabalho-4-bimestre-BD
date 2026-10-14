@@ -133,6 +133,13 @@ class accountModel
 
         return $resultado; // Retorna true se deu certo ou false se deu erro
     }
-
+// update conta 
+    public function updateProfile($id, $nome, $email, $foto) {
+    $sql = "UPDATE ACCOUNT SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ?, PHOTO_ACCOUNT = ? WHERE ID_ACCOUNT = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bind_param("sssi", $nome, $email, $foto, $id);
+    return $stmt->execute();
+}
+    
 }
 ?>

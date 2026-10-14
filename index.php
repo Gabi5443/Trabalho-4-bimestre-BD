@@ -1,77 +1,79 @@
 <?php
 
-// 1. Configuração de Cabeçalhos CORS (permite requisições do Frontend/Postman)
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-// Trata requisições prévias do navegador (Preflight OPTIONS)
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
+// 1. Inicia a sessão para controle de Login e Usuários
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-// 2. Importa a conexão com o banco de dados
+// 2. Conexão com o Banco de Dados
 require_once 'conection.php';
 
-
-// 3. Importa todas as Models
+// 3. Importação das Models
 require_once 'models/AccountModel.php';
 require_once 'models/ClientModel.php';
 require_once 'models/WorkerModel.php';
 require_once 'models/CategoryModel.php';
 require_once 'models/ProductModel.php';
 
-// 4. Importa todas as Controllers
+// 4. Importação das Controllers
 require_once 'controllers/AccountController.php';
 require_once 'controllers/ClientController.php';
 require_once 'controllers/WorkerController.php';
 require_once 'controllers/CategoryController.php';
 require_once 'controllers/ProductController.php';
+require_once 'controllers/ProfileController.php'; // Adicionada a ProfileController
 
-// 5. Captura o método HTTP (GET, POST, PUT, DELETE)
-$method = $_SERVER['REQUEST_METHOD'];
-
-// 6. Captura e limpa a URL amigável recebida
-// Exemplo de URL: /api/product/5 ou ?url=product/5
+// 5. Captura e limpa a URL amigável
+// Exemplo de URL: index.php?url=profile/edit ou product/delete/5
 $url = isset($_GET['url']) ? explode('/', rtrim($_GET['url'], '/')) : [];
 
-$recurso = isset($url[0]) ? strtolower($url[0]) : null;
-$id      = isset($url[1]) ? intval($url[1]) : null;
+$recurso = isset($url[0]) ? strtolower($url[0]) : 'dashboard'; // Rota padrão se a URL for vazia
+$acao    = isset($url[1]) ? strtolower($url[1]) : 'index';     // Ação padrão
+$param   = isset($url[2]) ? $url[2] : null;                     // ID ou parâmetro adicional
 
-// 7. Roteamento: Redireciona para a Controller apropriada com base no recurso da URL
+// 6. Roteamento do Sistema
 switch ($recurso) {
-    case 'account':
-        $controller = new AccountController($conn);
-        $controller->handleRequest($method, $id);
-        break;
-
-    case 'client':
-        $controller = new ClientController($conn);
-        $controller->handleRequest($method, $id);
-        break;
-
-    case 'worker':
-        $controller = new WorkerController($conn);
-        $controller->handleRequest($method, $id);
-        break;
-
-    case 'category':
-        $controller = new CategoryController($conn);
-        $controller->handleRequest($method, $id);
-        break;
-
+    
+    // Rota de Produtos
     case 'product':
         $controller = new ProductController($conn);
-        $controller->handleRequest($method, $id);
+        $controller->handleRequest($acao, $param);
         break;
 
+    // Rota de Perfil do Usuário
+    case 'profile':
+        $controller = new ProfileController($conn);
+        $controller->handleRequest($acao);
+        break;
+
+    // Rota de Categorias
+    case 'category':
+        $controller = new CategoryController($conn);
+        $controller->handleRequest($acao, $param);
+        break;
+
+    // Rota de Clientes
+    case 'client':
+        $controller = new ClientController($conn);
+        $controller->handleRequest($acao, $param);
+        break;
+
+    // Rota de Funcionários
+    case 'worker':
+        $controller = new WorkerController($conn);
+        $controller->handleRequest($acao, $param);
+        break;
+
+    // Rota do Dashboard / Home do Funcionário
+    case 'dashboard':
+        $controller = new WorkerController($conn);
+        $controller->handleRequest('dashboard');
+        break;
+
+    // Rota Padrão (Página não encontrada 404)
     default:
-        // Se tentar acessar um recurso que não existe
-        header("Content-Type: application/json; charset=UTF-8");
         http_response_code(404);
-        echo json_encode([
-            "message" => "Endpoint não encontrado. Recursos disponíveis: account, client, worker, category, product."
-        ]);
+        echo "<h1>Erro 404 - Página não encontrada</h1>";
+        echo "<p><a href='index.php?url=dashboard'>Voltar ao início</a></p>";
         break;
 }
