@@ -81,7 +81,7 @@ class workerModel {
             return false;
         }
 
-        $stmt->bind_param("ssssi", $NAME_WORKER, $REGISTRATION_WORKER, $ROLE_WORKER, $PHOTO_WORKER, $ID_ACCOUNT_FK, $ID_WORKER);
+      $stmt->bind_param("ssssii", $NAME_WORKER, $REGISTRATION_WORKER, $ROLE_WORKER, $PHOTO_WORKER, $ID_ACCOUNT_FK, $ID_WORKER);
 
         $resultado = $stmt->execute();
         
@@ -109,34 +109,88 @@ class workerModel {
     }
 
 
-    // Busca Nome, E-mail e Foto do Funcionário
-public function getProfileData($idAccount) {
-    $sql = "SELECT A.NAME_ACCOUNT, A.EMAIL_ACCOUNT, W.PHOTO_WORKER, W.ROLE_WORKER 
-            FROM ACCOUNT A 
-            INNER JOIN WORKER W ON A.ID_ACCOUNT = W.ID_ACCOUNT_FK 
-            WHERE A.ID_ACCOUNT = ?";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bind_param("i", $idAccount);
-    $stmt->execute();
-    return $stmt->get_result()->fetch_assoc();
-}
+    // Busca nome, e-mail e foto do funcionário
+    public function getProfileData($idAccount)
+    {
+        $sql = "SELECT
+                    A.NAME_ACCOUNT,
+                    A.EMAIL_ACCOUNT,
+                    W.PHOTO_WORKER,
+                    W.ROLE_WORKER
+                FROM ACCOUNT A
+                INNER JOIN WORKER W
+                    ON A.ID_ACCOUNT = W.ID_ACCOUNT_FK
+                WHERE A.ID_ACCOUNT = ?";
 
-// Atualiza Nome/E-mail na ACCOUNT e insere/atualiza o nome da Foto na WORKER
-public function updateProfileData($idAccount, $nome, $email, $nomeFoto = null) {
-    // 1. Atualiza ACCOUNT
-    $sqlA = "UPDATE ACCOUNT SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ? WHERE ID_ACCOUNT = ?";
-    $stmtA = $this->db->prepare($sqlA);
-    $stmtA->bind_param("ssi", $nome, $email, $idAccount);
-    $stmtA->execute();
+        $stmt = $this->conexao->prepare($sql);
 
-    // 2. Insere/atualiza o caminho da foto na WORKER se enviado
-    if (!empty($nomeFoto)) {
-        $sqlW = "UPDATE WORKER SET PHOTO_WORKER = ? WHERE ID_ACCOUNT_FK = ?";
-        $stmtW = $this->db->prepare($sqlW);
-        $stmtW->bind_param("si", $nomeFoto, $idAccount);
-        $stmtW->execute();
+        if (!$stmt) {
+            return null;
+        }
+
+        $stmt->bind_param("i", $idAccount);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+        $worker = $resultado->fetch_assoc();
+
+        $stmt->close();
+
+        return $worker;
     }
-}
+
+    // Atualiza nome e e-mail na ACCOUNT e a foto na WORKER
+    public function updateProfileData(
+        $idAccount,
+        $nome,
+        $email,
+        $nomeFoto = null
+    ) {
+        // 1. Atualiza nome e e-mail da conta
+        $sqlA = "UPDATE ACCOUNT
+                 SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ?
+                 WHERE ID_ACCOUNT = ?";
+
+        $stmtA = $this->conexao->prepare($sqlA);
+
+        if (!$stmtA) {
+            return false;
+        }
+
+        $stmtA->bind_param("ssi", $nome, $email, $idAccount);
+
+        $resultadoA = $stmtA->execute();
+        $stmtA->close();
+
+        if (!$resultadoA) {
+            return false;
+        }
+
+        // 2. Atualiza a foto somente se uma nova foi enviada
+        if ($nomeFoto !== null) {
+            $sqlW = "UPDATE WORKER
+                     SET PHOTO_WORKER = ?
+                     WHERE ID_ACCOUNT_FK = ?";
+
+            $stmtW = $this->conexao->prepare($sqlW);
+
+            if (!$stmtW) {
+                return false;
+            }
+
+            $stmtW->bind_param("si", $nomeFoto, $idAccount);
+
+            $resultadoW = $stmtW->execute();
+            $stmtW->close();
+
+            if (!$resultadoW) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     
 }
 ?>
