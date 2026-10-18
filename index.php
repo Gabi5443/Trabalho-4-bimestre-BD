@@ -23,10 +23,11 @@ $url = isset($_GET['url'])
     : [];
 
 $recurso = strtolower($url[0] ?? 'dashboard');
-$id = $url[1] ?? null;
+$acao = strtolower($url[1] ?? '');
+$id = $url[2] ?? null;
 
 // 5. Captura do método HTTP
-$method = $_SERVER['REQUEST_METHOD'];
+$method = strtoupper($_SERVER['REQUEST_METHOD']);
 
 // 6. Roteamento
 switch ($recurso) {
@@ -58,13 +59,32 @@ switch ($recurso) {
 
     case 'account':
         $controller = new AccountController($conn);
-        $controller->handleRequest($method, $id);
+
+        switch ($acao) {
+            case 'register':
+                $controller->createForm();
+                break;
+
+            case 'login':
+                $controller->login();
+                break;
+
+            case 'logout':
+                $controller->logout();
+                break;
+
+            default:
+                $controller->handleRequest($method, $id);
+                break;
+        }
         break;
 
     case 'dashboard':
-        // O dashboard é uma página HTML, não necessariamente uma API REST.
         $controller = new WorkerController($conn);
-        $controller->handleRequest('dashboard');
+
+        // A página do dashboard deve ser encaminhada
+        // para um método próprio da WorkerController.
+        $controller->dashboard();
         break;
 
     default:
