@@ -1,6 +1,7 @@
+
 <?php
 
-class accountModel
+class AccountModel
 {
     private $conexao;
 
@@ -11,8 +12,8 @@ class accountModel
 
     public function create($NAME_ACCOUNT, $EMAIL_ACCOUNT, $PASSWORD_ACCOUNT, $TYPE_ACCOUNT)
     {
-
-        $sql = "INSERT INTO ACCOUNT (NAME_ACCOUNT, EMAIL_ACCOUNT, PASSWORD_ACCOUNT, TYPE_ACCOUNT) 
+        $sql = "INSERT INTO ACCOUNT
+                (NAME_ACCOUNT, EMAIL_ACCOUNT, PASSWORD_ACCOUNT, TYPE_ACCOUNT)
                 VALUES (?, ?, ?, ?)";
 
         $stmt = $this->conexao->prepare($sql);
@@ -21,10 +22,15 @@ class accountModel
             return false;
         }
 
-        $stmt->bind_param("ssss", $NAME_ACCOUNT, $EMAIL_ACCOUNT, $PASSWORD_ACCOUNT, $TYPE_ACCOUNT);
+        $stmt->bind_param(
+            "ssss",
+            $NAME_ACCOUNT,
+            $EMAIL_ACCOUNT,
+            $PASSWORD_ACCOUNT,
+            $TYPE_ACCOUNT
+        );
 
         $resultado = $stmt->execute();
-
         $stmt->close();
 
         return $resultado;
@@ -33,15 +39,13 @@ class accountModel
     public function listAll()
     {
         $sql = "SELECT * FROM ACCOUNT";
-
         $resultado = $this->conexao->query($sql);
 
         if ($resultado) {
-            // Transforma todos os resultados em um array associativo
             return $resultado->fetch_all(MYSQLI_ASSOC);
         }
 
-        return []; // Retorna um array vazio caso dê erro
+        return [];
     }
 
     public function listById($ID_ACCOUNT)
@@ -51,22 +55,17 @@ class accountModel
         $stmt = $this->conexao->prepare($sql);
 
         if (!$stmt) {
-            return null; // Retorna nulo se houver erro na query
+            return null;
         }
 
         $stmt->bind_param("i", $ID_ACCOUNT);
-
         $stmt->execute();
 
-        // Pega o resultado da consulta
         $resultado = $stmt->get_result();
-
-        // fetch_assoc() traz apenas uma linha em formato de array associativo
         $account = $resultado->fetch_assoc();
 
         $stmt->close();
 
-        // Retorna o array do produto (ou null se não encontrar nenhum com esse ID)
         return $account;
     }
 
@@ -75,6 +74,7 @@ class accountModel
         $sql = "SELECT * FROM ACCOUNT WHERE EMAIL_ACCOUNT = ?";
 
         $stmt = $this->conexao->prepare($sql);
+
         if (!$stmt) {
             return null;
         }
@@ -90,15 +90,19 @@ class accountModel
         return $account;
     }
 
-    public function alter($ID_ACCOUNT, $NAME_ACCOUNT, $EMAIL_ACCOUNT, $PASSWORD_ACCOUNT, $TYPE_ACCOUNT)
-    {
-
-        $sql = "UPDATE ACCOUNT SET 
-                    NAME_ACCOUNT = ?, 
-                    EMAIL_ACCOUNT = ?, 
-                    PASSWORD_ACCOUNT = ?, 
+    public function alter(
+        $ID_ACCOUNT,
+        $NAME_ACCOUNT,
+        $EMAIL_ACCOUNT,
+        $PASSWORD_ACCOUNT,
+        $TYPE_ACCOUNT
+    ) {
+        $sql = "UPDATE ACCOUNT SET
+                    NAME_ACCOUNT = ?,
+                    EMAIL_ACCOUNT = ?,
+                    PASSWORD_ACCOUNT = ?,
                     TYPE_ACCOUNT = ?
-                    WHERE ID_ACCOUNT = ?";
+                WHERE ID_ACCOUNT = ?";
 
         $stmt = $this->conexao->prepare($sql);
 
@@ -106,13 +110,19 @@ class accountModel
             return false;
         }
 
-        $stmt->bind_param("ssssi", $NAME_ACCOUNT, $EMAIL_ACCOUNT, $PASSWORD_ACCOUNT, $TYPE_ACCOUNT, $ID_ACCOUNT);
+        $stmt->bind_param(
+            "ssssi",
+            $NAME_ACCOUNT,
+            $EMAIL_ACCOUNT,
+            $PASSWORD_ACCOUNT,
+            $TYPE_ACCOUNT,
+            $ID_ACCOUNT
+        );
 
         $resultado = $stmt->execute();
-
         $stmt->close();
 
-        return $resultado; // Retorna true se deu certo ou false se deu erro
+        return $resultado;
     }
 
     public function delete($ID_ACCOUNT)
@@ -128,18 +138,47 @@ class accountModel
         $stmt->bind_param("i", $ID_ACCOUNT);
 
         $resultado = $stmt->execute();
-
         $stmt->close();
 
-        return $resultado; // Retorna true se deu certo ou false se deu erro
+        return $resultado;
     }
-// update conta 
-    public function updateProfile($id, $nome, $email, $foto) {
-    $sql = "UPDATE ACCOUNT SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ?, PHOTO_ACCOUNT = ? WHERE ID_ACCOUNT = ?";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bind_param("sssi", $nome, $email, $foto, $id);
-    return $stmt->execute();
-}
-    
+
+    // Atualiza as informações do perfil
+    public function updateProfile($id, $nome, $email, $foto)
+    {
+        if ($foto !== null) {
+            $sql = "UPDATE ACCOUNT SET
+                        NAME_ACCOUNT = ?,
+                        EMAIL_ACCOUNT = ?,
+                        PHOTO_ACCOUNT = ?
+                    WHERE ID_ACCOUNT = ?";
+
+            $stmt = $this->conexao->prepare($sql);
+
+            if (!$stmt) {
+                return false;
+            }
+
+            $stmt->bind_param("sssi", $nome, $email, $foto, $id);
+        } else {
+            $sql = "UPDATE ACCOUNT SET
+                        NAME_ACCOUNT = ?,
+                        EMAIL_ACCOUNT = ?
+                    WHERE ID_ACCOUNT = ?";
+
+            $stmt = $this->conexao->prepare($sql);
+
+            if (!$stmt) {
+                return false;
+            }
+
+            $stmt->bind_param("ssi", $nome, $email, $id);
+        }
+
+        $resultado = $stmt->execute();
+        $stmt->close();
+
+        return $resultado;
+    }
 }
 ?>
