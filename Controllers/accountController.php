@@ -1,6 +1,8 @@
 <?php
 
-require_once 'models/AccountModel.php';
+require_once '../models/AccountModel.php';
+require_once '../conection.php';
+
 
 class AccountController
 {
@@ -236,4 +238,30 @@ class AccountController
         echo json_encode($data);
         exit();
     }
+}
+
+
+// Cria o controller fora da classe
+$controller = new AccountController($db);
+
+// Identifica a ação solicitada na URL
+$action = $_GET['action'] ?? '';
+
+switch ($action) {
+    case 'create':
+        $controller->createForm();
+        break;
+
+    case 'login':
+        $controller->login();
+        break;
+
+    case 'logout':
+        $controller->logout();
+        break;
+
+    default:
+        http_response_code(404);
+        echo "Ação não encontrada.";
+        break;
 }
