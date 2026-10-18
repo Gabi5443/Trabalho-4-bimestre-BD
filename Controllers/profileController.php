@@ -48,7 +48,6 @@ class ProfileController {
             session_start();
         }
 
-        // Compatível com os nomes usados pela AccountController anterior
         $userId = $_SESSION['id_account'] ?? null;
         $userType = $_SESSION['type_account'] ?? 'CLIENT';
 
@@ -57,9 +56,17 @@ class ProfileController {
             exit();
         }
 
-        $model = ($userType === 'WORKER')
-            ? new WorkerModel($this->db)
-            : new ClientModel($this->db);
+        if ($userType === 'WORKER') {
+            $model = new WorkerModel($this->db);
+        } else {
+            $model = new ClientModel($this->db);
+        }
+
+        if (!method_exists($model, 'getProfileData')) {
+            http_response_code(501);
+            echo 'Implemente getProfileData() na Model correspondente.';
+            exit();
+        }
 
         $usuario = $model->getProfileData($userId);
 
@@ -97,22 +104,18 @@ class ProfileController {
         $nomeFoto = null;
 
         // Processa o upload da foto, se uma nova foi enviada
-        if (isset($_FILES['photo']) &&
-            $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE) {
-
+        if (
+            isset($_FILES['photo']) &&
+            $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE
+        ) {
             if ($_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
                 header('Location: index.php?url=profile&error=upload');
                 exit();
             }
 
-            $extensoesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
             $extensao = strtolower(
                 pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION)
             );
-
-            // Verificação básica do tipo e tamanho do arquivo
-            $tipoMime = (new finfo(FILEINFO_MIME_TYPE))
-                ->file($_FILES['photo']['tmp_name']);
 
             $mimesPermitidos = [
                 'jpg' => 'image/jpeg',
@@ -121,22 +124,33 @@ class ProfileController {
                 'webp' => 'image/webp'
             ];
 
-            if (
-                !isset($mimesPermitidos[$extensao]) ||
-                $tipoMime !== $mimesPermitidos[$extensao]
-            ) {
+            if (!isset($mimesPermitidos[$extensao])) {
+                header('Location: index.php?url=profile&error=photo');
+                exit();
+            }
+
+            $tipoMime = (new finfo(FILEINFO_MIME_TYPE))
+                ->file($_FILES['photo']['tmp_name']);
+
+            if ($tipoMime !== $mimesPermitidos[$extensao]) {
                 header('Location: index.php?url=profile&error=photo');
                 exit();
             }
 
             $prefixo = strtolower($userType);
+
             $nomeFoto = $prefixo . '_' . $userId . '_' .
                 bin2hex(random_bytes(8)) . '.' . $extensao;
 
             $pastaDestino = __DIR__ . '/../uploads/';
 
-            if (!is_dir($pastaDestino)) {
-                mkdir($pastaDestino, 0755, true);
+            if (
+                !is_dir($pastaDestino) &&
+                !mkdir($pastaDestino, 0755, true) &&
+                !is_dir($pastaDestino)
+            ) {
+                header('Location: index.php?url=profile&error=upload');
+                exit();
             }
 
             if (!move_uploaded_file(
@@ -148,21 +162,21 @@ class ProfileController {
             }
         }
 
-        // A atualização depende dos métodos existentes nas Models.
-        // Confirme a assinatura de updateProfile() antes de utilizar.
+        // Seleciona a model de acordo com o tipo de conta
         if ($userType === 'WORKER') {
             $model = new WorkerModel($this->db);
         } else {
             $model = new ClientModel($this->db);
         }
 
-        if (!method_exists($model, 'updateProfile')) {
+        // Ambas as models utilizam este método
+        if (!method_exists($model, 'updateProfileData')) {
             http_response_code(501);
-            echo 'Implemente updateProfile() na Model correspondente.';
+            echo 'Implemente updateProfileData() na Model correspondente.';
             exit();
         }
 
-        $sucesso = $model->updateProfile(
+        $sucesso = $model->updateProfileData(
             $userId,
             $nome,
             $email,
