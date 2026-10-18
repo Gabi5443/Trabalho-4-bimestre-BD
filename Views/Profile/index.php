@@ -15,7 +15,7 @@
 
     <h1>Meu perfil</h1>
 
-    <form action="" method="POST">
+   <form action="../Controllers/profileController.php?action=login" method="POST">
 
         <label for="name">Nome:</label>
         <input
