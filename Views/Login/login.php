@@ -35,7 +35,6 @@
 
         .form-group {
             margin-bottom: 15%;
-
         }
 
         .inside {
