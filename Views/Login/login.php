@@ -26,7 +26,7 @@
         .login-card {
             text-align: center;
             width: 30%;
-            height: 60%;
+            height: 40%;
             border-radius: 7%;
             background-color: #fff;
             font-family: "Sniglet", system-ui;
