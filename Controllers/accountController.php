@@ -65,7 +65,7 @@ class AccountController
             $adminCode = trim($_POST['admin_code'] ?? '');
 
             if (empty($name) || empty($email) || empty($password)) {
-                header('Location: ../Views/create.php?erro=1');
+                header('Location: ../Views/Login/create.php?erro=1');
                 exit;
             }
 
@@ -80,12 +80,17 @@ class AccountController
             $sucesso = $this->model->create($name, $email, $senhaCriptografada, $type);
 
             if ($sucesso) {
-                header('Location: ../Views/login.php?sucesso=1');
+                header('Location: ../Views/Login/login.php?sucesso=1');
                 exit;
             } else {
-                header('Location: ../Views/create.php?erro=1');
+                header('Location: ../Views/Login/create.php?erro=1');
                 exit;
             }
+             } else {
+        // SE FOR GET (quando clica no link para ver a tela de cadastro):
+        require_once __DIR__ . '/../Views/Login/create.php'; // Ajuste para o nome exato do arquivo da view de cadastro
+    
+
         }
     }
 
@@ -107,18 +112,22 @@ class AccountController
 
                 // Redirecionamento obrigatório baseado no tipo de conta
                 if ($usuario['TYPE_ACCOUNT'] === 'WORKER') {
-                    header('Location: ../Views/dashboard_adm.php');
+                    header('Location: ../Views/Dashboard/index.php');
                     exit;
                 } else {
                     header('Location: ../Views/menu.php');
                     exit;
                 }
             } else {
-                header('Location: ../Views/login.php?erro=1');
+                header('Location: ../Views/Login/login.php?erro=1');
                 exit;
             }
-        }
+            } else {
+        // SE FOR GET (quando clica no link para ver a tela de login):
+        require_once __DIR__ . '/../Views/Login/login.php'; // Ajuste o caminho se a sua view estiver noutra pasta
     }
+        }
+
 
     // 3. Termina a sessão
     public function logout()

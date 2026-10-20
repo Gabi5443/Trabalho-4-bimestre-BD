@@ -17,7 +17,7 @@
         <?php endif; ?>
 
         <!-- o formulário envia os dados via POST para o controller na ação de create -->
-        <form action="../Controllers/accountController.php?action=create" method="POST">
+        <form action="account/register" method="POST">
             <div class="form-group">
                 <label for="name">Nome:</label>
                 <input type="text" id="name" name="name" required>

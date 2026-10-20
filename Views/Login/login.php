@@ -106,7 +106,7 @@
 
         <div class="inside">
             <div class="login">Login</div>
-            <form action="../Controllers/accountController.php?action=login" method="POST">
+          <form action="account/login" method="POST">
                 <div class="form-group">
                     <label for="email">E-mail:</label>
                     <input type="email" id="email" name="email" required>

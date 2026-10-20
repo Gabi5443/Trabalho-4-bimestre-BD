@@ -1,7 +1,8 @@
-
 <?php
-
-
+// Ativar erros temporariamente para testes
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // 1. Inicia a sessão
 if (session_status() === PHP_SESSION_NONE) {
@@ -19,21 +20,17 @@ require_once __DIR__ . '/controllers/CategoryController.php';
 require_once __DIR__ . '/controllers/ProductController.php';
 require_once __DIR__ . '/controllers/ProfileController.php';
 
-// 4. Captura da URL
-// 4. Captura da URL
-$url = isset($_GET['url'])
-    ? explode('/', trim($_GET['url'], '/'))
-    : [];
-// 4. Captura da URL
+// 4. Captura da URL de forma segura
+$url = isset($_GET['url']) ? explode('/', trim($_GET['url'], '/')) : [];
 
-$url = isset($_GET['url'])
-
-    ? explode('/', trim($_GET['url'], '/'))
-
-    : [];
 $recurso = strtolower($url[0] ?? 'home');
 $acao = strtolower($url[1] ?? '');
 $id = $url[2] ?? null;
+
+// 5. Captura do método HTTP
+$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
+
 
 // 5. Captura do método HTTP
 $method = strtoupper($_SERVER['REQUEST_METHOD']);
