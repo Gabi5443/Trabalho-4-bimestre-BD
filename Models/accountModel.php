@@ -9,32 +9,36 @@ class AccountModel
     {
         $this->conexao = $db;
     }
+public function create($NAME_ACCOUNT, $EMAIL_ACCOUNT, $PASSWORD_ACCOUNT, $TYPE_ACCOUNT)
+{
+    $sql = "INSERT INTO ACCOUNT (NAME_ACCOUNT, EMAIL_ACCOUNT, PASSWORD_ACCOUNT, TYPE_ACCOUNT) VALUES (?, ?, ?, ?)";
 
-    public function create($NAME_ACCOUNT, $EMAIL_ACCOUNT, $PASSWORD_ACCOUNT, $TYPE_ACCOUNT)
-    {
-        $sql = "INSERT INTO ACCOUNT
-                (NAME_ACCOUNT, EMAIL_ACCOUNT, PASSWORD_ACCOUNT, TYPE_ACCOUNT)
-                VALUES (?, ?, ?, ?)";
+    $stmt = $this->conexao->prepare($sql);
 
-        $stmt = $this->conexao->prepare($sql);
+    if (!$stmt) {
+        return false;
+    }
 
-        if (!$stmt) {
-            return false;
-        }
+    $stmt->bind_param(
+        "ssss",
+        $NAME_ACCOUNT,
+        $EMAIL_ACCOUNT,
+        $PASSWORD_ACCOUNT,
+        $TYPE_ACCOUNT
+    );
 
-        $stmt->bind_param(
-            "ssss",
-            $NAME_ACCOUNT,
-            $EMAIL_ACCOUNT,
-            $PASSWORD_ACCOUNT,
-            $TYPE_ACCOUNT
-        );
-
+    try {
         $resultado = $stmt->execute();
         $stmt->close();
-
-        return $resultado;
+        return true;
+    } catch (mysqli_sql_exception $e) {
+     
+        if ($e->getCode() == 1062) {
+            throw new Exception("Este e-mail já está registado. Por favor, utilize outro.");
+        }
+        throw $e;
     }
+}
 
     public function listAll()
     {

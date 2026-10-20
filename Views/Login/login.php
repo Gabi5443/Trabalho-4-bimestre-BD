@@ -126,9 +126,9 @@
             </form>
         </div>
 
-        <div class="create-link">
-            Ainda não tem uma conta? <a href="create.php">Criar conta</a>
-        </div>
+       <div class="create-link">
+    Ainda não tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/register">Criar conta</a>
+</div>
     </div>
 </body>
 
