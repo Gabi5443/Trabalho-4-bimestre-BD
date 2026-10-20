@@ -1,6 +1,6 @@
 <?php
 
-require_once '../models/AccountModel.php';
+require_once __DIR__ . '/../Models/accountModel.php';
 
 
 

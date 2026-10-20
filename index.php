@@ -1,6 +1,8 @@
 
 <?php
 
+
+
 // 1. Inicia a sessão
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -18,11 +20,18 @@ require_once __DIR__ . '/controllers/ProductController.php';
 require_once __DIR__ . '/controllers/ProfileController.php';
 
 // 4. Captura da URL
+// 4. Captura da URL
 $url = isset($_GET['url'])
     ? explode('/', trim($_GET['url'], '/'))
     : [];
+// 4. Captura da URL
 
-$recurso = strtolower($url[0] ?? 'dashboard');
+$url = isset($_GET['url'])
+
+    ? explode('/', trim($_GET['url'], '/'))
+
+    : [];
+$recurso = strtolower($url[0] ?? 'home');
 $acao = strtolower($url[1] ?? '');
 $id = $url[2] ?? null;
 
@@ -82,9 +91,13 @@ switch ($recurso) {
     case 'dashboard':
         $controller = new WorkerController($conn);
 
-        // A página do dashboard deve ser encaminhada
-        // para um método próprio da WorkerController.
+     
         $controller->dashboard();
+        break;
+
+        case 'home':
+      
+        require_once __DIR__ . '/Views/home.php';
         break;
 
     default:

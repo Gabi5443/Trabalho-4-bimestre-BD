@@ -1,7 +1,7 @@
 
 <?php
 
-require_once __DIR__ . '/../models/WorkerModel.php';
+require_once __DIR__ . '/../models/workerModel.php';
 
 class WorkerController {
     private $model;
@@ -55,7 +55,7 @@ class WorkerController {
     // Página HTML do dashboard
     public function dashboard() {
         // Ajuste o caminho para o local real da sua view.
-        require __DIR__ . '/../Views/dashboard_adm.php';
+        require __DIR__ . '/../Views/Dashboard/index.php';
     }
 
     private function getAll() {

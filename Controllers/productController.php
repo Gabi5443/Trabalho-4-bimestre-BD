@@ -1,6 +1,6 @@
 <?php
 
-require_once 'models/ProductModel.php';
+require_once __DIR__ . '/../Models/productModel.php';
 
 class ProductController {
     private $model; //Chama a Model como atributo

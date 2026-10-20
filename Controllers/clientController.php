@@ -1,7 +1,7 @@
 
 <?php
 
-require_once __DIR__ . '/../models/ClientModel.php';
+require_once __DIR__ . '/../Models/clientModel.php';
 
 class ClientController {
     private $model;

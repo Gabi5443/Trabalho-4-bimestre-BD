@@ -1,8 +1,8 @@
 
 <?php
 
-require_once __DIR__ . '/../models/WorkerModel.php';
-require_once __DIR__ . '/../models/ClientModel.php';
+require_once __DIR__ . '/../Models/workerModel.php';
+require_once __DIR__ . '/../Models/clientModel.php';
 
 class ProfileController {
     private $db;
