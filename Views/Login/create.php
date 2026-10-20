@@ -133,7 +133,7 @@
         <?php endif; ?>
 
         <!-- o formulário envia os dados via POST para o controller na ação de create -->
-        <form action="account/register" method="POST">
+        <form action="/Trabalho-4-bimestre-BD/account/register" method="POST">
             <div class="form-group">
                 <label for="name">Nome:</label>
                 <input type="text" id="name" name="name" required>
@@ -146,7 +146,7 @@
 
                 <div class="form-group">
                     <label for="password">Senha:</label>
-                    <input type="password" id="senha" name="senha" required>
+                    <input type="password" id="senha" name="password" required>
                 </div>
 
                 <div class="form-group">

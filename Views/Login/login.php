@@ -111,7 +111,7 @@
 
         <div class="inside">
             <div class="login">Login</div>
-          <form action="account/login" method="POST">
+         <form action="/Trabalho-4-bimestre-BD/account/login" method="POST">
                 <div class="form-group">
                     <label for="email">E-mail:</label>
                     <input type="email" id="email" name="email" required>

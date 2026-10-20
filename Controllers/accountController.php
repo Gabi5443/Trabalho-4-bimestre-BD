@@ -63,6 +63,8 @@ class AccountController
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $adminCode = trim($_POST['admin_code'] ?? '');
+         
+
 
             if (empty($name) || empty($email) || empty($password)) {
                 header('Location: ../Views/Login/create.php?erro=1');
@@ -115,7 +117,7 @@ class AccountController
                     header('Location: ../Views/Dashboard/index.php');
                     exit;
                 } else {
-                    header('Location: ../Views/menu.php');
+                    header('Location: ../Views/Menu/menu.php');
                     exit;
                 }
             } else {
@@ -135,7 +137,7 @@ class AccountController
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
         }
-        header('Location: ../views/login.php');
+        header('Location: ../Views/Login/login.php');
         exit;
     }
     //------------------------------------------------
