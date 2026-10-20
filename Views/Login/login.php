@@ -34,8 +34,7 @@
         }
 
         .form-group {
-            margin-bottom: 15%;
-
+            margin-bottom: 10%;
         }
 
         .inside {
@@ -58,9 +57,15 @@
         [name="email"],
         [name="senha"] {
             box-shadow: none;
-            border-radius: 20;
-            border: 2px solid #A0522D;
-            padding-top: 3%;
+            border-radius: 20px;
+            border: 1.5px solid #A0522D;
+            width: 70%;
+            padding: 7px 16px;
+            font-size: 15px;
+            color: #333333;
+            background-color: #FAFAFA;
+            box-sizing: border-box;
+            box-shadow: 0 0 8px rgba(226, 114, 91, 0.25);
         }
 
         [name="email"]:focus {
@@ -84,7 +89,7 @@
         }
 
         .create-link {
-            margin-top: 9%;
+            margin-top: 5%;
 
         }
 
