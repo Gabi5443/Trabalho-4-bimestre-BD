@@ -12,7 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /*background-color: #ffd18a;*/
+            /* #ffd18a */
             background-image:
                 url('../../assets/images/folha-cima.png'),
                 url('../../assets/images/folha-baixo.png');
