@@ -12,29 +12,85 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /*background-color: #ffd18a;*/
+            background-image:
+                url('../../assets/images/folha-cima.png'),
+                url('../../assets/images/folha-baixo.png');
+            background-position:
+                top right,
+                bottom left;
+            background-repeat: no-repeat;
+            background-size: 20% auto, 20% auto;
         }
 
         .login-card {
             text-align: center;
             width: 30%;
-            height: 40%;
-            justify-items: center;
-            background-color: aqua;
-            
+            height: 60%;
+            border-radius: 7%;
+            background-color: #fff;
+            font-family: "Sniglet", system-ui;
+            border: 2px solid #A0522D;
         }
 
         .form-group {
-            margin-bottom: 6%;
+            margin-bottom: 15%;
 
         }
 
         .inside {
-            margin: 0;
             width: 100%;
-            height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            
+            align-items: center;
+        }
+
+        .login {
+            text-align: center;
+            color: #A0522D;
+            font-family: "Sniglet", system-ui;
+            font-weight: 800;
+            margin: 5%;
+            font-size: 200%;
+        }
+
+        [name="email"],
+        [name="senha"] {
+            box-shadow: none;
+            border-radius: 20;
+            border: 2px solid #A0522D;
+            padding-top: 3%;
+        }
+
+        [name="email"]:focus {
+            border: 2px solid #A0522D;
+            outline: none;
+        }
+
+        [name="senha"]:focus {
+            border: 2px solid #A0522D;
+            outline: none;
+        }
+
+        .btn-submit {
+            padding: 4% 30%;
+            font-family: "Sniglet", system-ui;
+            font-weight: bold;
+            border: none;
+            background-color: #A0522D;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .create-link {
+            margin-top: 9%;
+
+        }
+
+        a:visited,
+        a:link {
+            color: #A0522D;
         }
     </style>
 </head>
@@ -49,6 +105,7 @@
         <?php endif; ?>
 
         <div class="inside">
+            <div class="login">Login</div>
             <form action="../Controllers/accountController.php?action=login" method="POST">
                 <div class="form-group">
                     <label for="email">E-mail:</label>
