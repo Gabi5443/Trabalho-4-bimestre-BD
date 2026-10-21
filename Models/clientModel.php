@@ -129,14 +129,14 @@ class ClientModel {
 
     // Busca nome, e-mail e foto do cliente
     public function getProfileData($idAccount) {
-        $sql = "SELECT
-                    A.NAME_ACCOUNT,
-                    A.EMAIL_ACCOUNT,
-                    C.PHOTO_CLIENT
-                FROM ACCOUNT A
-                INNER JOIN CLIENT C
-                    ON A.ID_ACCOUNT = C.ID_ACCOUNT_FK
-                WHERE A.ID_ACCOUNT = ?";
+      $sql = "SELECT 
+                A.NAME_ACCOUNT, 
+                A.EMAIL_ACCOUNT, 
+                C.PHOTO_CLIENT 
+            FROM ACCOUNT A
+            LEFT JOIN CLIENT C 
+                ON A.ID_ACCOUNT = C.ID_ACCOUNT_FK
+            WHERE A.ID_ACCOUNT = ?";
 
         $stmt = $this->conexao->prepare($sql);
 

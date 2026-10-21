@@ -1,13 +1,15 @@
-
 <?php
 
-require_once __DIR__ . '/../Models/clientModel.php';
+require_once __DIR__ . '/../models/ClientModel.php';
 
 class ClientController {
     private $model;
 
     public function __construct($db) {
         $this->model = new ClientModel($db);
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     // Recebe o método HTTP e encaminha para a operação adequada
@@ -71,25 +73,27 @@ class ClientController {
         ], 404);
     }
 
-    // POST: cadastra um cliente
+    // POST: cadastra um cliente (Alinhado com os 5 parâmetros do Model)
     private function create() {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (
             !is_array($data) ||
+            empty($data['NAME_CLIENT']) ||
             empty($data['CPF_CLIENT']) ||
-            empty($data['PHONE_CLIENT']) ||
+            empty($data['NUMBER_CLIENT']) ||
             empty($data['ID_ACCOUNT_FK'])
         ) {
             $this->response([
-                "message" => "CPF, telefone e ID da conta são obrigatórios"
+                "message" => "Nome, CPF, telefone e ID da conta são obrigatórios"
             ], 400);
         }
 
         $sucesso = $this->model->create(
+            $data['NAME_CLIENT'],
             $data['CPF_CLIENT'],
-            $data['PHONE_CLIENT'],
-            $data['ADDRESS_CLIENT'] ?? '',
+            $data['NUMBER_CLIENT'],
+            $data['PHOTO_CLIENT'] ?? null,
             $data['ID_ACCOUNT_FK']
         );
 
@@ -104,26 +108,28 @@ class ClientController {
         ], 500);
     }
 
-    // PUT: atualiza os dados de um cliente
+    // PUT: atualiza os dados de um cliente (Alinhado com os 6 parâmetros do Model)
     private function update($id) {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (
             !is_array($data) ||
+            empty($data['NAME_CLIENT']) ||
             empty($data['CPF_CLIENT']) ||
-            empty($data['PHONE_CLIENT']) ||
+            empty($data['NUMBER_CLIENT']) ||
             empty($data['ID_ACCOUNT_FK'])
         ) {
             $this->response([
-                "message" => "CPF, telefone e ID da conta são obrigatórios"
+                "message" => "Nome, CPF, telefone e ID da conta são obrigatórios"
             ], 400);
         }
 
         $sucesso = $this->model->alter(
             $id,
+            $data['NAME_CLIENT'],
             $data['CPF_CLIENT'],
-            $data['PHONE_CLIENT'],
-            $data['ADDRESS_CLIENT'] ?? '',
+            $data['NUMBER_CLIENT'],
+            $data['PHOTO_CLIENT'] ?? null,
             $data['ID_ACCOUNT_FK']
         );
 

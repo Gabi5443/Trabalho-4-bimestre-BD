@@ -13,8 +13,10 @@ class ProfileController {
 
     // Recebe o método HTTP e decide a operação
     public function handleRequest($method, $id = null) {
+
         switch (strtoupper($method)) {
             case 'GET':
+                   
                 $this->edit();
                 break;
 
@@ -188,6 +190,15 @@ class ProfileController {
         } else {
             header('Location: index.php?url=profile&error=1');
         }
+
+
+        if ($sucesso) {
+    // Se o upload gerou um novo nome de foto, atualizamos a sessão na hora!
+    if ($nomeFoto) {
+        $_SESSION['photo'] = $nomeFoto;
+    }
+    header('Location: index.php?url=profile&success=1');
+}
 
         exit();
     }

@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../Models/accountModel.php';
 
-
-
 class AccountController
 {
     private $model;
+    private $db;
 
     public function __construct($db)
     {
+        $this->db = $db;
         $this->model = new AccountModel($db);
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -54,8 +54,7 @@ class AccountController
         }
     }
 
-//metodo post (html)
-//----------------------------------------------
+    // Método post para criação via formulário HTML
     public function createForm()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -64,23 +63,17 @@ class AccountController
             $password = trim($_POST['password'] ?? '');
             $adminCode = trim($_POST['admin_code'] ?? '');
         
-
             if (empty($name) || empty($email) || empty($password)) {
                 $erroMensagem = "Por favor, preencha todos os campos obrigatórios! 😊";
                 require_once __DIR__ . '/../Views/Login/create.php';
                 return;
             }
 
-            // Defina aqui a senha universal secreta de funcionário/admin
             $senhaUniversalFuncionario = "agoraummico";
-
-            // Se o código inserido for igual à senha universal, define como WORKER, senão CLIENT
             $type = (!empty($adminCode) && $adminCode === $senhaUniversalFuncionario) ? 'WORKER' : 'CLIENT';
-
             $senhaCriptografada = password_hash($password, PASSWORD_DEFAULT);
 
             try {
-                // Tenta criar a conta no Model
                 $sucesso = $this->model->create($name, $email, $senhaCriptografada, $type);
 
                 if ($sucesso) {
@@ -92,33 +85,46 @@ class AccountController
                     return;
                 }
             } catch (Exception $e) {
-                // Mensagem super amigável caso o e-mail já esteja registado
                 $erroMensagem = "Ops! Este e-mail já está a ser utilizado. Que tal tentar entrar com ele ou usar um endereço diferente? 😊";
                 require_once __DIR__ . '/../Views/Login/create.php';
                 return;
             }
-
         } else {
-            // SE FOR GET (quando clica no link para ver a tela de cadastro):
             require_once __DIR__ . '/../Views/Login/create.php'; 
         }
     }
 
-    // 2. Processa o login vindo do formulário HTML e faz o redirecionamento por tipo
+    // 2. Processa o login vindo do formulário HTML e guarda dados na sessão
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = trim($_POST['email'] ?? '');
             $senha = trim($_POST['senha'] ?? '');
 
+            if (empty($email) || empty($senha)) {
+                header('Location: ../Views/Login/login.php?erro=empty');
+                exit;
+            }
+
             $usuario = $this->model->findByEmail($email);
 
             if ($usuario && password_verify($senha, $usuario['PASSWORD_ACCOUNT'])) {
+                // 1. Guardar os dados básicos na sessão
                 $_SESSION['id_account'] = $usuario['ID_ACCOUNT'];
                 $_SESSION['name_account'] = $usuario['NAME_ACCOUNT'];
                 $_SESSION['type_account'] = $usuario['TYPE_ACCOUNT'];
 
-                // Redirecionamento obrigatório baseado no tipo de conta
+                // 2. Buscar a foto de perfil para guardar na sessão logo no login (se for CLIENT)
+                if ($usuario['TYPE_ACCOUNT'] === 'CLIENT') {
+                    require_once __DIR__ . '/../Models/clientModel.php';
+                    $clientModel = new ClientModel($this->db);
+                    $dadosClient = $clientModel->getProfileData($usuario['ID_ACCOUNT']);
+                    $_SESSION['photo'] = $dadosClient['PHOTO_CLIENT'] ?? null;
+                } else {
+                    $_SESSION['photo'] = null; 
+                }
+
+                // 3. Redirecionamento baseado no tipo de conta
                 if ($usuario['TYPE_ACCOUNT'] === 'WORKER') {
                     header('Location: ../Views/Dashboard/index.php');
                     exit;
@@ -131,11 +137,9 @@ class AccountController
                 exit;
             }
         } else {
-            // SE FOR GET (quando clica no link para ver a tela de login):
             require_once __DIR__ . '/../Views/Login/login.php'; 
         }
     }
-
 
     // 3. Termina a sessão
     public function logout()
@@ -146,7 +150,6 @@ class AccountController
         header('Location: ../Views/Login/login.php');
         exit;
     }
-    //------------------------------------------------
 
     // 1. GET /account
     private function getAll()
@@ -171,7 +174,6 @@ class AccountController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // Validação básica dos campos obrigatórios
         if (
             empty($data['NAME_ACCOUNT']) ||
             empty($data['EMAIL_ACCOUNT']) ||
