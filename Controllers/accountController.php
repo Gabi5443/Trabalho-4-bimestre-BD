@@ -63,10 +63,12 @@ class AccountController
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $adminCode = trim($_POST['admin_code'] ?? '');
+        
 
             if (empty($name) || empty($email) || empty($password)) {
-                header('Location: ../Views/Login/create.php?erro=1');
-                exit;
+                $erroMensagem = "Por favor, preencha todos os campos obrigatórios! 😊";
+                require_once __DIR__ . '/../Views/Login/create.php';
+                return;
             }
 
             // Defina aqui a senha universal secreta de funcionário/admin
@@ -77,20 +79,28 @@ class AccountController
 
             $senhaCriptografada = password_hash($password, PASSWORD_DEFAULT);
 
-            $sucesso = $this->model->create($name, $email, $senhaCriptografada, $type);
+            try {
+                // Tenta criar a conta no Model
+                $sucesso = $this->model->create($name, $email, $senhaCriptografada, $type);
 
-            if ($sucesso) {
-                header('Location: ../Views/Login/login.php?sucesso=1');
-                exit;
-            } else {
-                header('Location: ../Views/Login/create.php?erro=1');
-                exit;
+                if ($sucesso) {
+                    header('Location: ../Views/Login/login.php?sucesso=1');
+                    exit;
+                } else {
+                    $erroMensagem = "Ops! Não foi possível criar a conta neste momento. Tente novamente.";
+                    require_once __DIR__ . '/../Views/Login/create.php';
+                    return;
+                }
+            } catch (Exception $e) {
+                // Mensagem super amigável caso o e-mail já esteja registado
+                $erroMensagem = "Ops! Este e-mail já está a ser utilizado. Que tal tentar entrar com ele ou usar um endereço diferente? 😊";
+                require_once __DIR__ . '/../Views/Login/create.php';
+                return;
             }
-             } else {
-        // SE FOR GET (quando clica no link para ver a tela de cadastro):
-        require_once __DIR__ . '/../Views/Login/create.php'; // Ajuste para o nome exato do arquivo da view de cadastro
-    
 
+        } else {
+            // SE FOR GET (quando clica no link para ver a tela de cadastro):
+            require_once __DIR__ . '/../Views/Login/create.php'; 
         }
     }
 
@@ -101,8 +111,6 @@ class AccountController
             $email = trim($_POST['email'] ?? '');
             $senha = trim($_POST['senha'] ?? '');
 
-            // Precisamos garantir que o AccountModel tenha o método findByEmail
-            // Caso não tenha no seu AccountModel atual, adicione-o (mostrado abaixo)
             $usuario = $this->model->findByEmail($email);
 
             if ($usuario && password_verify($senha, $usuario['PASSWORD_ACCOUNT'])) {
@@ -115,18 +123,18 @@ class AccountController
                     header('Location: ../Views/Dashboard/index.php');
                     exit;
                 } else {
-                    header('Location: ../Views/menu.php');
+                    header('Location: ../Views/Menu/menu.php');
                     exit;
                 }
             } else {
                 header('Location: ../Views/Login/login.php?erro=1');
                 exit;
             }
-            } else {
-        // SE FOR GET (quando clica no link para ver a tela de login):
-        require_once __DIR__ . '/../Views/Login/login.php'; // Ajuste o caminho se a sua view estiver noutra pasta
-    }
+        } else {
+            // SE FOR GET (quando clica no link para ver a tela de login):
+            require_once __DIR__ . '/../Views/Login/login.php'; 
         }
+    }
 
 
     // 3. Termina a sessão
@@ -135,7 +143,7 @@ class AccountController
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
         }
-        header('Location: ../views/login.php');
+        header('Location: ../Views/Login/login.php');
         exit;
     }
     //------------------------------------------------
@@ -173,16 +181,13 @@ class AccountController
             return;
         }
 
-        // Criptografia da senha antes de enviar para a Model
-        //Para isso, a senha é transformada em um hash. hash é como a impressão digital de um arquivo que transforma uma informação de qualquer tamanho em uma sequência de caracteres com tamanho fixo.
+        $senhaCriptografada = password_hash($data['PASSWORD_ACCOUNT'], PASSWORD_DEFAULT);
 
-        $senhaCriptografada = password_hash($data['PASSWORD_ACCOUNT'], PASSWORD_DEFAULT); // Cria um hash a partir da senha
-
-        $sucesso = $this->model->create( //chama a função create da model
+        $sucesso = $this->model->create(
             $data['NAME_ACCOUNT'],
             $data['EMAIL_ACCOUNT'],
             $senhaCriptografada,
-            $data['TYPE_ACCOUNT'] ?? 'CLIENT' // Tipo padrão se não for informado
+            $data['TYPE_ACCOUNT'] ?? 'CLIENT'
         );
 
         if ($sucesso) {
@@ -205,8 +210,6 @@ class AccountController
             return;
         }
 
-        // Se uma nova senha for informada no JSON, criptografa a nova senha
-        // Se a senha vier vazia, mantém a lógica de atualização sem alterar a senha
         $senhaFinal = null;
         if (!empty($data['PASSWORD_ACCOUNT'])) {
             $senhaFinal = password_hash($data['PASSWORD_ACCOUNT'], PASSWORD_DEFAULT);
@@ -248,5 +251,3 @@ class AccountController
         exit();
     }
 }
-
-
