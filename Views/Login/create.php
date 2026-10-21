@@ -24,8 +24,8 @@
 
         .create-card {
             text-align: center;
-            width: 30%;
-            height: 60%;
+            width: 35%;
+            height: 65%;
             border-radius: 7%;
             background-color: #fff;
             font-family: "Sniglet", system-ui;
@@ -33,7 +33,8 @@
         }
 
         .form-group {
-            margin-bottom: 7%;
+            
+            margin:7%;
         }
 
         .inside {
@@ -55,7 +56,7 @@
 
         [name="name"],
         [name="email"],
-        [name="senha"] {
+        [name="password"] {
             box-shadow: none;
             border-radius: 20px;
             border: 1.5px solid #A0522D;
@@ -92,7 +93,7 @@
             outline: none;
         }
 
-        [name="senha"]:focus {
+        [name="password"]:focus {
             border: 2px solid #A0522D;
             outline: none;
         }
@@ -114,8 +115,11 @@
         }
 
         .login-link {
-            margin-top: 5%;
+            margin: 2.5%;
+             font-size: 90%;
         }
+            
+    
 
         a:visited,
         a:link {
@@ -156,13 +160,16 @@
                     <input type="password" id="admin_code" name="admin_code"
                         placeholder="Deixe em branco se for cliente">
                 </div>
-        </div>
+        
+                  
         <button type="submit" class="btn-submit">Criar minha conta</button>
-        </form>
-
-       <div class="login-link">
+      
+        <div class="login-link">
     Já tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/login">Faça login!</a>
 </div>
+        </form>
+
+       
     </div>
 </body>
 
