@@ -24,8 +24,8 @@
 
         .create-card {
             text-align: center;
-            width: 35%;
-            height: 65%;
+            width: 30%;
+            height: 60%;
             border-radius: 7%;
             background-color: #fff;
             font-family: "Sniglet", system-ui;
@@ -160,17 +160,16 @@
                     <input type="password" id="admin_code" name="admin_code"
                         placeholder="Deixe em branco se for cliente">
                 </div>
-        
-                  
+    
         <button type="submit" class="btn-submit">Criar minha conta</button>
-      
-        <div class="login-link">
-    Já tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/login">Faça login!</a>
-</div>
         </form>
 
+             <div class="login-link">
+    Já tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/login">Faça login!</a>
+             </div>
+
        
-    </div>
+
 </body>
 
 </html>
