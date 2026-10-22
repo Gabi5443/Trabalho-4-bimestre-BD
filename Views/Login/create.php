@@ -13,8 +13,9 @@
             justify-content: center;
             align-items: center;
             background-image:
-                url('../../assets/images/folha-cima.png'),
-                url('../../assets/images/folha-baixo.png');
+               url(' /Trabalho-4-bimestre-BD/assets/images/folha-cima.png'),
+                url('/Trabalho-4-bimestre-BD/assets/images/folha-baixo.png');
+               
             background-position:
                 top right,
                 bottom left;
