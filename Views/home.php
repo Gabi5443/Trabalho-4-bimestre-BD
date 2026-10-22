@@ -8,20 +8,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Sniglet:wght@400;800&display=swap"
         rel="stylesheet">
     <style>
+        html,
         body {
-            box-sizing: 0;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+        }
+
+        body {
+            box-sizing: border-box;
             margin: 0;
             background-color: #ff7f2a;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-
+            background-image: url('assets/images/comida-home.png');
+            background-position: left bottom;
+            background-repeat: no-repeat;
+            background-size: 70% auto;
         }
 
         h1 {
             font-family: "Fascinate Inline", system-ui;
             font-size: 10rem;
-            margin-left: 7%;
+            margin-left: 10%;
+            color: #803d1f;
+            height: 5%;
         }
 
         .box {

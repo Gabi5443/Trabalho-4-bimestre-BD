@@ -33,8 +33,8 @@
         }
 
         .form-group {
-            
-            margin:7%;
+
+            margin: 7%;
         }
 
         .inside {
@@ -116,10 +116,10 @@
 
         .login-link {
             margin: 2.5%;
-             font-size: 90%;
+            font-size: 90%;
         }
-            
-    
+
+
 
         a:visited,
         a:link {
@@ -131,12 +131,8 @@
 <body>
     <div class="create-card">
 
-        <!-- mensagem de erro caso o cadastro falhe -->
-       <?php if (!empty($erroMensagem)): ?>
-    <div style="background-color: #ffe6e6; color: #d9534f; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
-        <?php echo $erroMensagem; ?>
-    </div>
-<?php endif; ?>
+        
+
 
         <!-- o formulário envia os dados via POST para o controller na ação de create -->
         <form action="/Trabalho-4-bimestre-BD/account/register" method="POST">
@@ -145,25 +141,25 @@
                 <input type="text" id="name" name="name" required>
             </div>
 
-                <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="password">Senha:</label>
-                    <input type="password" id="senha" name="password" required>
-                </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="senha" name="password" required>
+            </div>
 
                 
         <button type="submit" class="btn-submit">Criar minha conta</button>
         </form>
 
-             <div class="login-link">
-    Já tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/login">Faça login!</a>
-             </div>
+        <div class="login-link">
+            Já tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/login">Faça login</a>
+        </div>
 
-       
+
 
 </body>
 

@@ -64,7 +64,7 @@ class AccountController
             
         
             if (empty($name) || empty($email) || empty($password)) {
-                $erroMensagem = "Por favor, preencha todos os campos obrigatórios! 😊";
+                $erroMensagem = "Por favor, preencha todos os campos obrigatórios!";
                 require_once __DIR__ . '/../Views/Login/create.php';
                 return;
             }
