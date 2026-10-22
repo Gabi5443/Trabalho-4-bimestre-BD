@@ -35,6 +35,7 @@
 
         .form-group {
             margin-bottom: 10%;
+            margin-top: 5%;
         }
 
         .inside {
@@ -43,6 +44,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            
         }
 
         .login {
@@ -50,8 +52,8 @@
             color: #A0522D;
             font-family: "Sniglet", system-ui;
             font-weight: 800;
-            margin: 5%;
             font-size: 200%;
+            margin-top: 2%;
         }
 
         [name="email"],
@@ -97,6 +99,34 @@
         a:link {
             color: #A0522D;
         }
+
+        .error-msg {
+            width: 90%;
+            background-color: #F8D7DA;
+            color: #842029;
+            padding: 0.8rem;
+            border-radius: 0.6rem;
+            border: 1px solid #F5C2C7;
+            font-family: 'Sniglet', system-ui;
+            font-size: 0.95rem;
+            text-align: center;
+            box-sizing: border-box;
+            margin: 2% auto;
+        }
+
+        .success-msg {
+            width: 90%;
+            background-color: #D1E7DD;
+            color: #0F5132;
+            padding: 0.8rem;
+            border-radius: 0.6rem;
+            border: 1px solid #BADBCC;
+            font-family: 'Sniglet', system-ui;
+            font-size: 0.95rem;
+            text-align: center;
+            box-sizing: border-box;
+            margin: 2% auto;
+        }
     </style>
 </head>
 
@@ -104,9 +134,9 @@
     <div class="login-card">
         <!-- menssagem de feedback da controller -->
         <?php if (isset($_GET['erro'])): ?>
-            <div class="msg error-msg">E-mail ou senha inválidos!</div>
+            <div class="error-msg">E-mail ou senha inválidos!</div>
         <?php elseif (isset($_GET['sucesso'])): ?>
-            <div class="msg success-msg">Conta criada com sucesso! Faça login.</div>
+            <div class="success-msg">Conta criada com sucesso! Faça login.</div>
         <?php endif; ?>
 
         <div class="inside">
