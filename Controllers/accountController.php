@@ -61,7 +61,7 @@ class AccountController
             $name = trim($_POST['name'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
-            $adminCode = trim($_POST['admin_code'] ?? '');
+            
         
             if (empty($name) || empty($email) || empty($password)) {
                 $erroMensagem = "Por favor, preencha todos os campos obrigatórios! 😊";
@@ -69,8 +69,8 @@ class AccountController
                 return;
             }
 
-            $senhaUniversalFuncionario = "agoraummico";
-            $type = (!empty($adminCode) && $adminCode === $senhaUniversalFuncionario) ? 'WORKER' : 'CLIENT';
+         $dominioCorporativo = '@defufu.com.br';
+         $type = str_ends_with(strtolower($email), $dominioCorporativo) ? 'WORKER' : 'CLIENT';
             $senhaCriptografada = password_hash($password, PASSWORD_DEFAULT);
 
             try {
@@ -85,7 +85,7 @@ class AccountController
                     return;
                 }
             } catch (Exception $e) {
-                $erroMensagem = "Ops! Este e-mail já está a ser utilizado. Que tal tentar entrar com ele ou usar um endereço diferente? 😊";
+                $erroMensagem = "Ops! Este e-mail já está a ser utilizado. Que tal tentar entrar com ele ou usar um endereço diferente? ";
                 require_once __DIR__ . '/../Views/Login/create.php';
                 return;
             }

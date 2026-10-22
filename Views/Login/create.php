@@ -155,12 +155,7 @@
                     <input type="password" id="senha" name="password" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="admin_code">Senha Universal (Apenas para Funcionários):</label>
-                    <input type="password" id="admin_code" name="admin_code"
-                        placeholder="Deixe em branco se for cliente">
-                </div>
-    
+                
         <button type="submit" class="btn-submit">Criar minha conta</button>
         </form>
 
