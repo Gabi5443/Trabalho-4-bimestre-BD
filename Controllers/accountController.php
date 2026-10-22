@@ -77,7 +77,7 @@ class AccountController
                 $sucesso = $this->model->create($name, $email, $senhaCriptografada, $type);
 
                 if ($sucesso) {
-                    header('Location: ../Views/Login/login.php?sucesso=1');
+                    header('Location: index.php?url=account/login&sucesso=1');
                     exit;
                 } else {
                     $erroMensagem = "Ops! Não foi possível criar a conta neste momento. Tente novamente.";
@@ -102,7 +102,7 @@ class AccountController
             $senha = trim($_POST['senha'] ?? '');
 
             if (empty($email) || empty($senha)) {
-                header('Location: ../Views/Login/login.php?erro=empty');
+                header('Location: index.php?url=login&erro=empty');
                 exit;
             }
 
@@ -126,14 +126,14 @@ class AccountController
 
                 // 3. Redirecionamento baseado no tipo de conta
                 if ($usuario['TYPE_ACCOUNT'] === 'WORKER') {
-                    header('Location: ../Views/Dashboard/index.php');
+                    header('Location: index.php?url=dashboard');
                     exit;
                 } else {
-                    header('Location: ../Views/Menu/menu.php');
+                    header('Location: index.php?url=menu');
                     exit;
                 }
             } else {
-                header('Location: ../Views/Login/login.php?erro=1');
+                header('Location: index.php?url=login&erro=1');
                 exit;
             }
         } else {

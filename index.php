@@ -97,6 +97,11 @@ switch ($recurso) {
         require_once __DIR__ . '/Views/home.php';
         break;
 
+         case 'menu':
+      
+        require_once __DIR__ . '/Views/Menu/menu.php';
+        break;
+
     default:
         http_response_code(404);
         echo 'Rota não encontrada.';
