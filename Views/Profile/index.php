@@ -76,6 +76,7 @@ $caminhoFoto = $foto
             id="photo"
             name="photo"
             accept=".jpg,.jpeg,.png,.webp"
+        
         >
 
         <p>Selecione uma nova foto somente se quiser alterar a atual.</p>

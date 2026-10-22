@@ -78,10 +78,10 @@ class ProfileController {
             exit();
         }
 
-        require __DIR__ . '/../views/profile/index.php';
+        require __DIR__ . '/../Views/Profile/index.php';
     }
 
-    // Atualiza o perfil
+   // Atualiza o perfil
     private function update() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -185,22 +185,25 @@ class ProfileController {
             $nomeFoto
         );
 
+        
         if ($sucesso) {
-            header('Location: index.php?url=profile&success=1');
+            // Atualiza a foto na sessão instantaneamente se uma nova foi enviada
+            if ($nomeFoto) {
+                $_SESSION['photo'] = $nomeFoto;
+            }
+
+            // Redirecionamento inteligente conforme o tipo de conta
+            if ($userType === 'WORKER') {
+                header('Location: index.php?url=dashboard');
+                exit();
+            } else {
+                header('Location: index.php?url=menu');
+                exit();
+            }
         } else {
             header('Location: index.php?url=profile&error=1');
+            exit();
         }
-
-
-        if ($sucesso) {
-    // Se o upload gerou um novo nome de foto, atualizamos a sessão na hora!
-    if ($nomeFoto) {
-        $_SESSION['photo'] = $nomeFoto;
-    }
-    header('Location: index.php?url=profile&success=1');
-}
-
-        exit();
     }
 
     // Respostas JSON para erros da API

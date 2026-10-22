@@ -1,4 +1,3 @@
-
 <?php
 
 class ClientModel {
@@ -129,7 +128,7 @@ class ClientModel {
 
     // Busca nome, e-mail e foto do cliente
     public function getProfileData($idAccount) {
-      $sql = "SELECT 
+        $sql = "SELECT 
                 A.NAME_ACCOUNT, 
                 A.EMAIL_ACCOUNT, 
                 C.PHOTO_CLIENT 
@@ -155,14 +154,14 @@ class ClientModel {
         return $cliente;
     }
 
-    // Atualiza os dados da conta e, se enviada, a foto do cliente
+    // Atualiza os dados da conta e garante que a foto do cliente é salva/criada
     public function updateProfileData(
         $idAccount,
         $nome,
         $email,
         $nomeFoto = null
     ) {
-
+        // 1. Atualiza a tabela ACCOUNT
         $sqlA = "UPDATE ACCOUNT
                  SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ?
                  WHERE ID_ACCOUNT = ?";
@@ -174,7 +173,6 @@ class ClientModel {
         }
 
         $stmtA->bind_param("ssi", $nome, $email, $idAccount);
-
         $resultadoA = $stmtA->execute();
         $stmtA->close();
 
@@ -182,19 +180,30 @@ class ClientModel {
             return false;
         }
 
-        // Mantém a foto anterior se nenhuma nova for enviada
+        // 2. Se uma nova foto foi enviada, gerimos a tabela CLIENT
         if ($nomeFoto !== null) {
-            $sqlC = "UPDATE CLIENT
-                     SET PHOTO_CLIENT = ?
-                     WHERE ID_ACCOUNT_FK = ?";
+            // Verifica se já existe um registo na tabela CLIENT para este ID_ACCOUNT_FK
+            $sqlCheck = "SELECT ID_CLIENT FROM CLIENT WHERE ID_ACCOUNT_FK = ?";
+            $stmtCheck = $this->conexao->prepare($sqlCheck);
+            $stmtCheck->bind_param("i", $idAccount);
+            $stmtCheck->execute();
+            $resultCheck = $stmtCheck->get_result();
+            $existeClient = $resultCheck->num_rows > 0;
+            $stmtCheck->close();
 
-            $stmtC = $this->conexao->prepare($sqlC);
-
-            if (!$stmtC) {
-                return false;
+            if ($existeClient) {
+                // Se já existe, faz UPDATE
+                $sqlC = "UPDATE CLIENT SET PHOTO_CLIENT = ? WHERE ID_ACCOUNT_FK = ?";
+                $stmtC = $this->conexao->prepare($sqlC);
+                if (!$stmtC) return false;
+                $stmtC->bind_param("si", $nomeFoto, $idAccount);
+            } else {
+                // Se ainda não existe, faz INSERT para não perder a foto
+                $sqlC = "INSERT INTO CLIENT (PHOTO_CLIENT, ID_ACCOUNT_FK) VALUES (?, ?)";
+                $stmtC = $this->conexao->prepare($sqlC);
+                if (!$stmtC) return false;
+                $stmtC->bind_param("si", $nomeFoto, $idAccount);
             }
-
-            $stmtC->bind_param("si", $nomeFoto, $idAccount);
 
             $resultadoC = $stmtC->execute();
             $stmtC->close();
@@ -207,5 +216,3 @@ class ClientModel {
         return true;
     }
 }
-
-?>

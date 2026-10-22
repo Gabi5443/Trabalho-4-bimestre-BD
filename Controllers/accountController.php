@@ -115,9 +115,13 @@ class AccountController
                 $_SESSION['type_account'] = $usuario['TYPE_ACCOUNT'];
 
                 // 2. Buscar a foto de perfil para guardar na sessão logo no login (se for CLIENT)
-                if ($usuario['TYPE_ACCOUNT'] === 'CLIENT') {
+             if ($usuario['TYPE_ACCOUNT'] === 'CLIENT') {
                     require_once __DIR__ . '/../Models/clientModel.php';
+                    
+                    // Dica para o Intelephense saber que $clientModel é uma instância de ClientModel
+                    /** @var ClientModel $clientModel */
                     $clientModel = new ClientModel($this->db);
+                    
                     $dadosClient = $clientModel->getProfileData($usuario['ID_ACCOUNT']);
                     $_SESSION['photo'] = $dadosClient['PHOTO_CLIENT'] ?? null;
                 } else {
