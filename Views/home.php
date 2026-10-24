@@ -22,32 +22,52 @@
             background-color: #ff7f2a;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            background-image: url('assets/images/comida-home.png');
-            background-position: left bottom;
-            background-repeat: no-repeat;
-            background-size: 70% auto;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            background-image: url('assets/images/fundo.png');
+            background-repeat: repeat;
+            animation: mover 80s linear infinite;
         }
+
+        @keyframes mover {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: -2000px 0;
+            }
+        }
+
 
         h1 {
             font-family: "Fascinate Inline", system-ui;
-            font-size: 10rem;
-            margin-left: 10%;
-            color: #803d1f;
-            height: 5%;
+            font-size: 12rem;
+            margin: 0;
+            color: #803e1f;
+            -webkit-text-stroke: 2px #fff;
+            text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            position: absolute;
+            top: 15%;
+            left: 10%;
+            pointer-events: none;
         }
 
         .box {
             display: flex;
             flex-direction: column;
             gap: 15%;
-            width: 28rem;
-            height: 25rem;
+            width: 35rem;
+            height: 30rem;
             background-color: #fff;
             margin: 7%;
-            margin-right: 15%;
+            margin-right: 11%;
             padding: 2rem 2rem;
             border-radius: 2rem;
+            box-sizing: border-box;
+            border: 2px solid #A0522D;
         }
 
         h2 {
@@ -56,6 +76,8 @@
             text-align: center;
             color: #A0522D;
             margin-top: 2;
+            pointer-events: none;
+            font-size: 2rem;
         }
 
         .btns {
@@ -76,7 +98,7 @@
             width: 90%;
             padding: 0.8em 1.5em;
             font-family: "Sniglet", system-ui;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             background-color: #A0522D;
             color: #fff;
             border: none;
@@ -91,6 +113,7 @@
 </head>
 
 <body>
+
     <h1>Defufu</h1>
 
     <div class="box">

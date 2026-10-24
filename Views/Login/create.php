@@ -26,7 +26,7 @@
         .create-card {
             text-align: center;
             width: 30%;
-            height: 60%;
+            height: 50%;
             border-radius: 7%;
             background-color: #fff;
             font-family: "Sniglet", system-ui;
