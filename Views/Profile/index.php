@@ -1,4 +1,3 @@
-
 <?php
 $tipoUsuario = $_SESSION['type_account'] ?? 'CLIENT';
 
@@ -15,74 +14,86 @@ $caminhoFoto = $foto
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu perfil</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #e0dede;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box{
+            width: 30%;
+            height: 80%;
+            background-color: #fff;
+            margin-right: 10%;
+            border-radius: 2rem;
+        }
+
+        h1 {
+            font-family: "Sniglet", system-ui;
+            font-weight: 800;
+            text-align: center;
+            color: #A0522D;
+            margin-top: 2;
+            pointer-events: none;
+            font-size: 3rem;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Meu perfil</h1>
+    <div class="box">
+        <h1>Meu perfil</h1>
 
-    <?php if (isset($_GET['success'])): ?>
-        <p>Perfil atualizado com sucesso!</p>
-    <?php endif; ?>
+        <?php if (isset($_GET['success'])): ?>
+            <p>Perfil atualizado com sucesso!</p>
+        <?php endif; ?>
 
-    <?php if (isset($_GET['error'])): ?>
-        <p>Não foi possível atualizar o perfil. Verifique os dados e tente novamente.</p>
-    <?php endif; ?>
+        <?php if (isset($_GET['error'])): ?>
+            <p>Não foi possível atualizar o perfil. Verifique os dados e tente novamente.</p>
+        <?php endif; ?>
 
-    <?php if ($caminhoFoto): ?>
-        <div>
-            <p>Foto atual:</p>
-            <img
-                src="<?= htmlspecialchars($caminhoFoto, ENT_QUOTES, 'UTF-8') ?>"
-                alt="Foto de perfil"
-                width="150"
-                height="150"
-                style="object-fit: cover;"
-            >
-        </div>
-    <?php endif; ?>
+        <?php if ($caminhoFoto): ?>
+            <div>
+                <p>Foto atual:</p>
+                <img src="<?= htmlspecialchars($caminhoFoto, ENT_QUOTES, 'UTF-8') ?>" alt="Foto de perfil" width="150"
+                    height="150" style="object-fit: cover;">
+            </div>
+        <?php endif; ?>
 
-    <form action="index.php?url=profile" method="POST"
-          enctype="multipart/form-data">
+        <form action="index.php?url=profile" method="POST" enctype="multipart/form-data">
 
-        <label for="name">Nome:</label>
-        <input
-            type="text"
-            id="name"
-            name="name"
-            value="<?= htmlspecialchars($usuario['NAME_ACCOUNT'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-            required
-        >
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name"
+                value="<?= htmlspecialchars($usuario['NAME_ACCOUNT'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
 
-        <br><br>
+            <br><br>
 
-        <label for="email">E-mail:</label>
-        <input
-            type="email"
-            id="email"
-            name="email"
-            value="<?= htmlspecialchars($usuario['EMAIL_ACCOUNT'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-            required
-        >
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email"
+                value="<?= htmlspecialchars($usuario['EMAIL_ACCOUNT'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
 
-        <br><br>
+            <br><br>
 
-        <label for="photo">Foto de perfil:</label>
-        <input
-            type="file"
-            id="photo"
-            name="photo"
-            accept=".jpg,.jpeg,.png,.webp"
-        
-        >
+            <label for="photo">Foto de perfil:</label>
+            <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png,.webp">
 
-        <p>Selecione uma nova foto somente se quiser alterar a atual.</p>
+            <p>Selecione uma nova foto somente se quiser alterar a atual.</p>
 
-        <button type="submit">Salvar alterações</button>
-    </form>
+            <button type="submit">Salvar alterações</button>
+        </form>
+    </div>
 
 </body>
+
 </html>

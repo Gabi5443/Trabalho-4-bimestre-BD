@@ -8,26 +8,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Sniglet:wght@400;800&display=swap"
         rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         html,
         body {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         body {
-            box-sizing: border-box;
-            margin: 0;
             background-color: #ff7f2a;
             display: flex;
             flex-direction: row;
-            justify-content: flex-end;
+            justify-content: space-between;
+            /* flex-end*/
             align-items: center;
             position: relative;
             background-image: url('assets/images/fundo.png');
             background-repeat: repeat;
             animation: mover 80s linear infinite;
+            padding: 2rem;
+            overflow-x: hidden;
         }
 
         @keyframes mover {
@@ -43,31 +48,39 @@
 
         h1 {
             font-family: "Fascinate Inline", system-ui;
-            font-size: 12rem;
+            /* tamanho mínimo 4rem, ideal 10vw, tamanho máximo 12rem */
+            font-size: clamp(4rem, 10vw, 12rem);
             margin: 0;
-            color: #803e1f;
-            -webkit-text-stroke: 2px #fff;
-            text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
+            color: darkolivegreen;
+            -webkit-text-stroke: 2px darkolivegreen;
+            text-shadow: -4px -4px 0 white,
+                4px -4px 0 white,
+                -4px 4px 0 white,
+                4px 4px 0 white;
+            ;
             z-index: 10;
-            position: absolute;
-            top: 15%;
-            left: 10%;
             pointer-events: none;
+            margin-left: 5vw;
         }
 
         .box {
             display: flex;
             flex-direction: column;
-            gap: 15%;
-            width: 35rem;
-            height: 30rem;
+            justify-content: space-between;
+            /*gap: 15%;*/
+            width: 100%;
+            /*35rem*/
+            /*height: 30rem;*/
+            max-width: 32rem;
+            min-height: 28rem;
             background-color: #fff;
-            margin: 7%;
-            margin-right: 11%;
-            padding: 2rem 2rem;
+            padding: 2.5rem 2rem;
             border-radius: 2rem;
-            box-sizing: border-box;
-            border: 2px solid #A0522D;
+            border: 1rem solid #A0522D;
+            outline: 0.5rem solid #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            margin-right: 5vw;
         }
 
         h2 {
@@ -75,9 +88,10 @@
             font-weight: 400;
             text-align: center;
             color: #A0522D;
-            margin-top: 2;
+            margin: 0;
             pointer-events: none;
-            font-size: 2rem;
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            line-height: 1.3;
         }
 
         .btns {
@@ -85,7 +99,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5%;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         .btn-login,
@@ -95,15 +110,44 @@
             align-items: center;
             text-align: center;
             text-decoration: none;
-            width: 90%;
+            width: 100%;
+            max-width: 24rem;
             padding: 0.8em 1.5em;
             font-family: "Sniglet", system-ui;
-            font-size: 1.3rem;
-            background-color: #A0522D;
+            font-size: 1.2rem;
+            background-color: darkolivegreen;
             color: #fff;
             border: none;
-            border-radius: 0.6rem;
-            box-sizing: border-box;
+            border-radius: 0.8rem;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-login:hover,
+        .btn-create:hover {
+            background-color: #803e1f;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                margin-left: 0;
+                text-align: center;
+                font-size: clamp(3.5rem, 15vw, 6rem);
+            }
+
+            .box {
+                margin-right: 0;
+                width: 90%;
+                min-height: auto;
+                padding: 2rem 1.5rem;
+            }
         }
 
         .btn-create {
