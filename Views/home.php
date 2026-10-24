@@ -25,7 +25,6 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            /* flex-end*/
             align-items: center;
             position: relative;
             background-image: url('assets/images/fundo.png');
@@ -48,7 +47,6 @@
 
         h1 {
             font-family: "Fascinate Inline", system-ui;
-            /* tamanho mínimo 4rem, ideal 10vw, tamanho máximo 12rem */
             font-size: clamp(4rem, 10vw, 12rem);
             margin: 0;
             color: darkolivegreen;
@@ -67,10 +65,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            /*gap: 15%;*/
             width: 100%;
-            /*35rem*/
-            /*height: 30rem;*/
             max-width: 32rem;
             min-height: 28rem;
             background-color: #fff;
