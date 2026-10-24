@@ -1,8 +1,8 @@
 <?php
 // Define a foto padrão caso o utilizador não tenha escolhido nenhuma
 $fotoPerfil = !empty($_SESSION['photo'])
-    ? 'uploads/' . htmlspecialchars($_SESSION['photo'])
-    : 'uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
+    ? '../uploads/' . htmlspecialchars($_SESSION['photo'])
+    : '../uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
 ?>
 
 <!DOCTYPE html>
