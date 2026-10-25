@@ -60,7 +60,13 @@ $fotoPerfil = $foto
             left: 30px;
             z-index: 20;
             line-height: 1;
-            pointer-events: none;
+            
+            transition: transform 0.50s;
+        }
+
+        .Title:hover {
+            transform: scale(1.05);
+            -webkit-text-stroke: 0.5px #fff;
         }
 
         .header {
@@ -78,10 +84,43 @@ $fotoPerfil = $foto
             border-radius: 50%;
             object-fit: cover;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.50s;
         }
 
         .profile-button img:hover {
+            transform: scale(1.05);
+            border: 0.2rem solid #556B2F;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+        }
+
+        .grid {
+            min-width: 90%;
+            border-radius: 20px;
+            display: flex;
+            flex-wrap: wrap;       
+            justify-content: center; 
+            gap: 4rem;            
+            padding: 1rem;
+            
+        }
+
+        .product {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 0.2rem solid #e7e7e7;
+            border-radius: 20px;
+            flex: 0 1 16rem;      
+            height: 20rem;      
+            margin: 0;
+            transition: transform 0.50s;
+        }
+
+        .product:hover {
             transform: scale(1.05);
         }
 
@@ -99,6 +138,13 @@ $fotoPerfil = $foto
             .profile-button img {
                 width: 3rem;
                 height: 3rem;
+                margin-top: 1rem;
+            }
+
+            .grid {
+                display: flex;
+                flex-direction: column;
+                gap: 3rem;
             }
         }
     </style>
@@ -116,8 +162,20 @@ $fotoPerfil = $foto
 </div>
         </div>
         <main>
-            <div class="scroller"></div>
-            <div class="grid"></div>
+            <div class="grid">
+                <div class="product">pizza</div>
+                <div class="product">macarrao</div>
+                <div class="product">arroz</div>
+                <div class="product">feijão</div>
+                <div class="product">pizza</div>
+                <div class="product">macarrao</div>
+                <div class="product">arroz</div>
+                <div class="product">feijão</div>
+                <div class="product">pizza</div>
+                <div class="product">macarrao</div>
+                <div class="product">arroz</div>
+                <div class="product">feijão</div>
+            </div>
         </main>
     </div>
 </body>
