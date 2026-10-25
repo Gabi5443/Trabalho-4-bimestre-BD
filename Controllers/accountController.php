@@ -54,7 +54,7 @@ class AccountController
         }
     }
 
-    // Método post para criação via formulário HTML
+   // 1. Processa o formulário de cadastro
     public function createForm()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -62,15 +62,14 @@ class AccountController
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
             
-        
             if (empty($name) || empty($email) || empty($password)) {
                 $erroMensagem = "Por favor, preencha todos os campos obrigatórios!";
                 require_once __DIR__ . '/../Views/Login/create.php';
                 return;
             }
 
-         $dominioCorporativo = '@defufu.com.br';
-         $type = str_ends_with(strtolower($email), $dominioCorporativo) ? 'WORKER' : 'CLIENT';
+            $dominioCorporativo = '@defufu.com.br';
+            $type = str_ends_with(strtolower($email), $dominioCorporativo) ? 'WORKER' : 'CLIENT';
             $senhaCriptografada = password_hash($password, PASSWORD_DEFAULT);
 
             try {
@@ -85,7 +84,7 @@ class AccountController
                     return;
                 }
             } catch (Exception $e) {
-                $erroMensagem = "Ops! Este e-mail já está a ser utilizado. Que tal tentar entrar com ele ou usar um endereço diferente? ";
+                $erroMensagem = "Ops! Este e-mail já está a ser utilizado. Que tal tentar entrar com ele?";
                 require_once __DIR__ . '/../Views/Login/create.php';
                 return;
             }
@@ -94,7 +93,7 @@ class AccountController
         }
     }
 
-    // 2. Processa o login vindo do formulário HTML e guarda dados na sessão
+    // 2. Processa o login (Padronizado igual ao cadastro)
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -102,33 +101,31 @@ class AccountController
             $senha = trim($_POST['senha'] ?? '');
 
             if (empty($email) || empty($senha)) {
-                header('Location: index.php?url=login&erro=empty');
-                exit;
+                $erroMensagem = "Por favor, preencha o e-mail e a senha!";
+                require_once __DIR__ . '/../Views/Login/login.php';
+                return;
             }
 
             $usuario = $this->model->findByEmail($email);
 
             if ($usuario && password_verify($senha, $usuario['PASSWORD_ACCOUNT'])) {
-                // 1. Guardar os dados básicos na sessão
+                // Guarda os dados básicos na sessão
                 $_SESSION['id_account'] = $usuario['ID_ACCOUNT'];
                 $_SESSION['name_account'] = $usuario['NAME_ACCOUNT'];
                 $_SESSION['type_account'] = $usuario['TYPE_ACCOUNT'];
 
-                // 2. Buscar a foto de perfil para guardar na sessão logo no login (se for CLIENT)
-             if ($usuario['TYPE_ACCOUNT'] === 'CLIENT') {
+                // Buscar foto de perfil se for CLIENT
+                if ($usuario['TYPE_ACCOUNT'] === 'CLIENT') {
                     require_once __DIR__ . '/../Models/clientModel.php';
-                    
-                    // Dica para o Intelephense saber que $clientModel é uma instância de ClientModel
                     /** @var ClientModel $clientModel */
                     $clientModel = new ClientModel($this->db);
-                    
                     $dadosClient = $clientModel->getProfileData($usuario['ID_ACCOUNT']);
                     $_SESSION['photo'] = $dadosClient['PHOTO_CLIENT'] ?? null;
                 } else {
                     $_SESSION['photo'] = null; 
                 }
 
-                // 3. Redirecionamento baseado no tipo de conta
+                // Redirecionamento de sucesso
                 if ($usuario['TYPE_ACCOUNT'] === 'WORKER') {
                     header('Location: index.php?url=dashboard');
                     exit;
@@ -137,8 +134,9 @@ class AccountController
                     exit;
                 }
             } else {
-                header('Location: index.php?url=login&erro=1');
-                exit;
+                $erroMensagem = "E-mail ou senha incorretos!";
+                require_once __DIR__ . '/../Views/Login/login.php';
+                return;
             }
         } else {
             require_once __DIR__ . '/../Views/Login/login.php'; 

@@ -185,15 +185,22 @@
 <body>
     <div class="login-card">
         <!-- menssagem de feedback da controller -->
-        <?php if (isset($_GET['erro'])): ?>
-            <div class="error-msg">E-mail ou senha inválidos!</div>
-        <?php elseif (isset($_GET['sucesso'])): ?>
-            <div class="success-msg">Conta criada com sucesso! Faça login.</div>
-        <?php endif; ?>
+    
 
         <div class="inside">
             <div class="login">Login</div>
             <form action="/Trabalho-4-bimestre-BD/account/login" method="POST">
+
+
+<?php if (isset($erroMensagem)): ?>
+        <div class="alert-error" style="color: red; margin-bottom: 15px;">
+            <?= htmlspecialchars($erroMensagem); ?>
+        </div>
+    <?php endif; ?>
+
+
+
+
                 <div class="form-group">
                     <label for="email">E-mail:</label>
                     <input type="email" id="email" name="email" required>
