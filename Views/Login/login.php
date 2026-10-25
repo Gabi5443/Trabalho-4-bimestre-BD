@@ -185,21 +185,15 @@
 <body>
     <div class="login-card">
         <!-- menssagem de feedback da controller -->
-    
-
         <div class="inside">
             <div class="login">Login</div>
             <form action="/Trabalho-4-bimestre-BD/account/login" method="POST">
 
-
-<?php if (isset($erroMensagem)): ?>
-        <div class="alert-error" style="color: red; margin-bottom: 15px;">
-            <?= htmlspecialchars($erroMensagem); ?>
-        </div>
-    <?php endif; ?>
-
-
-
+                <?php if (isset($erroMensagem)): ?>
+                    <div class="alert-error" style="color: red; margin-bottom: 15px;">
+                        <?= htmlspecialchars($erroMensagem); ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="form-group">
                     <label for="email">E-mail:</label>
