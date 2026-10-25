@@ -167,6 +167,15 @@
         <div class="inside">
             <div class="create">Criar Conta</div>
             <form action="/Trabalho-4-bimestre-BD/account/register" method="POST">
+
+
+<?php if (isset($erroMensagem)): ?>
+        <div class="alert-error" style="color: red; margin-bottom: 15px;">
+            <?= htmlspecialchars($erroMensagem); ?>
+        </div>
+    <?php endif; ?>
+
+
                 <div class="form-group">
                     <label for="name">Nome:</label>
                     <input type="text" id="name" name="name" required>

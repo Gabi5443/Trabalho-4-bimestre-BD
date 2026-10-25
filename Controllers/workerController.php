@@ -1,4 +1,3 @@
-
 <?php
 
 require_once __DIR__ . '/../models/workerModel.php';
@@ -7,7 +6,7 @@ class WorkerController {
     private $model;
 
     public function __construct($db) {
-        $this->model = new WorkerModel($db);
+        $this->model = new workerModel($db);
     }
 
     // CRUD da API: recebe o método HTTP
@@ -54,7 +53,6 @@ class WorkerController {
 
     // Página HTML do dashboard
     public function dashboard() {
-        // Ajuste o caminho para o local real da sua view.
         require __DIR__ . '/../Views/Dashboard/index.php';
     }
 
@@ -80,17 +78,20 @@ class WorkerController {
 
         if (
             !is_array($data) ||
+            empty($data['NAME_WORKER']) ||
             empty($data['ROLE_WORKER']) ||
             empty($data['ID_ACCOUNT_FK'])
         ) {
             $this->response([
-                "message" => "Cargo e ID da conta são obrigatórios"
+                "message" => "Nome, cargo e ID da conta são obrigatórios"
             ], 400);
         }
 
         $sucesso = $this->model->create(
+            $data['NAME_WORKER'],
+            $data['REGISTRATION_WORKER'] ?? null,
             $data['ROLE_WORKER'],
-            $data['SALARY_WORKER'] ?? 0.00,
+            $data['PHOTO_WORKER'] ?? null,
             $data['ID_ACCOUNT_FK']
         );
 
@@ -110,18 +111,21 @@ class WorkerController {
 
         if (
             !is_array($data) ||
+            empty($data['NAME_WORKER']) ||
             empty($data['ROLE_WORKER']) ||
             empty($data['ID_ACCOUNT_FK'])
         ) {
             $this->response([
-                "message" => "Cargo e ID da conta são obrigatórios"
+                "message" => "Nome, cargo e ID da conta são obrigatórios"
             ], 400);
         }
 
         $sucesso = $this->model->alter(
             $id,
+            $data['NAME_WORKER'],
+            $data['REGISTRATION_WORKER'] ?? null,
             $data['ROLE_WORKER'],
-            $data['SALARY_WORKER'] ?? 0.00,
+            $data['PHOTO_WORKER'] ?? null,
             $data['ID_ACCOUNT_FK']
         );
 
@@ -157,3 +161,4 @@ class WorkerController {
         exit();
     }
 }
+?>
