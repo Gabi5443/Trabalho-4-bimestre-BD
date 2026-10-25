@@ -1,10 +1,20 @@
 <?php
-// Define a foto padrão caso o utilizador não tenha escolhido nenhuma
-$fotoPerfil = !empty($_SESSION['photo'])
-    ? '../uploads/' . htmlspecialchars($_SESSION['photo'])
-    : '../uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
-?>
+// 1. Tenta buscar a foto diretamente da sessão
+$foto = $_SESSION['photo'] ?? null;
 
+// 2. Se a sessão não tiver, mas a variável $usuario existir, busca dela
+if (!$foto && isset($usuario)) {
+    $tipoUsuario = $_SESSION['type_account'] ?? 'CLIENT';
+    $foto = ($tipoUsuario === 'WORKER') 
+        ? ($usuario['PHOTO_WORKER'] ?? null) 
+        : ($usuario['PHOTO_CLIENT'] ?? null);
+}
+
+// 3. Definimos a variável EXATAMENTE como $fotoPerfil para não dar erro
+$fotoPerfil = $foto
+    ? BASE_URL . 'uploads/' . rawurlencode(basename($foto))
+    : BASE_URL . 'uploads/photoDefault.jpg';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -55,11 +65,11 @@ $fotoPerfil = !empty($_SESSION['photo'])
             <h1 class="Title">Defufu</h1>
 
             <div class="profile-button">
-                <a href="index.php?url=profile">
-                    <!-- Exibe a imagem redonda como botão redirecionando para o perfil -->
-                    <img src="<?php echo $fotoPerfil; ?>" alt="Meu Perfil">
-                </a>
-            </div>
+    <a href="index.php?url=profile">
+        <!-- Agora a variável $fotoPerfil existe e está definida! -->
+        <img src="<?php echo htmlspecialchars($fotoPerfil, ENT_QUOTES, 'UTF-8'); ?>" alt="Meu Perfil">
+    </a>
+</div>
         </div>
     </div>
 
