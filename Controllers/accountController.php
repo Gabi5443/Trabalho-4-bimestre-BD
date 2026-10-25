@@ -84,7 +84,7 @@ class AccountController
                     return;
                 }
             } catch (Exception $e) {
-                $erroMensagem = "Ops! Este e-mail já está a ser utilizado. Que tal tentar entrar com ele?";
+                $erroMensagem = "Ops! Este e-mail já está sendo utilizado. Que tal tentar entrar com ele?";
                 require_once __DIR__ . '/../Views/Login/create.php';
                 return;
             }

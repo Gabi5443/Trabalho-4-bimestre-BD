@@ -8,12 +8,10 @@ if ($tipoUsuario === 'WORKER') {
 }
 
 
-
 $caminhoFoto = $foto
-    ? '../uploads/' . rawurlencode(basename($foto))
-    : null;
+    ? '/Trabalho-4-bimestre-BD/uploads/' . rawurlencode(basename($foto))
+    : '/Trabalho-4-bimestre-BD/uploads/photoDefault.jpg';
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -27,7 +25,14 @@ $caminhoFoto = $foto
 
     <h1>Meu perfil</h1>
 
-        <?php if (isset($_GET['success'])): ?>
+    
+
+    <form action="index.php?url=profile" method="POST"
+          enctype="multipart/form-data">
+
+
+
+    <?php if (isset($_GET['success'])): ?>
             <p>Perfil atualizado com sucesso!</p>
         <?php endif; ?>
 
@@ -48,8 +53,10 @@ $caminhoFoto = $foto
         </div>
     <?php endif; ?>
 
-    <form action="index.php?url=profile" method="POST"
-          enctype="multipart/form-data">
+
+
+
+
 
         <label for="name">Nome:</label>
         <input

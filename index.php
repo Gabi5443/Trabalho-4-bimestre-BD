@@ -1,4 +1,5 @@
 <?php
+define('BASE_URL', '/Trabalho-4-bimestre-BD/');
 // Ativar erros temporariamente para testes
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

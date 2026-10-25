@@ -177,17 +177,17 @@
 
                 <div class="form-group">
                     <label for="name">Nome:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" >
                 </div>
 
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" >
                 </div>
 
                 <div class="form-group">
                     <label for="password">Senha:</label>
-                    <input type="password" id="senha" name="password" required>
+                    <input type="password" id="senha" name="password" >
                 </div>
 
 

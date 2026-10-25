@@ -63,6 +63,7 @@ $sqlPRODUCT = " CREATE TABLE  if not exists PRODUCT (
     FOREIGN KEY (ID_CATEGORY_FK) REFERENCES CATEGORY (ID_CATEGORY) 
 )";
 $conn->query($sqlPRODUCT);
+
 return $conn;
 
 ?>
