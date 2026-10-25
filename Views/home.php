@@ -71,8 +71,8 @@
             background-color: #fff;
             padding: 2.5rem 2rem;
             border-radius: 2rem;
-            border: 1rem solid #A0522D;
-            outline: 0.5rem solid #fff;
+            border: 0.7rem solid #A0522D;
+            outline: 0.2rem solid #fff;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             z-index: 10;
             margin-right: 5vw;
