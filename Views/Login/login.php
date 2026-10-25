@@ -18,8 +18,8 @@
             align-items: center;
             /* #ffd18a */
             background-image:
-                url(' /Trabalho-4-bimestre-BD/assets/images/folha-cima.png'),
-                url('/Trabalho-4-bimestre-BD/assets/images/folha-baixo.png');
+                url(' /Trabalho-4-bimestre-BD/assets/images/folhacima.png'),
+                url('/Trabalho-4-bimestre-BD/assets/images/folhabaixo.png');
             background-position:
                 top right,
                 bottom left;
@@ -27,6 +27,7 @@
             background-size: 18% auto, 18% auto;
             padding: 1rem;
             font-family: "Sniglet", system-ui;
+            background-color: #e7e7e7;
         }
 
         .login-card {
@@ -38,16 +39,9 @@
             padding: 2.5rem 2rem;
             border-radius: 2rem;
             background-color: #fff;
-            border: 2px solid #A0522D;
+            border: 0.7rem solid #A0522D;
+            outline: 0.2rem solid #fff;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 1.2rem;
         }
 
         .inside {
@@ -59,7 +53,7 @@
 
         .login {
             text-align: center;
-            color: #A0522D;
+            color: #556B2F;
             font-weight: 800;
             font-size: 2.2rem;
             margin-bottom: 1.5rem;
@@ -72,19 +66,30 @@
             align-items: center;
         }
 
-        .form-group label {
-            width: 85%;
-            text-align: left;
-            color: #A0522D;
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
+        .form-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.2rem;
         }
+
+        .form-group label {
+            color: #556B2F;
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            align-items: flex-start;
+        }
+
+        .form-group input {
+            width: 100%;
+        }
+
 
         [name="email"],
         [name="senha"] {
-            box-shadow: none;
             border-radius: 20px;
-            border: 1.5px solid #A0522D;
+            border: 1.5px solid #556B2F;
             width: 85%;
             padding: 0.7rem 1rem;
             font-size: 1rem;
@@ -96,7 +101,7 @@
 
         [name="email"]:focus,
         [name="senha"]:focus {
-            border: 2px solid #A0522D;
+            border: 2px solid #556B2F;
             outline: none;
         }
 
@@ -105,8 +110,9 @@
             padding: 0.8rem;
             font-family: "Sniglet", system-ui;
             font-weight: bold;
+            font-size: 1.1rem;
             border: none;
-            background-color: #A0522D;
+            background-color: #556B2F;
             color: #fff;
             border-radius: 12px;
             cursor: pointer;
@@ -115,7 +121,7 @@
         }
 
         .btn-submit:hover {
-            background-color: #803e1f;
+            background-color: #A0522D;
             transform: translateY(-1px);
         }
 
@@ -128,7 +134,7 @@
 
         a:visited,
         a:link {
-            color: #A0522D;
+            color: #556B2F;
             text-decoration: none;
             font-weight: bold;
         }
