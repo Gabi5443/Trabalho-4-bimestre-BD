@@ -24,7 +24,7 @@
                 top right,
                 bottom left;
             background-repeat: no-repeat;
-            background-size: 18% auto, 18% auto;
+            background-size: 20% auto, 20% auto;
             padding: 1rem;
             font-family: "Sniglet", system-ui;
             background-color: #e7e7e7;

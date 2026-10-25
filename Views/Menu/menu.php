@@ -89,7 +89,7 @@ $fotoPerfil = $foto
 
         .profile-button img:hover {
             transform: scale(1.05);
-            border: 0.2rem solid #556B2F;
+            outline: 0.2rem solid #556B2F;
         }
 
         main {
