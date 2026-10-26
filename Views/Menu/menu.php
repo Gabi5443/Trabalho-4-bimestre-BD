@@ -154,6 +154,9 @@ $fotoPerfil = $foto
     <div class="box">
         <h1 class="Title">Defufu</h1>
         <div class="header">
+            <h1 class="NomeUser">
+    <?= htmlspecialchars($usuario['NAME_ACCOUNT'] ?? '', ENT_QUOTES, 'UTF-8') ?>
+</h1>
             <div class="profile-button">
     <a href="index.php?url=profile">
         <!-- Agora a variável $fotoPerfil existe e está definida! -->
