@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Defufu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Sniglet:wght@400;800&display=swap"
+
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
+
     <style>
         * {
             box-sizing: border-box;
@@ -17,151 +19,294 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100vh;
+            min-height: 100%;
         }
 
         body {
-            background-color: #ff7f2a;
+            min-height: 100vh;
+            min-height: 100svh;
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            position: relative;
-            background-image: url('assets/images/fundo.png');
-            background-repeat: repeat;
-            animation: mover 80s linear infinite;
             padding: 2rem;
-            overflow-x: hidden;
+            background-color: #F5EFE5;
+            background-image: url("assets/images/fundo2.webp");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            font-family: "Manrope", sans-serif;
         }
 
-        @keyframes mover {
-            0% {
-                background-position: 0 0;
-            }
+        .boxcentral {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 460px;
+            background-color: #FFFFFF;
 
-            100% {
-                background-position: -2000px 0;
-            }
+            border-radius: 20px;
+            overflow: hidden;
+
+            box-shadow: 0 12px 35px rgba(47, 48, 41, 0.12);
         }
 
+        
+        .logo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            padding: 2rem;
+
+            background-color: #FFFFFF;
+            text-align: center;
+        }
+
+        .logo-marca {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding-right: 25px;
+        }
 
         h1 {
-            font-family: "Fascinate Inline", system-ui;
-            font-size: clamp(4rem, 10vw, 12rem);
             margin: 0;
-            color: darkolivegreen;
-            -webkit-text-stroke: 2px darkolivegreen;
-            text-shadow: -4px -4px 0 white,
-                4px -4px 0 white,
-                -4px 4px 0 white,
-                4px 4px 0 white;
-            ;
-            z-index: 10;
-            pointer-events: none;
-            margin-left: 5vw;
+
+            font-family: "Fascinate Inline", system-ui;
+            font-size: clamp(3.5rem, 6vw, 6.5rem);
+
+            color: #526832;
+            text-align: center;
+
+            line-height: 1.1;
         }
 
+        .pimentinha {
+            position: absolute;
+            width: 65px;
+            height: auto;
+            right: -20px;
+            bottom: -10px;
+            transform: rotate(10deg);
+            transform-origin: center;
+        }
+
+        .logo p {
+            max-width: 300px;
+            margin: 1.5rem 0 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.6;
+            color: #77766D;
+            text-align: center;
+        }
+
+  
         .box {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 32rem;
-            min-height: 28rem;
-            background-color: #fff;
-            padding: 2.5rem 2rem;
-            border-radius: 2rem;
-            border: 0.7rem solid #A0522D;
-            outline: 0.2rem solid #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-            margin-right: 5vw;
+            justify-content: center;
+            align-items: center;
+
+            padding: 3rem 2.5rem;
+
+            background-color: #F8F5EF;
         }
 
         h2 {
-            font-family: "Sniglet", system-ui;
-            font-weight: 400;
-            text-align: center;
-            color: #A0522D;
             margin: 0;
-            pointer-events: none;
-            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+
+            font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+            font-weight: 700;
             line-height: 1.3;
+
+            text-align: center;
+            color: #2F3029;
+        }
+
+        .descricao {
+            max-width: 350px;
+
+            margin: 1rem 0 2rem;
+
+            font-size: 0.95rem;
+            line-height: 1.6;
+
+            text-align: center;
+            color: #77766D;
         }
 
         .btns {
-            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 0.9rem;
+            width: 100%;
+            max-width: 24rem;
         }
 
         .btn-login,
         .btn-create {
-            display: inline-flex;
+            display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            text-decoration: none;
+
             width: 100%;
-            max-width: 24rem;
-            padding: 0.8em 1.5em;
-            font-family: "Sniglet", system-ui;
-            font-size: 1.2rem;
-            background-color: darkolivegreen;
-            color: #fff;
-            border: none;
-            border-radius: 0.8rem;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            min-height: 52px;
+
+            padding: 0.9rem 1.5rem;
+
+            font-family: "Manrope", sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+
+            text-decoration: none;
+            text-align: center;
+
+            border-radius: 10px;
+                transition: background-color 0.15s ease-out,
+                transform 0.15s ease-out;
+
         }
 
-        .btn-login:hover,
-        .btn-create:hover {
-            background-color: #803e1f;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-                justify-content: center;
-                gap: 2rem;
-                padding: 2rem 1rem;
-            }
-
-            h1 {
-                margin-left: 0;
-                text-align: center;
-                font-size: clamp(3.5rem, 15vw, 6rem);
-            }
-
-            .box {
-                margin-right: 0;
-                width: 90%;
-                min-height: auto;
-                padding: 2rem 1.5rem;
-            }
+        .btn-login {
+            background-color: #526832;
+            color: #FFFFFF;
+            border: 1px solid #526832;
         }
 
         .btn-create {
-            margin-top: 5%;
+            background-color: transparent;
+            color: #526832;
+            border: 1px solid #526832;
+        }
+
+        .btn-login:hover {
+            background-color: #405326;
+            transform: translateY(-5px);
+            
+       
+        }
+
+        .btn-create:hover {
+            background-color: #EAEDE2;
+            transform: translateY(-5px);
+            
+          
+        }
+
+    
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            .boxcentral {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+            }
+
+            .logo {
+                padding: 2.5rem 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: clamp(3.5rem, 13vw, 5rem);
+            }
+
+            .pimentinha {
+                width: 55px;
+                right: -20px;
+                bottom: -15px;
+            }
+
+            .logo p {
+                margin-top: 1rem;
+                margin-bottom: 0;
+            }
+
+            .box {
+                padding: 2rem 1.5rem 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 1rem;
+            }
+
+            .boxcentral {
+                border-radius: 16px;
+            }
+
+            .logo {
+                padding-top: 2rem;
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .pimentinha {
+                width: 45px;
+                right: -15px;
+                bottom: -12px;
+            }
+
+            .box {
+                padding: 1.5rem 1.2rem 2rem;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Defufu</h1>
+    <main class="boxcentral">
+        <section class="logo">
+            <div class="logo-marca">
+                <h1>Defufu</h1>
 
-    <div class="box">
-        <h2>O seu próximo prato favorito está à sua espera. Faça login ou crie a sua conta.</h2>
-        <div class="btns">
-            <a href="account/login" class="btn-login">Entrar / Fazer Login</a>
-            <a href="account/register" class="btn-create">Criar Conta</a>
-        </div>
-    </div>
+                <img
+                    src="assets/images/pimentinha.svg"
+                    alt=""
+                    class="pimentinha"
+                >
+            </div>
+
+            <p>
+                Comida defumada, regional e afetiva.
+            </p>
+
+        </section>
+        <section class="box">
+
+            <h2>Bem-vindo ao Defufu!</h2>
+
+            <p class="descricao">
+                O seu próximo prato favorito está à sua espera.
+                Acesse sua conta para continuar.
+            </p>
+
+            <div class="btns">
+
+                <a href="account/login" class="btn-login">
+                    Entrar / Fazer Login
+                </a>
+
+                <a href="account/register" class="btn-create">
+                    Criar Conta
+                </a>
+
+            </div>
+        </section>
+    </main>
 </body>
-
 </html>

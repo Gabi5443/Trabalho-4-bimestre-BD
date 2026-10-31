@@ -39,7 +39,7 @@
             padding: 2.5rem 2rem;
             border-radius: 2rem;
             background-color: #fff;
-            border: 0.7rem solid #A0522D;
+            border: 0.4rem solid #A0522D;
             outline: 0.2rem solid #fff;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
