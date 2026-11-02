@@ -20,6 +20,7 @@ require_once __DIR__ . '/controllers/WorkerController.php';
 require_once __DIR__ . '/controllers/CategoryController.php';
 require_once __DIR__ . '/controllers/ProductController.php';
 require_once __DIR__ . '/controllers/ProfileController.php';
+require_once __DIR__ . '/Controllers/dashboardController.php';
 
 // 4. Captura da URL de forma segura
 $url = isset($_GET['url']) ? explode('/', trim($_GET['url'], '/')) : [];
@@ -93,8 +94,8 @@ switch ($recurso) {
         break;
 
     case 'dashboard':
-        $controller = new WorkerController($conn);
-        $controller->dashboard();
+        $controller = new dashboardController($conn);
+         $controller->index();
         break;
 
 
