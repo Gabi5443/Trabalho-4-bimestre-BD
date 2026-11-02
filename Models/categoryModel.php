@@ -28,7 +28,7 @@ class categoryModel {
     }
 
     public function listAll() {
-        $sql = "SELECT * FROM CATEGORY";
+        $sql = "SELECT * FROM CATEGORY  ORDER BY ID_CATEGORY ASC";
         
         $resultado = $this->conexao->query($sql);
         

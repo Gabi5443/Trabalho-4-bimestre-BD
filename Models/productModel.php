@@ -109,6 +109,30 @@ class productModel {
 
         return $resultado; // Retorna true se deu certo ou false se deu erro
     }
+
+
+
+    public function listByCategory($ID_CATEGORY) {
+    $sql = "SELECT * FROM PRODUCT WHERE ID_CATEGORY_FK = ?";
+
+    $stmt = $this->conexao->prepare($sql);
+
+    if (!$stmt) {
+        return false;
+    }
+
+    $stmt->bind_param("i", $ID_CATEGORY);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+    $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
+
+    $stmt->close();
+
+    return $produtos;
+}
+
+     
     
 }
 ?>

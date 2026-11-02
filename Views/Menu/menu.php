@@ -1,186 +1,157 @@
 <?php
-// 1. Tenta buscar a foto diretamente da sessão
-$foto = $_SESSION['photo'] ?? null;
+/** @var array $categorias */
+/** @var array $produtosPorCategoria */
 
-// 2. Se a sessão não tiver, mas a variável $usuario existir, busca dela
-if (!$foto && isset($usuario)) {
-    $tipoUsuario = $_SESSION['type_account'] ?? 'CLIENT';
-    $foto = ($tipoUsuario === 'WORKER') 
-        ? ($usuario['PHOTO_WORKER'] ?? null) 
-        : ($usuario['PHOTO_CLIENT'] ?? null);
-}
 
-// 3. Definimos a variável EXATAMENTE como $fotoPerfil para não dar erro
-$fotoPerfil = $foto
-    ? BASE_URL . 'uploads/' . rawurlencode(basename($foto))
-    : BASE_URL . 'uploads/photoDefault.jpg';
+/*aviso pro intelephense de que essas variaveis existem */
+
 ?>
-<!DOCTYPE html>
-<html lang="pt-BR">
 
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Sniglet:wght@400;800&display=swap"
+    <title>Document</title>
+     <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <title>Menu</title>
+
     <style>
-        * {
+        *{
+            border: 0;
             margin: 0;
             padding: 0;
-            border: 0;
-            box-sizing: border-box;
+        }
+        html, body{
+            background-color: olive;
         }
 
-        body {
-            background-color: #ff7f2a;
-            background-image: url('/Trabalho-4-bimestre-BD/assets/images/fundo.png');
-            background-repeat: repeat;
-        }
 
-        .box {
-            background-color: #fff;
-            min-height: 90vh;
-            margin: 8% 3% 3% 3%;
-            border-radius: 20px;
+          .logo-marca {
             position: relative;
-        }
-
-        .Title {
-            font-family: "Fascinate Inline", system-ui;
-            font-size: 7rem;
-            color: #556B2F;
-            -webkit-text-stroke: 2px darkolivegreen;
-            text-shadow: -4px -4px 0 white,
-                4px -4px 0 white,
-                -4px 4px 0 white,
-                4px 4px 0 white;
-            position: absolute;
-            top: -65px;
-            left: 30px;
-            z-index: 20;
-            line-height: 1;
-            
-            transition: transform 0.50s;
-        }
-
-        .Title:hover {
-            transform: scale(1.05);
-            -webkit-text-stroke: 0.5px #fff;
-        }
-
-        .header {
-            margin: 1.5rem;
-            display: flex;
-            justify-content: end;
-
-        }
-
-        .profile-button img {
-            width: 6rem;
-            height: 6rem;
-            margin-top: 20%;
-            margin-right: 50%;
-            border-radius: 50%;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.50s;
-        }
-
-        .profile-button img:hover {
-            transform: scale(1.05);
-            outline: 0.2rem solid #556B2F;
-        }
-
-        main {
-            display: flex;
-            justify-content: center;
-        }
-
-        .grid {
-            min-width: 90%;
-            border-radius: 20px;
-            display: flex;
-            flex-wrap: wrap;       
-            justify-content: center; 
-            gap: 4rem;            
-            padding: 1rem;
-            
-        }
-
-        .product {
-            display: flex;
-            justify-content: center;
+            display: inline-flex;
             align-items: center;
-            border: 0.2rem solid #e7e7e7;
-            border-radius: 20px;
-            flex: 0 1 16rem;      
-            height: 20rem;      
+            justify-content: center;
+            padding-right: 25px;
+        }
+
+        h1 {
             margin: 0;
-            transition: transform 0.50s;
+
+            font-family: "Fascinate Inline", system-ui;
+            font-size: clamp(2.5rem, 5vw, 5.5rem);
+
+            color: #526832;
+            text-align: center;
+
+            line-height: 1.1;
         }
 
-        .product:hover {
-            transform: scale(1.05);
+        .pimentinha {
+            position: absolute;
+            width: 55px;
+            height: auto;
+            right: -20px;
+            bottom: -10px;
+            transform: rotate(10deg);
+            transform-origin: center;
+        }
+        header{
+            background-color:white;
+            min-height: 6rem;
         }
 
-        @media (max-width: 768px) {
-            .box {
-                margin-top: 12%;
-            }
-
-            .Title {
-                font-size: 3.2rem;
-                top: -35px;
-                left: 20px;
-            }
-
-            .profile-button img {
-                width: 3rem;
-                height: 3rem;
-                margin-top: 1rem;
-            }
-
-            .grid {
-                display: flex;
-                flex-direction: column;
-                gap: 3rem;
-            }
+        .produtos{
+            display: grid;
+             grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
         }
+
+       
+
+        .card-produto img {
+    width: 100%;
+    height: 95vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+
     </style>
 </head>
-
 <body>
-    <div class="box">
-        <h1 class="Title">Defufu</h1>
-        <div class="header">
-            <h1 class="NomeUser">
-    <?= htmlspecialchars($usuario['NAME_ACCOUNT'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-</h1>
-            <div class="profile-button">
-    <a href="index.php?url=profile">
-        <!-- Agora a variável $fotoPerfil existe e está definida! -->
-        <img src="<?php echo htmlspecialchars($fotoPerfil, ENT_QUOTES, 'UTF-8'); ?>" alt="Meu Perfil">
-    </a>
-</div>
-        </div>
-        <main>
-            <div class="grid">
-                <div class="product">pizza</div>
-                <div class="product">macarrao</div>
-                <div class="product">arroz</div>
-                <div class="product">feijão</div>
-                <div class="product">pizza</div>
-                <div class="product">macarrao</div>
-                <div class="product">arroz</div>
-                <div class="product">feijão</div>
-                <div class="product">pizza</div>
-                <div class="product">macarrao</div>
-                <div class="product">arroz</div>
-                <div class="product">feijão</div>
-            </div>
-        </main>
-    </div>
-</body>
+    <header>
+       <div class="logo-marca">
+                <h1>Defufu</h1>
 
+                <img
+                    src= "../assets/images/pimentinha.svg"
+                    alt=""
+                    class="pimentinha"
+                >
+            </div>
+
+    </header>
+    <main class = "corpoPagina">
+
+<?php foreach ($categorias as $categoria): ?> <!-- faça ao percorrer cada categoria da array $categoria sendo $categoria a categoria a ser percorrida agors (indice)-->
+
+
+    <section class="categoria">
+
+        <h2>
+            <?= htmlspecialchars($categoria['NAME_CATEGORY']) ?>
+        </h2>
+
+        <div class="produtos">
+
+            <?php
+            $idCategoria = $categoria['ID_CATEGORY'];
+            ?>
+
+            <?php foreach ($produtosPorCategoria[$idCategoria] as $produto): ?>
+
+                <a 
+                          href="<?= BASE_URL ?>product/detail/<?= $produto['ID_PRODUCT'] ?>"
+                           class="card-produto"
+>
+                    <img 
+                        src="<?= BASE_URL . htmlspecialchars($produto['PHOTO_PRODUCT']) ?>"
+                        alt="<?= htmlspecialchars($produto['NAME_PRODUCT']) ?>"
+                    >
+
+                    <h3>
+                        <?= htmlspecialchars($produto['NAME_PRODUCT']) ?>
+                    </h3>
+
+                    <p>
+                        <?= htmlspecialchars($produto['DESCRIPTION_PRODUCT']) ?>
+                    </p>
+
+                    <span>
+                        R$ <?= number_format($produto['PRICE_PRODUCT'], 2, ',', '.') ?>
+                    </span>
+
+            </a>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    </section>
+
+<?php endforeach; ?>
+            </main>
+
+
+
+
+</body>
 </html>
+
+
+
+
+

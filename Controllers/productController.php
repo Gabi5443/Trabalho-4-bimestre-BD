@@ -1,13 +1,16 @@
 <?php
 
 require_once __DIR__ . '/../Models/productModel.php';
+require_once __DIR__ . '/../Models/categoryModel.php';
 
 class ProductController {
-    private $model; //Chama a Model como atributo
+   private $model;
+private $db;
 
-    public function __construct($db) {
-        $this->model = new ProductModel($db);
-    } // quando a controller for estanciada no index, ela faz conexao com o conection.bd e estancia a product model
+public function __construct($db) {
+    $this->db = $db;
+    $this->model = new ProductModel($db);
+} // quando a controller for estanciada no index, ela faz conexao com o conection.bd e estancia a product model
 
     // Método central que identifica a requisição
     public function handleRequest($method, $id = null) { //Lê o que o usuário manda por url (get,post,pull, delete) e decide o que vai executar
@@ -136,6 +139,56 @@ class ProductController {
             $this->response(["message" => "Erro ao deletar produto"], 500);
         }
     }
+
+
+
+
+
+
+public function menu() {
+    $categoryModel = new CategoryModel($this->db);
+
+    $categorias = $categoryModel->listAll(); //$categorias recebe o método listall da model que lista todas as categorias existentes
+
+    $produtos = $this->model->listAll(); 
+
+    
+    // $produtos recebe o método listall da model que lista todas os produtos existentes
+
+    $produtosPorCategoria = []; // essa variavel recebe uma array vazia
+
+    foreach ($categorias as $categoria) { // contador (para cada categoria sendo $categoria a categoria atual a ser percorrida)
+        $idCategoria = $categoria['ID_CATEGORY']; // o id de cada categoria é atribuido a essa variavel
+        $produtosPorCategoria[$idCategoria] = []; //a categoria de cada produto (com base em seu id) é atribuido a esse array
+    }
+
+    foreach ($produtos as $produto) { // para cada produto sendo $produto o produto a ser percorrrido
+        $idCategoria = $produto['ID_CATEGORY_FK']; // atribua seu id a essa variavel
+
+        if (isset($produtosPorCategoria[$idCategoria])) { // se existir uma array de categoria com esse id atribuido
+            $produtosPorCategoria[$idCategoria][] = $produto; // o produto é adicionado ao fina dela
+        }
+    }
+
+    require_once __DIR__ . '/../Views/Menu/menu.php';
+}
+
+
+public function detail($id) {
+
+    $produto = $this->model->listById($id);
+
+    if (!$produto) {
+        http_response_code(404);
+        echo "Produto não encontrado.";
+        return;
+    }
+
+    require_once __DIR__ . '/../Views/Menu/detalhe.php';
+}
+
+
+
 
     // Helper para padronizar as respostas em JSON com o HTTP Status
     private function response($data, $statusCode = 200) {

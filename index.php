@@ -39,10 +39,16 @@ $method = strtoupper($_SERVER['REQUEST_METHOD']);
 // 6. Roteamento
 switch ($recurso) {
 
-    case 'product':
-        $controller = new ProductController($conn);
+   case 'product':
+
+    $controller = new ProductController($conn);
+    if ($acao === 'detail' && $method === 'GET' && $id) { //se a acao (primeira parte da url) for igual a 'detail', o método for GET e tiver um id na url
+        $controller->detail($id); //a controller chama o método detail
+    } else { //senão chama o método handle request da controller
         $controller->handleRequest($method, $id);
-        break;
+    }
+
+    break;
 
     case 'category':
         $controller = new CategoryController($conn);
@@ -88,20 +94,21 @@ switch ($recurso) {
 
     case 'dashboard':
         $controller = new WorkerController($conn);
-
-     
         $controller->dashboard();
         break;
+
+
+    case 'menu':
+    $controller = new ProductController($conn);
+    $controller->menu();
+    break;
 
         case 'home':
       
         require_once __DIR__ . '/Views/home.php';
         break;
 
-         case 'menu':
-      
-        require_once __DIR__ . '/Views/Menu/menu.php';
-        break;
+         
 
     default:
         http_response_code(404);
