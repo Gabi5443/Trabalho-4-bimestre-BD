@@ -220,6 +220,7 @@
             .pimentinha {
                 width: 55px;
                 right: -20px;
+                
                 bottom: -15px;
             }
 
