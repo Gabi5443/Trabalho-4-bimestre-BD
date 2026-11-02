@@ -143,30 +143,7 @@
             text-decoration: underline;
         }
 
-        .error-msg,
-        .success-msg {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 0.6rem;
-            font-size: 0.9rem;
-            text-align: center;
-            box-sizing: border-box;
-            margin-bottom: 1rem;
-        }
-
-        .error-msg {
-            background-color: #F8D7DA;
-            color: #842029;
-            border: 1px solid #F5C2C7;
-        }
-
-        .success-msg {
-            background-color: #D1E7DD;
-            color: #0F5132;
-            border: 1px solid #BADBCC;
-        }
-
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .login-card {
                 padding: 1.5rem 1rem;
                 border-radius: 1.5rem;

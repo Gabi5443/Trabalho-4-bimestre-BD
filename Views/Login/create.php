@@ -145,7 +145,7 @@
             text-decoration: underline;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .create-card {
                 padding: 1.5rem 1rem;
                 border-radius: 1.5rem;
