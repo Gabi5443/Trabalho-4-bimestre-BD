@@ -145,7 +145,7 @@
 
         .btn-submit:hover {
             background-color: #405326;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .login-link {
