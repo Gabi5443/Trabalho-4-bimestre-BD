@@ -5,43 +5,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            padding: 0;
+            width: 100%;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            /* #ffd18a */
-            background-image:
-                url(' /Trabalho-4-bimestre-BD/assets/images/folhacima.png'),
-                url('/Trabalho-4-bimestre-BD/assets/images/folhabaixo.png');
-            background-position:
-                top right,
-                bottom left;
+            background-image: url("../assets/images/fundo2.webp");
             background-repeat: no-repeat;
-            background-size: 20% auto, 20% auto;
-            padding: 1rem;
-            font-family: "Sniglet", system-ui;
-            background-color: #e7e7e7;
+            background-position: center;
+            background-size: cover;
+            font-family: "Manrope", sans-serif;
+        }
+
+
+        .pimentinha {
+            position: absolute;
+            width: 25%;
+            height: auto;
+            right: -20px;
+            bottom: -12px;
+            z-index: 10;
+            pointer-events: none;
         }
 
         .login-card {
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 100%;
+            width: 90%;
             max-width: 26rem;
             padding: 2.5rem 2rem;
             border-radius: 2rem;
-            background-color: #fff;
-            border: 0.4rem solid #A0522D;
-            outline: 0.2rem solid #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background-color: #F8F5EF;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            animation: surgirNaTela 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes surgirNaTela {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .inside {
@@ -90,7 +116,7 @@
         [name="senha"] {
             border-radius: 20px;
             border: 1.5px solid #556B2F;
-            width: 85%;
+            width: 100%;
             padding: 0.7rem 1rem;
             font-size: 1rem;
             color: #333333;
@@ -112,7 +138,7 @@
             font-weight: bold;
             font-size: 1.1rem;
             border: none;
-            background-color: #556B2F;
+            background-color: #526832;
             color: #fff;
             border-radius: 12px;
             cursor: pointer;
@@ -121,8 +147,8 @@
         }
 
         .btn-submit:hover {
-            background-color: #A0522D;
-            transform: translateY(-1px);
+            background-color: #405326;
+            transform: translateY(-2px);
         }
 
         .create-link {
@@ -143,10 +169,19 @@
             text-decoration: underline;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
+            body {
+                justify-content: center;
+                align-items: center;
+            }
+
             .login-card {
+                width: 90%;
                 padding: 1.5rem 1rem;
-                border-radius: 1.5rem;
+            }
+
+            .pimentinha {
+                right: -17px;
             }
 
             [name="email"],
@@ -174,12 +209,12 @@
 
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" >
+                    <input type="email" id="email" name="email">
                 </div>
 
                 <div class="form-group">
                     <label for="senha">Senha:</label>
-                    <input type="password" id="senha" name="senha" >
+                    <input type="password" id="senha" name="senha">
                 </div>
 
                 <button type="submit" class="btn-submit">Entrar</button>
@@ -189,6 +224,7 @@
         <div class="create-link">
             Ainda não tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/register">Criar conta</a>
         </div>
+        <img src="../assets/images/pimentinha.svg" alt="" class="pimentinha">
     </div>
 </body>
 

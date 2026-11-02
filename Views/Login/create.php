@@ -10,28 +10,38 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            padding: 0;
+            width: 100%;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image:
-                url(' /Trabalho-4-bimestre-BD/assets/images/folhacima.png'),
-                url('/Trabalho-4-bimestre-BD/assets/images/folhabaixo.png');
-
-            background-position:
-                top right,
-                bottom left;
+            background-image: url("../assets/images/fundo2.webp");
             background-repeat: no-repeat;
-            background-size: 20% auto, 20% auto;
-            padding: 1rem;
-            font-family: "Sniglet", system-ui;
-            background-color: #e7e7e7;
-            /*#dfdede*/
+            background-position: center;
+            background-size: cover;
+            font-family: "Manrope", sans-serif;
+        }
+
+        .pimentinha {
+            position: absolute;
+            width: 25%;
+            height: auto;
+            right: -25px;
+            bottom: -12px;
+            z-index: 10;
+            pointer-events: none;
         }
 
         .create-card {
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -39,10 +49,21 @@
             max-width: 28rem;
             padding: 2rem 2rem;
             border-radius: 2rem;
-            background-color: #fff;
-            border: 0.4rem solid #A0522D;
-            outline: 0.2rem solid #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background-color: #F8F5EF;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            animation: surgirNaTela 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes surgirNaTela {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .inside {
@@ -114,7 +135,7 @@
             font-weight: bold;
             font-size: 1.1rem;
             border: none;
-            background-color: #556B2F;
+            background-color: #526832;
             color: #fff;
             border-radius: 12px;
             cursor: pointer;
@@ -123,7 +144,7 @@
         }
 
         .btn-submit:hover {
-            background-color: #A0522D;
+            background-color: #405326;
             transform: translateY(-1px);
         }
 
@@ -146,9 +167,18 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                justify-content: center;
+                align-items: center;
+            }
+
             .create-card {
-                padding: 1.5rem 1rem;
-                border-radius: 1.5rem;
+                width: 90%;
+                min-height: auto;
+            }
+
+            .pimentinha {
+                right: -17px;
             }
 
             [name="name"],
@@ -177,17 +207,17 @@
 
                 <div class="form-group">
                     <label for="name">Nome:</label>
-                    <input type="text" id="name" name="name" >
+                    <input type="text" id="name" name="name">
                 </div>
 
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" >
+                    <input type="email" id="email" name="email">
                 </div>
 
                 <div class="form-group">
                     <label for="password">Senha:</label>
-                    <input type="password" id="senha" name="password" >
+                    <input type="password" id="senha" name="password">
                 </div>
 
 
@@ -198,6 +228,8 @@
                 Já tem uma conta? <a href="/Trabalho-4-bimestre-BD/account/login">Faça login</a>
             </div>
         </div>
+        <img src="../assets/images/pimentinha.svg" alt="" class="pimentinha">
+    </div>
 </body>
 
 </html>
