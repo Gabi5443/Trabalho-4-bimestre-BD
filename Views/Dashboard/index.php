@@ -1,43 +1,30 @@
+<?php
+/** @var int $qntProdutos */
+/** @var int $qntClientes */
+/** @var int $qntFuncionarios */
+/** @var int $precoMedio */
+
+
+/*aviso pro intelephense de que essas variaveis existem */
+
+?>
+
+
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Document</title>
 </head>
 <body>
+    <div class="cards">
+        <div class="PratosCadastrados"> <?php echo $qntProdutos; ?></div>
+        <div class="ClientesCadastrados"> <?php echo $qntClientes; ?></div>
+        <div class="FuncionariosCadastrados"> <?php echo $qntFuncionarios; ?></div>
+        <div class="precoMedio"><?php echo "R$ " . $precoMedio ?></div>
 
-    <aside class="sidebar">
-        <a href="index.php?pagina=main">Home</a>
-        <a href="index.php?pagina=cardapio">Cardápio</a>
-        <a href="index.php?pagina=usuarios">Usuários</a>
-    </aside>
-    <main>
-        <?php
-            $pagina = $_GET['pagina'] ?? 'main';
 
-            switch ($pagina) {
-                case 'main':
-                    include 'Views/Dashboard/main.php';
-                    break;
-
-                case 'cardapio': 
-                    include 'Views/Dashboard/cardapio.php';
-                    break;
-
-                case 'editar-produto':
-                    include 'Views/Dashboard/editar-produto.php';
-                    break;
-                
-                case 'usuarios':
-                    include 'Views/Dashboard/usuarios.php';
-                    break;
-                
-                default:
-                    echo "página não encontrada";
-                    break;
-            }
-        ?>
-    </main>
+    </div>
 </body>
 </html>

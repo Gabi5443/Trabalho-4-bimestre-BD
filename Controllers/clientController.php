@@ -73,6 +73,9 @@ class ClientController {
         ], 404);
     }
 
+
+    
+
     // POST: cadastra um cliente (Alinhado com os 5 parâmetros do Model)
     private function create() {
         $data = json_decode(file_get_contents('php://input'), true);
