@@ -6,7 +6,7 @@ class DashboardController {
     private $productModel;
     private $clientModel;
     private $workerModel;
-     private $db;
+    private $db;
 
        
    

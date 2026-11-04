@@ -127,6 +127,7 @@ public function __construct($db) {
         } else {
             $this->response(["message" => "Erro ao atualizar produto"], 500);
         }
+         require_once __DIR__ . '/../Views/Dashboard/editarProduto.php';
     }
 
     // 5. DELETE /produtos/{id}
@@ -186,6 +187,24 @@ public function detail($id) {
 
     require_once __DIR__ . '/../Views/Menu/detalhe.php';
 }
+
+
+
+public function list() {
+
+    $produto = $this->model->listAll();
+
+    if (!$produto) {
+        http_response_code(404);
+        echo "Produtos não encontrados.";
+        return;
+    }
+
+    require_once __DIR__ . '/../Views/Dashboard/listarProdutos.php';
+}
+
+
+
 
 
 

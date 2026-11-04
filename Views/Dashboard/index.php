@@ -17,7 +17,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+
 <body>
+
+
+<header>
+    
+</header>
     <div class="cards">
         <div class="PratosCadastrados"> <?php echo $qntProdutos; ?></div>
         <div class="ClientesCadastrados"> <?php echo $qntClientes; ?></div>

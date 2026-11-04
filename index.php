@@ -43,9 +43,15 @@ switch ($recurso) {
    case 'product':
 
     $controller = new ProductController($conn);
-    if ($acao === 'detail' && $method === 'GET' && $id) { //se a acao (primeira parte da url) for igual a 'detail', o método for GET e tiver um id na url
+    if ($acao === 'detail' && $method === 'GET' && $id) { //se a acao (primeira parte da url) for igual a 'detail',  o método for GET e tiver um id na url
         $controller->detail($id); //a controller chama o método detail
-    } else { //senão chama o método handle request da controller
+    } 
+    
+    elseif  ($acao === 'list' && $method === 'GET') { //se a acao (primeira parte da url) for igual a 'list', e o método for GET 
+        $controller->list(); //a controller chama o método list
+    }    
+    
+    else{ //senão chama o método handle request da controller
         $controller->handleRequest($method, $id);
     }
 
@@ -96,6 +102,7 @@ switch ($recurso) {
     case 'dashboard':
         $controller = new dashboardController($conn);
          $controller->index();
+
         break;
 
 
