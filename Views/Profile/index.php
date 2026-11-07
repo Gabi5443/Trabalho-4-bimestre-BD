@@ -54,6 +54,7 @@ $caminhoFoto = $foto
             width: 100%;
             max-width: 28rem;
             padding: 2rem 2rem;
+            margin: 3%;
             border-radius: 2rem;
             background-color: #F8F5EF;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
@@ -172,9 +173,6 @@ $caminhoFoto = $foto
         }
 
         @media (max-width: 768px) {
-            .box {
-                margin: 2%;
-            }
             .box-photo {
                 gap: 2rem;
             }
