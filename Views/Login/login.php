@@ -169,7 +169,7 @@
             text-decoration: underline;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             body {
                 justify-content: center;
                 align-items: center;
