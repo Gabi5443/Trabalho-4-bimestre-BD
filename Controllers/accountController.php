@@ -1,6 +1,8 @@
 <?php
 
 require_once __DIR__ . '/../Models/accountModel.php';
+require_once __DIR__ . '/../Models/clientModel.php';
+require_once __DIR__ . '/../Models/workerModel.php';
 
 class AccountController
 {
@@ -55,43 +57,124 @@ class AccountController
     }
 
    // 1. Processa o formulário de cadastro
-    public function createForm()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = trim($_POST['name'] ?? '');
-            $email = trim($_POST['email'] ?? '');
-            $password = trim($_POST['password'] ?? '');
-            
-            if (empty($name) || empty($email) || empty($password)) {
-                $erroMensagem = "Por favor, preencha todos os campos obrigatórios!";
-                require_once __DIR__ . '/../Views/Login/create.php';
-                return;
-            }
-
-            $dominioCorporativo = '@defufu.com.br';
-            $type = str_ends_with(strtolower($email), $dominioCorporativo) ? 'WORKER' : 'CLIENT';
-            $senhaCriptografada = password_hash($password, PASSWORD_DEFAULT);
-
-            try {
-                $sucesso = $this->model->create($name, $email, $senhaCriptografada, $type);
-
-                if ($sucesso) {
-                    header('Location: index.php?url=account/login&sucesso=1');
-                    exit;
-                } else {
-                    $erroMensagem = "Ops! Não foi possível criar a conta neste momento. Tente novamente.";
-                    require_once __DIR__ . '/../Views/Login/create.php';
-                    return;
-                }
-            } catch (Exception $e) {
-                $erroMensagem = "Ops! Este e-mail já está sendo utilizado. Que tal tentar entrar com ele?";
-                require_once __DIR__ . '/../Views/Login/create.php';
-                return;
-            }
-        } else {
-            require_once __DIR__ . '/../Views/Login/create.php'; 
-        }
+    // 1. Processa o formulário de cadastro
+public function createForm()
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        require_once __DIR__ . '/../Views/Login/create.php';
+        return;
     }
+
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+
+    if (empty($name) || empty($email) || empty($password)) {
+        $erroMensagem = "Por favor, preencha todos os campos obrigatórios!";
+        require_once __DIR__ . '/../Views/Login/create.php';
+        return;
+    }
+
+    $dominioCorporativo = '@defufu.com.br';
+
+    $type = str_ends_with(
+        strtolower($email),
+        $dominioCorporativo
+    ) ? 'WORKER' : 'CLIENT';
+
+    $senhaCriptografada = password_hash(
+        $password,
+        PASSWORD_DEFAULT
+    );
+
+    try {
+
+        // Inicia a transação
+        $this->db->begin_transaction();
+
+        // Cria a conta
+        $sucesso = $this->model->create(
+            $name,
+            $email,
+            $senhaCriptografada,
+            $type
+        );
+
+        if (!$sucesso) {
+            throw new RuntimeException("Erro ao criar a conta.");
+        }
+
+        // Recupera o ID da conta recém-criada
+        $idAccount = $this->db->insert_id;
+
+        if (!$idAccount) {
+            throw new RuntimeException("Não foi possível recuperar o ID da conta.");
+        }
+
+        // Cria o registro de CLIENT
+        if ($type === 'CLIENT') {
+
+            $clientModel = new ClientModel($this->db);
+
+            $sucesso = $clientModel->create(
+                $name,
+                null, // CPF
+                null, // Telefone
+                null, // Foto
+                $idAccount
+            );
+
+            if (!$sucesso) {
+                throw new RuntimeException("Erro ao criar o cliente.");
+            }
+
+        }
+
+        // Cria o registro de WORKER
+        elseif ($type === 'WORKER') {
+
+            $workerModel = new WorkerModel($this->db);
+
+            $sucesso = $workerModel->create(
+                $name,
+                null, // Matrícula
+                null, // Cargo
+                null, // Foto
+                $idAccount
+            );
+
+            if (!$sucesso) {
+                throw new RuntimeException("Erro ao criar o funcionário.");
+            }
+
+        }
+
+        // Confirma todas as inserções
+        $this->db->commit();
+
+        // Redireciona somente depois de concluir o cadastro
+        header('Location: index.php?url=account/login&sucesso=1');
+        exit;
+
+    } catch (Throwable $e) {
+
+        // Desfaz as inserções caso algo tenha falhado
+        $this->db->rollback();
+
+        // Registra o erro real para facilitar a depuração
+        error_log("Erro no cadastro: " . $e->getMessage());
+
+        // Mensagem para o usuário
+        if ($this->db->errno === 1062) {
+            $erroMensagem = "Este e-mail já está sendo utilizado. Que tal tentar entrar com ele?";
+        } else {
+            $erroMensagem = "Ops! Não foi possível criar sua conta neste momento. Tente novamente.";
+        }
+
+        require_once __DIR__ . '/../Views/Login/create.php';
+        return;
+    }
+}
 
     // 2. Processa o login (Padronizado igual ao cadastro)
     public function login()

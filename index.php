@@ -43,9 +43,39 @@ switch ($recurso) {
    case 'product':
 
     $controller = new ProductController($conn);
-    if ($acao === 'detail' && $method === 'GET' && $id) { //se a acao (primeira parte da url) for igual a 'detail', o método for GET e tiver um id na url
+    if ($acao === 'detail' && $method === 'GET' && $id) { //se a acao (primeira parte da url) for igual a 'detail',  o método for GET e tiver um id na url
         $controller->detail($id); //a controller chama o método detail
-    } else { //senão chama o método handle request da controller
+    } 
+    
+    elseif  ($acao === 'list' && $method === 'GET') { //se a acao (primeira parte da url) for igual a 'list', e o método for GET 
+        $controller->list(); //a controller chama o método list
+    } 
+   
+    elseif ($acao === 'update' && $method === 'GET' && $id) {
+        $controller->editForm($id);
+
+    }
+
+    elseif ($acao === 'delete' && $method === 'GET' && $id) {
+        $controller->excluir($id);
+
+    }
+
+    elseif ($acao === 'update' && $method === 'POST' && $id) {
+        $controller->updateForm($id);
+
+    } 
+
+    elseif ($acao === 'create' && $method === 'GET') {
+         $controller->createForm();
+
+    }
+
+    elseif ($acao === 'create' && $method === 'POST'){
+         $controller->createFormSubmit();
+    }
+    
+    else{ //senão chama o método handle request da controller
         $controller->handleRequest($method, $id);
     }
 
@@ -57,13 +87,77 @@ switch ($recurso) {
         break;
 
     case 'client':
+
         $controller = new ClientController($conn);
+        
+     if  ($acao === 'list' && $method === 'GET') { //se a acao (primeira parte da url) for igual a 'list', e o método for GET 
+        $controller->list(); //a controller chama o método list
+    } 
+   
+    elseif ($acao === 'update' && $method === 'GET' && $id) {
+        $controller->editForm($id);
+
+    }
+
+    elseif ($acao === 'delete' && $method === 'GET' && $id) {
+        $controller->excluir($id);
+
+    }
+     elseif ($acao === 'create' && $method === 'GET') {
+         $controller->createForm();
+
+    }
+
+    elseif ($acao === 'create' && $method === 'POST'){
+         $controller->createFormSubmit();
+    }
+
+    elseif ($acao === 'update' && $method === 'POST' && $id) {
+        $controller->updateForm($id);
+
+        } else{
         $controller->handleRequest($method, $id);
+
+        }
+
         break;
 
     case 'worker':
         $controller = new WorkerController($conn);
+        if ($acao === 'list'&& $method === 'GET') {
+            $controller->list(); 
+        } 
+        elseif ($acao === 'delete' && $method === 'GET' && $id) {
+        $controller->excluir($id);
+
+    }
+
+         elseif ($acao === 'update' && $method === 'GET' && $id) {
+        $controller->editForm($id);
+
+    }
+
+    elseif ($acao === 'delete' && $method === 'GET' && $id) {
+        $controller->excluir($id);
+
+    }
+     elseif ($acao === 'create' && $method === 'GET') {
+         $controller->createForm();
+
+    }
+
+    elseif ($acao === 'create' && $method === 'POST'){
+         $controller->createFormSubmit();
+    }
+
+    elseif ($acao === 'update' && $method === 'POST' && $id) {
+        $controller->updateForm($id);
+
+        } 
+        
+        else{
         $controller->handleRequest($method, $id);
+        }
         break;
 
     case 'profile':
@@ -91,11 +185,13 @@ switch ($recurso) {
                 $controller->handleRequest($method, $id);
                 break;
         }
+
         break;
 
     case 'dashboard':
         $controller = new dashboardController($conn);
          $controller->index();
+
         break;
 
 
@@ -116,3 +212,4 @@ switch ($recurso) {
         echo 'Rota não encontrada.';
         break;
 }
+

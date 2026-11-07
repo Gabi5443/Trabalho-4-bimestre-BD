@@ -96,7 +96,11 @@ public function __construct($db) {
             $this->response(["message" => "Produto criado com sucesso"], 201); //mostra a mensagem
         } else { //senão
             $this->response(["message" => "Erro ao criar produto"], 500); //mostra a mensagem de erro
+
+        
         }
+
+        require_once __DIR__ . '/../Views/Dashboard/criarProduto.php';
     }
 
     // 4. PUT /produtos/{id}
@@ -127,6 +131,7 @@ public function __construct($db) {
         } else {
             $this->response(["message" => "Erro ao atualizar produto"], 500);
         }
+        
     }
 
     // 5. DELETE /produtos/{id}
@@ -139,6 +144,9 @@ public function __construct($db) {
             $this->response(["message" => "Erro ao deletar produto"], 500);
         }
     }
+
+
+    // TODOS OS MÉTODOS ACIMA TRABALHAM APENAS OS DADOS COMO JSON, NO NOSSO PROJETO, OS MÉTODOS DEVEM RETORNAR DADOS PARA HTML (DEVEM SER TRABALHADOS VISUALMENTE), POR ISSO, OS MÉTODOS ABAIXO CARREGAM MÉTODOS DA MODEL E RETORNAM SEUS RESULTADOS ÀS VIEWS POR MEIO DE REQUIRE ONCE
 
 
 
@@ -189,6 +197,213 @@ public function detail($id) {
 
 
 
+public function list() {
+
+    $produtos = $this->model->listAll(); 
+
+    require_once __DIR__ . '/../Views/Dashboard/listarProdutos.php';
+}
+
+
+public function editForm($id)
+{
+    $produto = $this->model->listById($id);
+
+    if (!$produto) {
+        http_response_code(404);
+        echo "Produto não encontrado.";
+        return;
+    }
+
+    require_once __DIR__ . '/../Views/Dashboard/editarProduto.php';
+
+
+
+}
+
+
+
+public function excluir($id)
+{
+    $sucesso = $this->model->delete($id);
+
+    if (!$sucesso) {
+        echo "Não foi possível excluir o produto.";
+        return;
+    }
+
+    header('Location: ' . BASE_URL . 'product/list');
+    exit;
+}
+
+
+
+public function updateForm ($id)
+{
+   $produto = $this->model->listById($id); //Busca o produto que esta sendo alterado
+
+
+    if (!$produto) {
+        http_response_code(404);
+        echo "Produto não encontrado.";
+        return;
+    } // se não achar o produt aparece essa mensagem
+
+
+     // Recupera os dados enviados pelo formulário
+    $nome = trim($_POST['NAME_PRODUCT'] ?? '');
+    $descricao = trim($_POST['DESCRIPTION_PRODUCT'] ?? '');
+    $preco = $_POST['PRICE_PRODUCT'] ?? '';
+    $estoque = $_POST['STOCK_PRODUCT'] ?? 0;
+    $categoria = $_POST['ID_CATEGORY_FK'] ?? '';
+
+
+ 
+    
+
+    // Mantém a foto atual caso nenhuma nova seja enviada
+    $foto = $produto['PHOTO_PRODUCT'];
+
+    // Verifica se foi enviada uma nova imagem
+    if (
+        isset($_FILES['PHOTO_PRODUCT']) &&
+        $_FILES['PHOTO_PRODUCT']['error'] !== UPLOAD_ERR_NO_FILE
+    ) {
+        if ($_FILES['PHOTO_PRODUCT']['error'] !== UPLOAD_ERR_OK) {
+            echo "Erro ao enviar a imagem.";
+            return;
+        }
+
+        // Verifica se o arquivo é uma imagem
+        $imagem = getimagesize($_FILES['PHOTO_PRODUCT']['tmp_name']);
+
+        if ($imagem === false) {
+            echo "O arquivo enviado não é uma imagem válida.";
+            return;
+        }
+
+        // Define o nome e o destino da imagem
+        $extensao = strtolower(pathinfo(
+            $_FILES['PHOTO_PRODUCT']['name'],
+            PATHINFO_EXTENSION
+        ));
+
+        if (!in_array($extensao, ['jpg', 'jpeg', 'png', 'webp'])) {
+            echo "Formato de imagem não permitido.";
+            return;
+        }
+
+        $nomeArquivo = uniqid() . '.' . $extensao;
+
+        $diretorio = __DIR__ . '/../assets/images/products/';
+
+        if (!is_dir($diretorio)) {
+            mkdir($diretorio, 0755, true);
+        }
+
+        if (!move_uploaded_file(
+            $_FILES['PHOTO_PRODUCT']['tmp_name'],
+            $diretorio . $nomeArquivo
+        )) {
+            echo "Não foi possível salvar a imagem.";
+            return;
+        }
+
+        $foto = 'assets/images/products/' . $nomeArquivo;
+    }
+
+    // Atualiza o produto na Model
+    $sucesso = $this->model->alter(
+        $id,
+        $nome,
+        $descricao,
+        $preco,
+        $foto,
+        $estoque,
+        $categoria
+    );
+
+    if ($sucesso) {
+        header('Location: ' . BASE_URL . 'product/list');
+        exit;
+    } else {
+        echo "Não foi possível atualizar o produto.";
+    }
+
+
+}
+
+
+
+
+public function createForm()
+{
+    require_once __DIR__ . '/../Views/Dashboard/criarProduto.php';
+}
+
+public function createFormSubmit()
+{
+   
+    $name = trim($_POST['NAME_PRODUCT'] ?? '');
+    $descricao = trim($_POST['DESCRIPTION_PRODUCT'] ?? '');
+    $price = trim($_POST['PRICE_PRODUCT'] ?? '');
+    $stock = trim($_POST['STOCK_PRODUCT'] ?? '');
+    $categoria = trim($_POST['ID_CATEGORY_FK'] ?? '');
+
+    // A foto será recebida por $_FILES, não por $_POST.
+
+    $photo = null;
+
+if (isset($_FILES['PHOTO_PRODUCT']) &&
+    $_FILES['PHOTO_PRODUCT']['error'] === UPLOAD_ERR_OK) {
+
+    $nomeArquivo = uniqid() . '_' . basename($_FILES['PHOTO_PRODUCT']['name']);
+
+    $diretorio = __DIR__ . '/../assets/images/products/';
+
+    if (!is_dir($diretorio)) {
+        mkdir($diretorio, 0755, true);
+    }
+
+    if (move_uploaded_file(
+        $_FILES['PHOTO_PRODUCT']['tmp_name'],
+        $diretorio . $nomeArquivo
+    )) {
+        $photo = 'assets/images/products/' . $nomeArquivo;
+    }
+}
+
+     
+
+
+    $this->db->begin_transaction();
+
+    $sucesso = $this->model->create(
+        $name,
+        $descricao,
+        $price,
+        $photo,
+        $stock,
+        $categoria
+    );
+
+    if ($sucesso) {
+
+     $_SESSION['mensagem'] = 'Produto criado com sucesso!';
+
+        $this->db->commit();
+
+        header('Location: ' . BASE_URL . 'product/list');
+        exit;
+    }
+
+    $this->db->rollback();
+
+    echo "Erro ao cadastrar produto.";
+}
+
+
+
 
     // Helper para padronizar as respostas em JSON com o HTTP Status
     private function response($data, $statusCode = 200) {
@@ -197,4 +412,5 @@ public function detail($id) {
         echo json_encode($data);
         exit();
     }
+
 }

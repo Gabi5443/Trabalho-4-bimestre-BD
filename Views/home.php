@@ -94,6 +94,13 @@
             bottom: -10px;
             transform: rotate(10deg);
             transform-origin: center;
+            transition: background-color 0.3s,
+                transform 0.3s;
+        }
+
+        .pimentinha:hover{
+             transform: scale(1) ;
+        
         }
 
         .logo p {

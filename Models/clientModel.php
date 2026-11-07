@@ -38,6 +38,8 @@ class ClientModel {
         return $resultado;
     }
 
+
+
     public function listAll() {
         $sql = "SELECT * FROM CLIENT";
 
@@ -215,4 +217,14 @@ class ClientModel {
 
         return true;
     }
+
+
+    public function countAll() {
+    $sql = "SELECT COUNT(*) AS total
+            FROM CLIENT";
+
+    $resultado = $this->conexao->query($sql);
+
+    return $resultado->fetch_assoc()['total'];
+}
 }
