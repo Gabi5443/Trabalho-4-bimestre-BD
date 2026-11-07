@@ -18,32 +18,36 @@ $caminhoFoto = $foto
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu perfil</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            padding: 0;
+            width: 100%;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image:
-                url(' /Trabalho-4-bimestre-BD/assets/images/folhacima.png'),
-                url('/Trabalho-4-bimestre-BD/assets/images/folhabaixo.png');
-
-            background-position:
-                top right,
-                bottom left;
+            background-image: url("assets/images/fundo2.webp");
             background-repeat: no-repeat;
-            background-size: 20% auto, 20% auto;
-            padding: 1rem;
-            font-family: "Sniglet", system-ui;
-            background-color: #e7e7e7;
+            background-position: center;
+            background-size: cover;
+            font-family: "Manrope", sans-serif;
         }
 
         .box {
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -51,14 +55,24 @@ $caminhoFoto = $foto
             max-width: 28rem;
             padding: 2rem 2rem;
             border-radius: 2rem;
-            background-color: #fff;
-            border: 0.7rem solid #A0522D;
-            outline: 0.2rem solid #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background-color: #F8F5EF;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            animation: surgirNaTela 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes surgirNaTela {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         h1 {
-
             color: #556B2F;
             font-weight: 800;
             font-size: 2rem;
@@ -86,7 +100,8 @@ $caminhoFoto = $foto
             margin-bottom: 1.2rem;
         }
 
-        .form-group label, h3 {
+        .form-group label,
+        h3 {
             color: #556B2F;
             font-size: 0.95rem;
             margin-bottom: 0.4rem;
@@ -109,6 +124,10 @@ $caminhoFoto = $foto
             font-size: 2rem;
             margin-bottom: 0.10rem;
             font-weight: 600;
+        }
+
+        .box-photo img {
+            border-radius: 20px;
         }
 
         [name="name"],
@@ -148,11 +167,14 @@ $caminhoFoto = $foto
         }
 
         .btn-submit:hover {
-            background-color: #A0522D;
-            transform: translateY(-1px);
+            background-color: #405326;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 768px) {
+            .box {
+                margin: 2%;
+            }
             .box-photo {
                 gap: 2rem;
             }
@@ -177,7 +199,8 @@ $caminhoFoto = $foto
                 <?php if ($caminhoFoto): ?>
                     <div class="box-photo">
                         <p>Foto atual:</p>
-                        <img src="<?= htmlspecialchars($caminhoFoto, ENT_QUOTES, 'UTF-8') ?>" alt="Foto de perfil" width="150" height="150" style="object-fit: cover;">
+                        <img src="<?= htmlspecialchars($caminhoFoto, ENT_QUOTES, 'UTF-8') ?>" alt="Foto de perfil"
+                            width="150" height="150" style="object-fit: cover;">
                     </div>
                 <?php endif; ?>
 
