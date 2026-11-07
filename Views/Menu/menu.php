@@ -108,7 +108,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
         .nav-links a {
             text-decoration: none;
-            color: #ff7f2a;
+            color:  #556b2f;
             font-weight: 700;
             font-size: 1.3rem;
             position: relative;
@@ -124,7 +124,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             left: 0;
             width: 0;
             height: 3px;
-            background-color: #556b2f;
+            background-color: #e92f3be5;
             border-radius: 2px;
             transition: width 0.3s ease-in-out;
         }
@@ -136,7 +136,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
         .nav-links a:hover,
         .nav-links a.ativo {
-            color: #556b2f;
+            color: #e92f3be5;
         }
 
         .perfil {
@@ -213,7 +213,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         }
 
         h2 {
-            color: #ff7f2a;
+            color: #e92f3be5;
             font-size: clamp(1.2rem, 1.2rem, 1.5rem)
         }
 
