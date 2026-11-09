@@ -287,7 +287,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         <div class="nav-links">
             <?php foreach ($categorias as $categoria): ?>
                 <!-- Cria o link dinâmico apontando para o ID da categoria na mesma página -->
-                <a href="#cat-<?= $categoria['ID_CATEGORY'] ?>">
+                <a href="<?= BASE_URL ?>menu#cat-<?= $categoria['ID_CATEGORY'] ?>">
                     <?= htmlspecialchars($categoria['NAME_CATEGORY']) ?>
                 </a>
             <?php endforeach; ?>
