@@ -75,6 +75,18 @@ public function createForm()
         return;
     }
 
+    // Verifica se o e-mail já está cadastrado
+$usuarioExistente = $this->model->findByEmail($email);
+
+if ($usuarioExistente) {
+    $erroMensagem = "Este e-mail já está cadastrado! Tente fazer login.";
+    require_once __DIR__ . '/../Views/Login/create.php';
+    return;
+}
+
+
+
+
     $dominioCorporativo = '@defufu.com.br';
 
     $type = str_ends_with(
@@ -118,9 +130,9 @@ public function createForm()
 
             $sucesso = $clientModel->create(
                 $name,
-                null, // CPF
-                null, // Telefone
-                null, // Foto
+                '', // CPF
+                '', // Telefone
+                '', // Foto
                 $idAccount
             );
 
@@ -156,24 +168,15 @@ public function createForm()
         header('Location: index.php?url=account/login&sucesso=1');
         exit;
 
-    } catch (Throwable $e) {
+   } catch (Throwable $e) {
 
-        // Desfaz as inserções caso algo tenha falhado
-        $this->db->rollback();
+    $this->db->rollback();
 
-        // Registra o erro real para facilitar a depuração
-        error_log("Erro no cadastro: " . $e->getMessage());
+    echo "Erro: " . $e->getMessage();
+    echo "<br>Código: " . $e->getCode();
 
-        // Mensagem para o usuário
-        if ($this->db->errno === 1062) {
-            $erroMensagem = "Este e-mail já está sendo utilizado. Que tal tentar entrar com ele?";
-        } else {
-            $erroMensagem = "Ops! Não foi possível criar sua conta neste momento. Tente novamente.";
-        }
-
-        require_once __DIR__ . '/../Views/Login/create.php';
-        return;
-    }
+    exit;
+}
 }
 
     // 2. Processa o login (Padronizado igual ao cadastro)
