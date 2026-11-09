@@ -8,8 +8,8 @@
 <?php
 // Define a foto padrão caso o utilizador não tenha escolhido nenhuma
 $fotoPerfil = !empty($_SESSION['photo'])
-    ? '../uploads/' . htmlspecialchars($_SESSION['photo'])
-    : '../uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
+    ? '/Trabalho-4-bimestre-BD/uploads/' . htmlspecialchars($_SESSION['photo'])
+    : '/Trabalho-4-bimestre-BD/uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
 ?>
 
 <!DOCTYPE html>
@@ -273,13 +273,13 @@ $fotoPerfil = !empty($_SESSION['photo'])
         <div class="first">
             <div class="logo-marca">
                 <h1>Defufu</h1>
-                <img src="../assets/images/pimentinha.svg" alt="" class="pimentinha">
+                <img src="<?= BASE_URL ?>assets/images/pimentinha.svg" alt="" class="pimentinha">
             </div>
 
             <div class="perfil">
-                <a href="index.php?url=profile">
+                <a href="<?= BASE_URL ?>index.php?url=profile">
                     <!-- Exibe a imagem redonda como botão redirecionando para o perfil -->
-                    <img src="<?php echo $fotoPerfil; ?>" alt="Meu Perfil">
+                    <img src="<?= $fotoPerfil ?>" alt="Meu Perfil">
                 </a>
             </div>
         </div>
