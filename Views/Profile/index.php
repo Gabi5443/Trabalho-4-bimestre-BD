@@ -26,25 +26,26 @@ $caminhoFoto = $foto
             box-sizing: border-box;
         }
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
+       html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url("assets/images/fundo2.webp");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            font-family: "Manrope", sans-serif;
-        }
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    font-family: "Manrope", sans-serif;
+    padding: 1.5rem 0;
+}
 
         .box {
             position: relative;
@@ -176,7 +177,10 @@ $caminhoFoto = $foto
             .box-photo {
                 gap: 2rem;
             }
+
+            
         }
+
     </style>
 </head>
 
