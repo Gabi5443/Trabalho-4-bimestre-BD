@@ -44,6 +44,13 @@ class ProfileController {
         }
     }
 
+
+
+    public function Aparecer()
+{
+    require_once __DIR__ . '/../Views/Profile/index.php';
+}
+
     // Exibe o formulário do perfil
     private function edit() {
         if (session_status() === PHP_SESSION_NONE) {
@@ -205,6 +212,9 @@ class ProfileController {
             exit();
         }
     }
+
+
+
 
     // Respostas JSON para erros da API
     private function response($data, $statusCode = 200) {

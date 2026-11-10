@@ -202,7 +202,7 @@
         </div>
         <div class="botoes">
             <a href="<?= BASE_URL ?>menu" class="bottomVoltar">Voltar</a>
-            <a href="#" class="bottomPedir">Pedir</a>
+            <a href="<?= BASE_URL ?>product/pedir/<?= $produto['ID_PRODUCT'] ?>"class="bottomPedir">Pedir</a>
         </div>
     </div>
 

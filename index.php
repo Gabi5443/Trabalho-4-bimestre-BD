@@ -74,9 +74,15 @@ switch ($recurso) {
     elseif ($acao === 'create' && $method === 'POST'){
          $controller->createFormSubmit();
     }
+
+    elseif ($acao === 'pedir' && $method === 'GET'){
+        $controller->pedir($id);
+
+    }
     
     else{ //senão chama o método handle request da controller
         $controller->handleRequest($method, $id);
+
     }
 
     break;
@@ -162,8 +168,13 @@ switch ($recurso) {
 
     case 'profile':
         $controller = new ProfileController($conn);
+        if($acao ===  'aparecer' && $method === 'GET'){
+                $controller->aparecer();
+        }else {
+                
         $controller->handleRequest($method, $id);
-        break;
+        }
+        break; 
 
     case 'account':
         $controller = new AccountController($conn);
@@ -212,4 +223,3 @@ switch ($recurso) {
         echo 'Rota não encontrada.';
         break;
 }
-

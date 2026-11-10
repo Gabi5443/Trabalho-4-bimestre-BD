@@ -277,7 +277,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             </div>
 
             <div class="perfil">
-                <a href="<?= BASE_URL ?>index.php?url=profile">
+                <a href="<?= BASE_URL ?>profile/aparecer">
                     <!-- Exibe a imagem redonda como botão redirecionando para o perfil -->
                     <img src="<?= $fotoPerfil ?>" alt="Meu Perfil">
                 </a>

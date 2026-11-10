@@ -150,6 +150,20 @@ public function __construct($db) {
 
 
 
+    //método para levar até a pagina de confirmação depois de pedir 
+
+  public function pedir($id)
+{
+    $produto = $this->model->listById($id); // olist by id aqui se dá porque o método depende que o usuário esteja na página de detalhe de cada produto (que por sua vez possui um id próprio)
+
+    if (!$produto) {
+        http_response_code(404);
+        echo "Produto não encontrado.";
+        return;
+    }
+
+    require_once __DIR__ . '/../Views/Menu/confirmacao.php';
+}
 
 
 
