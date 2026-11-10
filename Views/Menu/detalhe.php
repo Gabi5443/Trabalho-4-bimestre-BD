@@ -201,7 +201,7 @@
 
         </div>
         <div class="botoes">
-            <a href="#" class="bottomVoltar">Voltar</a>
+            <a href="<?= BASE_URL ?>menu" class="bottomVoltar">Voltar</a>
             <a href="#" class="bottomPedir">Pedir</a>
         </div>
     </div>
