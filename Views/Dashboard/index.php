@@ -48,7 +48,10 @@ $fotoPerfil = !empty($_SESSION['photo'])
     .sidebar {
         background-color: #fff;
         height: 100vh;
-        width: 33vh;
+        width: 45vh;
+       overflow: hidden;
+    z-index: 1000;
+    position: fixed;
     }
 
     .logo-marca {
@@ -106,7 +109,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         gap: 4%;
         text-decoration: none;
         color: #b3b3b3;
-        border-radius: 20px;
+        border-radius: 10px;
         transition: background 0.3s, 0.3s ease;
     }
 
@@ -133,6 +136,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         border-radius: 20px;
         color: #b3b3b3;
         transition: background 0.3s, 0.3s ease;
+        margin-bottom: 2rem;
     }
 
     .perfil:hover {
@@ -158,9 +162,28 @@ $fotoPerfil = !empty($_SESSION['photo'])
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 2rem;
-
+        gap: 5rem;
+        align-content: center;
+        justify-items: center;
+       
+        
+        
+       
     }
+    .pratosCadastrados,
+    .clientesCadastrados,
+    .funcionariosCadastrados,
+        .precoMedio{
+            min-width: 8rem;
+            padding: 2rem;
+            background-color: #ff7f2a;
+            border-radius: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+            display: flex;
+        }
+
 </style>
 
 <body>
@@ -175,17 +198,17 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
                 <a class="produtos" href="<?= BASE_URL ?>product/list">
                     <img src="<?= BASE_URL ?>assets/images/produtos.svg" class="produtoimg">
-                    Produtos -Listar produtos-
+                     Listar produtos
                 </a>
 
                 <a class="clientes" href="<?= BASE_URL ?>client/list">
                     <img src="<?= BASE_URL ?>assets/images/cliente.svg" class="clienteimg">
-                    Clientes -Listar clientes-
+                     Listar clientes
                 </a>
 
                 <a class="funcionarios" href="<?= BASE_URL ?>worker/list">
                     <img src="<?= BASE_URL ?>assets/images/funcionario.svg" class="funcionarioimg">
-                    Funcionários -Listar Funcionários-
+                     Listar Funcionários
                 </a>
                 <!--
             <a href="<?= BASE_URL ?>product/create">
@@ -201,7 +224,6 @@ $fotoPerfil = !empty($_SESSION['photo'])
             </a>-->
             </div>
 
-
             <a class="perfil" href="<?= BASE_URL ?>index.php?url=profile">
                 <img src="<?= $fotoPerfil ?>" alt="Meu Perfil">
                 <p>Meu Perfil</p>
@@ -210,14 +232,14 @@ $fotoPerfil = !empty($_SESSION['photo'])
         </div>
 
     </header>
-    <!-- <div class="cards">
-        <div class="pratosCadastrados"> <?php echo $qntProdutos; ?></div>
-        <div class="clientesCadastrados"> <?php echo $qntClientes; ?></div>
-        <div class="funcionariosCadastrados"> <?php echo $qntFuncionarios; ?></div>
+     <div class="cards">
+        <div class="pratosCadastrados" > <?php echo $qntProdutos; ?></div>
+        <div class="clientesCadastrados" > <?php echo $qntClientes; ?></div>
+        <div class="funcionariosCadastrados" > <?php echo $qntFuncionarios; ?></div>
         <div class="precoMedio"><?php echo "R$ " . $precoMedio ?></div>
 
 
-    </div> -->
+    </div> 
 </body>
 
 </html>
