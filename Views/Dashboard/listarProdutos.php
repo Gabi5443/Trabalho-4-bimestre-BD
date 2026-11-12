@@ -147,6 +147,17 @@ body {
     .botoes a {
         font-size: 0.7rem;
     }
+
+   
+}
+
+ .fotoProduto {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    border: 2px solid #eee8dc;
+    display: block;
 }
 
 
@@ -164,6 +175,7 @@ body {
                 <th>Descrição</th>
                 <th>Estoque</th>
                 <th></th>
+                <th></th>
                 
             </tr>
         </thead>
@@ -180,6 +192,14 @@ body {
                     <td><?= htmlspecialchars($produto['DESCRIPTION_PRODUCT']) ?></td>
 
                     <td><?= $produto['STOCK_PRODUCT'] ?></td>
+
+                    <td>
+    <img 
+        src="<?= BASE_URL . htmlspecialchars($produto['PHOTO_PRODUCT']) ?>" 
+        alt="<?= htmlspecialchars($produto['NAME_PRODUCT']) ?>"
+        class="fotoProduto"
+    >
+</td>
 
                     <td>
                         <div class="botoes">
