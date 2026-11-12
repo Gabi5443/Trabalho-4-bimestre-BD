@@ -21,6 +21,7 @@ body {
     font-family: Arial, sans-serif;
     padding: 2rem;
     margin: 0;
+    
 }
 
 .tabela {
