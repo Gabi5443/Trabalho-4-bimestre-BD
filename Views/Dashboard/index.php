@@ -47,11 +47,12 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
     .sidebar {
         background-color: #fff;
-        height: 100vh;
-        width: 45vh;
+      
        overflow: hidden;
     z-index: 1000;
     position: fixed;
+    width: clamp(12rem, 18vw, 16rem);
+    height: 100vh;
     }
 
     .logo-marca {
@@ -160,12 +161,14 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
     .cards {
         display: flex;
+        
         justify-content: center;
         align-items: center;
-        gap: 5rem;
         align-content: center;
         justify-items: center;
-       
+        margin-left: clamp(12rem, 18vw, 16rem); /* Clamp define um valor minimo, um valor preferêncial e máximo , nesta ordem*/
+    width: calc(100% - clamp(12rem, 18vw, 16rem)); /*Os cardes consideram , para sua própria localização na tela, largura de 100% menos o clamp definido como width na side bar */
+      gap: clamp(1rem, 3rem ,5rem);
         
         
        
@@ -174,7 +177,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
     .clientesCadastrados,
     .funcionariosCadastrados,
         .precoMedio{
-            min-width: 8rem;
+            min-width: 10rem;
             padding: 2rem;
             background-color: #ff7f2a;
             border-radius: 0.5rem;
@@ -182,6 +185,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             justify-content: center;
             align-content: center;
             display: flex;
+          
         }
 
 </style>

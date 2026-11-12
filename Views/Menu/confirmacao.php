@@ -133,7 +133,7 @@
     <div class="box">
 
         <div class="confirmacao">
-            <h1 class="mensagem">Seu pedido está à caminho!</h1>
+            <h1 class="mensagem">Seu pedido está a caminho!</h1>
         </div>
         <div class="botoes">
             <a href="<?= BASE_URL ?>menu" class="bottomVoltar">Voltar</a>
