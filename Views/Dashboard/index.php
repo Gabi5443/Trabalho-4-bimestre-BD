@@ -23,6 +23,8 @@ $fotoPerfil = !empty($_SESSION['photo'])
         href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
+
+
     <style>
         * {
             margin: 0;
@@ -167,6 +169,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: clamp(1rem, 2vw, 2rem);
+            margin-top: 3rem;
         }
 
         .eachCard {
@@ -184,8 +187,8 @@ $fotoPerfil = !empty($_SESSION['photo'])
             width: 100%;
             min-height: 7rem;
             padding: 1.5rem;
-
-            background-color: #ff7f2a;
+            color: #526832;
+            background-color: #ffbe33;
             border-radius: 0.5rem;
             display: flex;
                 align-items: center;
@@ -204,7 +207,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         /* ACESSO RÁPIDO */
 
         .acoesDashboard {
-            margin-top: 3rem;
+            margin-top: 1rem;
         }
 
         .acoesDashboard h2 {
@@ -243,7 +246,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
         .cardAcao:hover {
             transform: translateY(-3px);
-            border-color: #ff7f2a;
+            border-color: #ffbe33;
         }
 
         .cardAcao img {
@@ -353,6 +356,25 @@ $fotoPerfil = !empty($_SESSION['photo'])
             }
         }
 
+        .info{
+            color: #526832;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            margin-bottom: 0.4rem;
+            margin-top: 2rem;
+        }
+
+        .infoP{
+            color: #a3978e;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+
+        }
+
+        .brand{
+             font-size: clamp(1.2rem, 2vw, 1.6rem);
+             font-family: "Fascinate Inline", system-ui;
+
+        }
     </style>
 </head>
 
@@ -406,37 +428,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
      
 
-        <section class="cards">
-
-            <div class="eachCard">
-                <div class="pratosCadastrados">
-                    <?= $qntProdutos ?>
-                </div>
-                <p>Produtos</p>
-            </div>
-
-            <div class="eachCard">
-                <div class="clientesCadastrados">
-                    <?= $qntClientes ?>
-                </div>
-                <p>Clientes</p>
-            </div>
-
-            <div class="eachCard">
-                <div class="funcionariosCadastrados">
-                    <?= $qntFuncionarios ?>
-                </div>
-                <p>Funcionários</p>
-            </div>
-
-            <div class="eachCard">
-                <div class="precoMedio">
-                    <?= 'R$ ' . number_format((float)$precoMedio, 2, ',', '.') ?>
-                </div>
-                <p>Preço médio</p>
-            </div>
-
-        </section>
+      
 
        
 
@@ -474,6 +466,45 @@ $fotoPerfil = !empty($_SESSION['photo'])
                     </div>
                 </a>
 
+            </div>
+
+        </section>
+
+            <h2 class="info">Dados <span class='brand'>Defufu</span></h2>
+            <p class= "infoP">Informações importantes no sistema</p>
+
+
+
+          <section class="cards">
+
+          
+
+            <div class="eachCard">
+                <div class="pratosCadastrados">
+                    <?= $qntProdutos ?>
+                </div>
+                <p>Produtos</p>
+            </div>
+
+            <div class="eachCard">
+                <div class="clientesCadastrados">
+                    <?= $qntClientes ?>
+                </div>
+                <p>Clientes</p>
+            </div>
+
+            <div class="eachCard">
+                <div class="funcionariosCadastrados">
+                    <?= $qntFuncionarios ?>
+                </div>
+                <p>Funcionários</p>
+            </div>
+
+            <div class="eachCard">
+                <div class="precoMedio">
+                    <?= 'R$ ' . number_format((float)$precoMedio, 2, ',', '.') ?>
+                </div>
+                <p>Preço médio</p>
             </div>
 
         </section>
