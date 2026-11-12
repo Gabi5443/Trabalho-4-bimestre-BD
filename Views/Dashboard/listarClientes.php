@@ -3,8 +3,8 @@
 
 <?php
 // Define a foto padrão caso o utilizador não tenha escolhido nenhuma
-$fotoPerfil = !empty($_SESSION['photo'])
-    ? '/Trabalho-4-bimestre-BD/uploads/' . htmlspecialchars($_SESSION['photo'])
+$fotoPerfil = !empty($_SESSION['PHOTO_CLIENT'])
+    ? '/Trabalho-4-bimestre-BD/uploads/' . htmlspecialchars($_SESSION['PHOTO_CLIENT'])
     : '/Trabalho-4-bimestre-BD/uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
 ?>
 <!DOCTYPE html>
@@ -169,10 +169,10 @@ body {
      <table class="tabela">
         <thead>
             <tr>
-                <th>Nome do cliente</th>
+                <th>Nome</th>
                 <th>CPF</th>
                 <th>Telefone</th>
-                <th></th>
+                <th>Foto</th>
                 <th></th>
 
                 
@@ -194,10 +194,11 @@ body {
 
 
             <td>
-            <img src="<?= $fotoPerfil ?>" alt="Meu Perfil"
-        alt="<?= htmlspecialchars($client['NAME_CLIENT']) ?>"
-        class="fotoClient"
-    >
+           <img 
+    src="<?= htmlspecialchars($fotoPerfil) ?>" 
+    alt="<?= htmlspecialchars($client['NAME_CLIENT']) ?>"
+    class="fotoClient"
+>
 </td>
           
            

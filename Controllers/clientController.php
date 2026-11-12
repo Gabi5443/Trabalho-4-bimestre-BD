@@ -214,32 +214,27 @@ public function editForm($id)
 
 
 
-public function updateForm ($id)
-{
-   $client = $this->model->listById($id); //Busca o produto que esta sendo alterado
 
+public function updateForm($id)
+{
+    $client = $this->model->listById($id);
 
     if (!$client) {
         http_response_code(404);
-        echo "Produto não encontrado.";
+        echo "Cliente não encontrado.";
         return;
-    } // se não achar o produt aparece essa mensagem
+    }
 
-
-     // Recupera os dados enviados pelo formulário
     $nome = trim($_POST['NAME_CLIENT'] ?? '');
     $cpf = trim($_POST['CPF_CLIENT'] ?? '');
-    $number = $_POST['NUMBER_CLIENT'] ?? '';
+    $number = trim($_POST['NUMBER_CLIENT'] ?? '');
     $account = $_POST['ID_ACCOUNT_FK'] ?? '';
 
-
-
-    // Mantém a foto atual caso nenhuma nova seja enviada
+    // Mantém a foto atual
     $foto = $client['PHOTO_CLIENT'];
 
-    // Verifica se foi enviada uma nova imagem
     if (
-        isset($_FILES['']) &&
+        isset($_FILES['PHOTO_CLIENT']) &&
         $_FILES['PHOTO_CLIENT']['error'] !== UPLOAD_ERR_NO_FILE
     ) {
         if ($_FILES['PHOTO_CLIENT']['error'] !== UPLOAD_ERR_OK) {
@@ -247,7 +242,6 @@ public function updateForm ($id)
             return;
         }
 
-        // Verifica se o arquivo é uma imagem
         $imagem = getimagesize($_FILES['PHOTO_CLIENT']['tmp_name']);
 
         if ($imagem === false) {
@@ -255,9 +249,8 @@ public function updateForm ($id)
             return;
         }
 
-        // Define o nome e o destino da imagem
         $extensao = strtolower(pathinfo(
-            $_FILES['PHOTO_PRODUCT']['name'],
+            $_FILES['PHOTO_CLIENT']['name'],
             PATHINFO_EXTENSION
         ));
 
@@ -268,7 +261,7 @@ public function updateForm ($id)
 
         $nomeArquivo = uniqid() . '.' . $extensao;
 
-        $diretorio = __DIR__ . '/../assets/images/products/';
+        $diretorio = __DIR__ . '/../uploads/';
 
         if (!is_dir($diretorio)) {
             mkdir($diretorio, 0755, true);
@@ -285,26 +278,22 @@ public function updateForm ($id)
         $foto = 'uploads/' . $nomeArquivo;
     }
 
-    // Atualiza o produto na Model
     $sucesso = $this->model->alter(
         $id,
         $nome,
         $cpf,
-        $foto,
         $number,
+        $foto,
         $account
-        
-       
     );
 
     if ($sucesso) {
         header('Location: ' . BASE_URL . 'client/list');
         exit;
-    } else {
-        echo "Não foi possível atualizar o produto.";
     }
+   
 
-
+    echo "Não foi possível atualizar o cliente.";
 }
 
 
@@ -313,74 +302,90 @@ public function createForm()
     require_once __DIR__ . '/../Views/Dashboard/criarCliente.php';
 }
 
+
 public function createFormSubmit()
 {
-
-{
-    require_once __DIR__ . '/../Views/Dashboard/listarClientes.php';
-}
-   
     $nome = trim($_POST['NAME_CLIENT'] ?? '');
     $cpf = trim($_POST['CPF_CLIENT'] ?? '');
-    $number = $_POST['NUMBER_CLIENT'] ?? '';
+    $number = trim($_POST['NUMBER_CLIENT'] ?? '');
     $id = $_POST['ID_ACCOUNT_FK'] ?? '';
-    
 
-    // A foto será recebida por $_FILES, não por $_POST.
+    if ($nome === '' || $cpf === '' || $number === '' ) {
+        echo "Preencha todos os campos obrigatórios.";
+        return;
+    }
 
     $photo = null;
 
-if (isset($_FILES['PHOTO_CLIENT']) &&
-    $_FILES['PHOTO_CLIENT']['error'] === UPLOAD_ERR_OK) {
+    if (
+        isset($_FILES['PHOTO_CLIENT']) &&
+        $_FILES['PHOTO_CLIENT']['error'] === UPLOAD_ERR_OK
+    ) {
+        $imagem = getimagesize($_FILES['PHOTO_CLIENT']['tmp_name']);
 
-    $nomeArquivo = uniqid() . '_' . basename($_FILES['PHOTO_CLIENT']['name']);
+        if ($imagem === false) {
+            echo "O arquivo enviado não é uma imagem válida.";
+            return;
+        }
 
-    $diretorio = __DIR__ . '/../uploads';
+        $extensao = strtolower(pathinfo(
+            $_FILES['PHOTO_CLIENT']['name'],
+            PATHINFO_EXTENSION
+        ));
 
-    if (!is_dir($diretorio)) {
-        mkdir($diretorio, 0755, true);
-    }
+        if (!in_array($extensao, ['jpg', 'jpeg', 'png', 'webp'])) {
+            echo "Formato de imagem não permitido.";
+            return;
+        }
 
-    if (move_uploaded_file(
-        $_FILES['PHOTO_CLIENT']['tmp_name'],
-        $diretorio . $nomeArquivo
-    )) {
+        $nomeArquivo = uniqid() . '.' . $extensao;
+
+        $diretorio = __DIR__ . '/../uploads/';
+
+        if (!is_dir($diretorio)) {
+            mkdir($diretorio, 0755, true);
+        }
+
+        if (!move_uploaded_file(
+            $_FILES['PHOTO_CLIENT']['tmp_name'],
+            $diretorio . $nomeArquivo
+        )) {
+            echo "Erro ao salvar a imagem.";
+            return;
+        }
+
         $photo = 'uploads/' . $nomeArquivo;
     }
-}
-
-     
 
     $this->db->begin_transaction();
 
-    $sucesso = $this->model->create(
-        $nome,
-        $cpf,
-        $number,
-        $photo,
-        $id
-       
-    );
+    try {
+        $sucesso = $this->model->create(
+            $nome,
+            $cpf,
+            $number,
+            $photo,
+            $id
+        );
 
-    if ($sucesso) {
-
-     $_SESSION['mensagem'] = 'Produto criado com sucesso!';
+        if (!$sucesso) {
+            throw new Exception("Erro ao cadastrar cliente.");
+        }
 
         $this->db->commit();
 
+        $_SESSION['mensagem'] = 'Cliente criado com sucesso!';
+
         header('Location: ' . BASE_URL . 'client/list');
         exit;
+
+    } catch (Throwable $e) {
+
+        $this->db->rollback();
+
+        echo "Erro ao cadastrar cliente: " . $e->getMessage();
     }
-
-    $this->db->rollback();
-
-    echo "Erro ao cadastrar produto.";
 }
-
-
-
-
-
 
 
 
