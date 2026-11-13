@@ -4,7 +4,7 @@
 <?php
 // Define a foto padrão caso o utilizador não tenha escolhido nenhuma
 $fotoPerfil = !empty($_SESSION['PHOTO_CLIENT'])
-    ? '/Trabalho-4-bimestre-BD/uploads/' . htmlspecialchars($_SESSION['PHOTO_CLIENT'])
+    ? '/Trabalho-4-bimestre-BD/' . htmlspecialchars($_SESSION['PHOTO_CLIENT'])
     : '/Trabalho-4-bimestre-BD/uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
 ?>
 <!DOCTYPE html>
@@ -194,8 +194,8 @@ body {
 
 
             <td>
-           <img 
-    src="<?= htmlspecialchars($fotoPerfil) ?>" 
+           <img
+    src="<?= BASE_URL . htmlspecialchars($client['PHOTO_CLIENT'] ?: 'uploads/photoDefault.jpg') ?>"
     alt="<?= htmlspecialchars($client['NAME_CLIENT']) ?>"
     class="fotoClient"
 >
