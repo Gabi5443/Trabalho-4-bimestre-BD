@@ -188,7 +188,7 @@
                       <td>
   <?php
 $fotoWorker = !empty($worker['PHOTO_WORKER'])
-    ? BASE_URL . 'uploads/' . htmlspecialchars($worker['PHOTO_WORKER'], ENT_QUOTES, 'UTF-8')
+    ? BASE_URL . htmlspecialchars($worker['PHOTO_WORKER'], ENT_QUOTES, 'UTF-8')
     : BASE_URL . 'uploads/photoDefault.jpg';
 ?>
 
@@ -197,7 +197,7 @@ $fotoWorker = !empty($worker['PHOTO_WORKER'])
     alt="<?= htmlspecialchars($worker['NAME_WORKER'], ENT_QUOTES, 'UTF-8') ?>"
     class="fotoWorker"
 >
-
+                      </td>
 
 
 

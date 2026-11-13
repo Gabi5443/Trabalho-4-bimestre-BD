@@ -238,7 +238,7 @@
 
               <div class="formGroup">
             <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
-            <input type="file" name="PHOTO_PRODUCT" accept="image/* "  id="arquivo-upload">
+            <input type="file" name="PHOTO_WORKER" accept="image/* "  id="arquivo-upload">
            
         </div>
 

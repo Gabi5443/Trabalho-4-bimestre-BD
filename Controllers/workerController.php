@@ -216,27 +216,24 @@ public function excluir($id)
 
 
 
-public function updateForm ($id)
-{
-   $worker = $this->model->listById($id); //Busca o produto que esta sendo alterado
 
+public function updateForm($id)
+{
+    $worker = $this->model->listById($id);
 
     if (!$worker) {
         http_response_code(404);
-        echo "Produto não encontrado.";
+        echo "Funcionário não encontrado.";
         return;
-    } // se não achar o produt aparece essa mensagem
+    }
 
-
-     // Recupera os dados enviados pelo formulário
+    // Recupera os dados enviados pelo formulário
     $nome = trim($_POST['NAME_WORKER'] ?? '');
     $role = trim($_POST['ROLE_WORKER'] ?? '');
     $registration = $_POST['REGISTRATION_WORKER'] ?? '';
-    $idAccount = $_POST['ID_ACCOUNT_FK'] ?? '';
 
-
- 
-    
+    // Preserva o vínculo com a conta
+    $idAccount = $worker['ID_ACCOUNT_FK'];
 
     // Mantém a foto atual caso nenhuma nova seja enviada
     $foto = $worker['PHOTO_WORKER'];
@@ -251,7 +248,6 @@ public function updateForm ($id)
             return;
         }
 
-        // Verifica se o arquivo é uma imagem
         $imagem = getimagesize($_FILES['PHOTO_WORKER']['tmp_name']);
 
         if ($imagem === false) {
@@ -259,7 +255,6 @@ public function updateForm ($id)
             return;
         }
 
-        // Define o nome e o destino da imagem
         $extensao = strtolower(pathinfo(
             $_FILES['PHOTO_WORKER']['name'],
             PATHINFO_EXTENSION
@@ -272,7 +267,7 @@ public function updateForm ($id)
 
         $nomeArquivo = uniqid() . '.' . $extensao;
 
-        $diretorio = __DIR__ . '/../uploads';
+        $diretorio = __DIR__ . '/../uploads/';
 
         if (!is_dir($diretorio)) {
             mkdir($diretorio, 0755, true);
@@ -289,7 +284,7 @@ public function updateForm ($id)
         $foto = 'uploads/' . $nomeArquivo;
     }
 
-    // Atualiza o produto na Model
+    // Atualiza os dados na Model
     $sucesso = $this->model->alter(
         $id,
         $nome,
@@ -297,19 +292,15 @@ public function updateForm ($id)
         $role,
         $foto,
         $idAccount
-        
     );
 
     if ($sucesso) {
         header('Location: ' . BASE_URL . 'worker/list');
         exit;
-    } else {
-        echo "Não foi possível atualizar o Funcionário";
+    }
 
-
+    echo "Não foi possível atualizar o funcionário.";
 }
-}
-
 
 
 
