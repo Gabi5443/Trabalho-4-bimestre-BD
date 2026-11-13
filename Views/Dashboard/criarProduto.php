@@ -1,21 +1,22 @@
-<?php 
+<?php
 /** @var array $categorias*/
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Criar Produto</title>
 
- <style>
+    <style>
         * {
             box-sizing: border-box;
         }
-        .create{
+
+        .create {
             display: flex;
             color: #556B2F;
-
         }
 
         html,
@@ -84,6 +85,12 @@
             align-items: center;
         }
 
+        .create {
+            font-weight: 700;
+            font-size: 1.7rem;
+            margin-bottom: 2%;
+        }
+
         form {
             width: 90%;
         }
@@ -109,7 +116,7 @@
         }
 
 
-       
+
 
         [name="NAME_PRODUCT"],
         [name="DESCRIPTION_PRODUCT"],
@@ -133,7 +140,7 @@
             border: 2px solid #556B2F;
             outline: none;
         }
-       
+
 
         .btn-submit {
             display: flex;
@@ -166,110 +173,114 @@
 
 
         }
-        #arquivo-upload{
-              display: none;
+
+        #arquivo-upload {
+            display: none;
         }
 
-        .formGroup label.botaoPer{
-           
-  background:  color-mix( in srgb , #ff7f2ad5 20%, #eee8dc);
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  color: #556B2F;
-  padding: 5px 20px;
-  border-radius: 12px;
-   border: 1.5px solid #556B2F;
-  font-family: sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  
+        .formGroup label.botaoPer {
+
+            background: color-mix(in srgb, #ff7f2ad5 20%, #eee8dc);
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            color: #556B2F;
+            padding: 5px 20px;
+            border-radius: 12px;
+            border: 1.5px solid #556B2F;
+            font-family: sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            align-items: center;
+            justify-content: center;
+            justify-items: center;
+
         }
 
         .formGroup label.botaoPer:hover {
-    background:  color-mix( in srgb , #ff7f2ad5 40%, #eee8dc);
-    transform: translateY(-2px);
-    
-}
+            background: color-mix(in srgb, #ff7f2ad5 40%, #eee8dc);
+            transform: translateY(-2px);
 
-[name="ID_CATEGORY_FK"] {
-    border-radius: 20px;
-    border: 1.5px solid #556B2F;
-    width: 100%;
-    padding: 0.6rem 1rem;
-    font-size: 1rem;
-    color: #333333;
-    background-color: #FAFAFA;
-    box-shadow: 0 0 8px rgba(226, 114, 91, 0.15);
-    cursor: pointer;
-}
+        }
 
-[name="ID_CATEGORY_FK"]:focus {
-    border: 2px solid #556B2F;
-    outline: none;
-}
+        [name="ID_CATEGORY_FK"] {
+            border-radius: 20px;
+            border: 1.5px solid #556B2F;
+            width: 100%;
+            padding: 0.6rem 1rem;
+            font-size: 1rem;
+            color: #333333;
+            background-color: #FAFAFA;
+            box-shadow: 0 0 8px rgba(226, 114, 91, 0.15);
+            cursor: pointer;
+        }
 
+        [name="ID_CATEGORY_FK"]:focus {
+            border: 2px solid #556B2F;
+            outline: none;
+        }
     </style>
 
 
 </head>
+
 <body>
     <div class="box">
-    <div class="create-card">
-        <div class="inside">
-          
-            <form action="/Trabalho-4-bimestre-BD/product/create" method="POST" enctype="multipart/form-data">
-             <div class="formGroup">
-            <label for="Nome">Nome:</label>
-            <input type="text" name="NAME_PRODUCT">
+        <div class="create-card">
+            <div class="inside">
+
+                <div class="create">Criar Produto</div>
+                <form action="/Trabalho-4-bimestre-BD/product/create" method="POST" enctype="multipart/form-data">
+                    <div class="formGroup">
+                        <label for="Nome">Nome:</label>
+                        <input type="text" name="NAME_PRODUCT">
+                    </div>
+
+
+                    <div class="formGroup">
+                        <label for="Descrição">Descrição:</label>
+                        <input type="text" name="DESCRIPTION_PRODUCT">
+                    </div>
+
+
+                    <div class="formGroup">
+                        <label for="Preço">Preço:</label>
+                        <input type="number" name="PRICE_PRODUCT">
+                    </div>
+
+
+                    <div class="formGroup">
+                        <label for="Estoque">Quantidade em Estoque:</label>
+                        <input type="number" name="STOCK_PRODUCT">
+                    </div>
+
+
+                    <div class="formGroup">
+                        <label for="categoria">Categoria:</label>
+
+                        <select name="ID_CATEGORY_FK" id="categoria" required>
+                            <option value="" disabled selected>Selecione uma categoria</option>
+
+                            <?php foreach ($categorias as $categoria): ?>
+                                <option value="<?= $categoria['ID_CATEGORY'] ?>">
+                                    <?= htmlspecialchars($categoria['NAME_CATEGORY']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+
+                    <div class="formGroup">
+                        <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
+                        <input type="file" name="PHOTO_PRODUCT" accept="image/* " required id="arquivo-upload">
+
+                    </div>
+
+                    <button type="submit" class="btn-submit">Salvar alterações</button>
+                </form>
+            </div>
         </div>
-
-
-         <div class="formGroup">
-            <label for="Descrição">Descrição:</label>
-            <input type="text" name="DESCRIPTION_PRODUCT">
-        </div>
-
-
-         <div class="formGroup">
-            <label for="Preço">Preço:</label>
-            <input type="number" name="PRICE_PRODUCT">
-        </div>
-
-
-         <div class="formGroup">
-            <label for="Estoque">Quantidade em Estoque:</label>
-            <input type="number" name="STOCK_PRODUCT">
-        </div>
-
-        
-<div class="formGroup">
-    <label for="categoria">Categoria:</label>
-
-    <select name="ID_CATEGORY_FK" id="categoria" required>
-        <option value="" disabled selected>Selecione uma categoria</option>
-
-        <?php foreach ($categorias as $categoria): ?>
-            <option value="<?= $categoria['ID_CATEGORY'] ?>">
-                <?= htmlspecialchars($categoria['NAME_CATEGORY']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</div>
-
-
-        <div class="formGroup">
-            <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
-            <input type="file" name="PHOTO_PRODUCT" accept="image/* " required id="arquivo-upload">
-           
-        </div>
-
-         <button type="submit" class="btn-submit">Salvar alterações</button>
-            </form>
-</div>
+    </div>
 </body>
 </html>
