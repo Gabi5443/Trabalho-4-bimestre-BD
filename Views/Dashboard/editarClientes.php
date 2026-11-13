@@ -27,10 +27,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
+           background: radial-gradient(circle, #ff7f2ad5, #eee8dc);
             font-family: "Manrope", sans-serif;
         }
 
