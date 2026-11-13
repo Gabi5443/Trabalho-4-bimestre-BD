@@ -2,6 +2,8 @@
 /** @var array $worker*/
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -174,6 +176,36 @@
 
 
         }
+
+          #arquivo-upload{
+              display: none;
+        }
+
+        .formGroup label.botaoPer{
+           
+  background:  color-mix( in srgb , #ff7f2ad5 20%, #eee8dc);
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #556B2F;
+  padding: 5px 20px;
+  border-radius: 12px;
+   border: 1.5px solid #556B2F;
+  font-family: sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  
+        }
+
+        .formGroup label.botaoPer:hover {
+    background:  color-mix( in srgb , #ff7f2ad5 40%, #eee8dc);
+    transform: translateY(-2px);
+    
+}
     </style>
 
 
@@ -204,10 +236,11 @@
 
 
 
-                <div class="formGroup">
-                    <label for="Foto">Foto</label>
-                    <input type="file" name="PHOTO_WORKER" accept="image/* ">
-                </div>
+              <div class="formGroup">
+            <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
+            <input type="file" name="PHOTO_PRODUCT" accept="image/* "  id="arquivo-upload">
+           
+        </div>
 
                 <button type="submit" class="btn-submit">Salvar alterações</button>
 

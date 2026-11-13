@@ -76,6 +76,7 @@ class ProfileController {
             echo 'Implemente getProfileData() na Model correspondente.';
             exit();
         }
+    
 
         $usuario = $model->getProfileData($userId);
 

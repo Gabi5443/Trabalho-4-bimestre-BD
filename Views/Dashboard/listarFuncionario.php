@@ -1,12 +1,7 @@
 <?php   /** @var array $workers*/ ?>
 
 
-<?php
-// Define a foto padrão caso o utilizador não tenha escolhido nenhuma
-$fotoPerfil = !empty($_SESSION['photo'])
-    ? '/Trabalho-4-bimestre-BD/uploads/' . htmlspecialchars($_SESSION['photo'])
-    : '/Trabalho-4-bimestre-BD/uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
-?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -182,6 +177,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         <tbody>
 
             <?php foreach ($workers as $worker): ?>
+            
                 <tr>
                     <div class="worker">
                         <td><?php echo $worker['NAME_WORKER']; ?></td>
@@ -189,11 +185,18 @@ $fotoPerfil = !empty($_SESSION['photo'])
                         <td><?php echo $worker['REGISTRATION_WORKER']; ?></td>
 
 
-                        <td>
+                      <td>
+  <?php
+$fotoWorker = !empty($worker['PHOTO_WORKER'])
+    ? BASE_URL . 'uploads/' . htmlspecialchars($worker['PHOTO_WORKER'], ENT_QUOTES, 'UTF-8')
+    : BASE_URL . 'uploads/photoDefault.jpg';
+?>
 
-                            <img src="<?= $fotoPerfil ?>" alt="Meu Perfil"
-                                alt="<?= htmlspecialchars($worker['NAME_WORKER']) ?>" class="fotoWorker">
-                        </td>
+<img
+    src="<?= $fotoWorker ?>"
+    alt="<?= htmlspecialchars($worker['NAME_WORKER'], ENT_QUOTES, 'UTF-8') ?>"
+    class="fotoWorker"
+>
 
 
 

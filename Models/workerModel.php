@@ -110,86 +110,84 @@ class workerModel {
 
 
     // Busca nome, e-mail e foto do funcionário
-    public function getProfileData($idAccount)
-    {
-        $sql = "SELECT
-                    A.NAME_ACCOUNT,
-                    A.EMAIL_ACCOUNT,
-                    W.PHOTO_WORKER,
-                    W.ROLE_WORKER
-                FROM ACCOUNT A
-                INNER JOIN WORKER W
-                    ON A.ID_ACCOUNT = W.ID_ACCOUNT_FK
-                WHERE A.ID_ACCOUNT = ?";
+   public function getProfileData($idAccount)
+{
+    $sql = "SELECT
+                A.NAME_ACCOUNT,
+                A.EMAIL_ACCOUNT,
+                W.PHOTO_WORKER,
+                W.ROLE_WORKER
+            FROM ACCOUNT A
+            LEFT JOIN WORKER W
+                ON A.ID_ACCOUNT = W.ID_ACCOUNT_FK
+            WHERE A.ID_ACCOUNT = ?";
 
-        $stmt = $this->conexao->prepare($sql);
+    $stmt = $this->conexao->prepare($sql);
 
-        if (!$stmt) {
-            return null;
-        }
-
-        $stmt->bind_param("i", $idAccount);
-        $stmt->execute();
-
-        $resultado = $stmt->get_result();
-        $worker = $resultado->fetch_assoc();
-
-        $stmt->close();
-
-        return $worker;
+    if (!$stmt) {
+        return null;
     }
 
-    // Atualiza nome e e-mail na ACCOUNT e a foto na WORKER
-    public function updateProfileData(
-        $idAccount,
-        $nome,
-        $email,
-        $nomeFoto = null
-    ) {
-        // 1. Atualiza nome e e-mail da conta
-        $sqlA = "UPDATE ACCOUNT
-                 SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ?
-                 WHERE ID_ACCOUNT = ?";
+    $stmt->bind_param("i", $idAccount);
+    $stmt->execute();
 
-        $stmtA = $this->conexao->prepare($sqlA);
+    $resultado = $stmt->get_result();
+    $worker = $resultado->fetch_assoc();
 
-        if (!$stmtA) {
-            return false;
-        }
+    $stmt->close();
 
-        $stmtA->bind_param("ssi", $nome, $email, $idAccount);
+    return $worker;
+}
 
-        $resultadoA = $stmtA->execute();
-        $stmtA->close();
 
-        if (!$resultadoA) {
-            return false;
-        }
+    public function updateProfileData($idAccount, $nome, $email, $nomeFoto = null)
+{
+    // 1. Atualiza nome e e-mail na tabela ACCOUNT
+    $sqlA = "UPDATE ACCOUNT
+             SET NAME_ACCOUNT = ?, EMAIL_ACCOUNT = ?
+             WHERE ID_ACCOUNT = ?";
 
-        // 2. Atualiza a foto somente se uma nova foi enviada
+    $stmtA = $this->conexao->prepare($sqlA);
+    if (!$stmtA) return false;
+
+    $stmtA->bind_param("ssi", $nome, $email, $idAccount);
+    $resultadoA = $stmtA->execute();
+    $stmtA->close();
+
+    if (!$resultadoA) return false;
+
+    // 2. Verifica se já existe um registro na tabela WORKER para esta conta
+    $sqlCheck = "SELECT ID_WORKER FROM WORKER WHERE ID_ACCOUNT_FK = ?";
+    $stmtCheck = $this->conexao->prepare($sqlCheck);
+    $stmtCheck->bind_param("i", $idAccount);
+    $stmtCheck->execute();
+    $existeWorker = $stmtCheck->get_result()->fetch_assoc();
+    $stmtCheck->close();
+
+    if ($existeWorker) {
+        // Se já existe, atualiza o nome e a foto (se foi enviada)
         if ($nomeFoto !== null) {
-            $sqlW = "UPDATE WORKER
-                     SET PHOTO_WORKER = ?
-                     WHERE ID_ACCOUNT_FK = ?";
-
+            $sqlW = "UPDATE WORKER SET NAME_WORKER = ?, PHOTO_WORKER = ? WHERE ID_ACCOUNT_FK = ?";
             $stmtW = $this->conexao->prepare($sqlW);
-
-            if (!$stmtW) {
-                return false;
-            }
-
-            $stmtW->bind_param("si", $nomeFoto, $idAccount);
-
-            $resultadoW = $stmtW->execute();
-            $stmtW->close();
-
-            if (!$resultadoW) {
-                return false;
-            }
+            $stmtW->bind_param("ssi", $nome, $nomeFoto, $idAccount);
+        } else {
+            $sqlW = "UPDATE WORKER SET NAME_WORKER = ? WHERE ID_ACCOUNT_FK = ?";
+            $stmtW = $this->conexao->prepare($sqlW);
+            $stmtW->bind_param("si", $nome, $idAccount);
         }
-
-        return true;
+        $resultadoW = $stmtW->execute();
+        $stmtW->close();
+        return $resultadoW;
+    } else {
+        // Se não existe linha na WORKER ainda, cria uma vinculada à conta
+        $sqlInsert = "INSERT INTO WORKER (NAME_WORKER, PHOTO_WORKER, ID_ACCOUNT_FK) VALUES (?, ?, ?)";
+        $stmtI = $this->conexao->prepare($sqlInsert);
+        $stmtI->bind_param("ssi", $nome, $nomeFoto, $idAccount);
+        $resultadoI = $stmtI->execute();
+        $stmtI->close();
+        return $resultadoI;
     }
+}
 
     
 }

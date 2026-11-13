@@ -221,6 +221,8 @@ public function list() {
 
 public function editForm($id)
 {
+     $categoryModel = new CategoryModel($this->db);
+    $categorias = $categoryModel->listAll();
     $produto = $this->model->listById($id);
 
     if (!$produto) {
@@ -352,6 +354,8 @@ public function updateForm ($id)
 
 public function createForm()
 {
+     $categoryModel = new CategoryModel($this->db);
+    $categorias = $categoryModel->listAll();
     require_once __DIR__ . '/../Views/Dashboard/criarProduto.php';
 }
 

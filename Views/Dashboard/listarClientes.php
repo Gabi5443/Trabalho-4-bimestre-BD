@@ -1,12 +1,6 @@
 <?php   /** @var array $clients */ ?>
 
 
-<?php
-// Define a foto padrão caso o utilizador não tenha escolhido nenhuma
-$fotoPerfil = !empty($_SESSION['PHOTO_CLIENT'])
-    ? '/Trabalho-4-bimestre-BD/' . htmlspecialchars($_SESSION['PHOTO_CLIENT'])
-    : '/Trabalho-4-bimestre-BD/uploads/photoDefault.jpg'; // Certifique-se de ter esta imagem na pasta uploads
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -186,6 +180,9 @@ $fotoPerfil = !empty($_SESSION['PHOTO_CLIENT'])
 
 
             <?php foreach ($clients as $client): ?>
+
+
+
                 <tr>
                     <td> <?php echo ($client['NAME_CLIENT']) ?> </td>
                     <td> <?php echo ($client['CPF_CLIENT']) ?> </td>
@@ -193,11 +190,19 @@ $fotoPerfil = !empty($_SESSION['PHOTO_CLIENT'])
 
 
 
+<td>
+    <?php
+    $fotoCliente = !empty($client['PHOTO_CLIENT'])
+        ? BASE_URL . htmlspecialchars($client['PHOTO_CLIENT'], ENT_QUOTES, 'UTF-8')
+        : BASE_URL . 'uploads/photoDefault.jpg';
+    ?>
 
-                    <td>
-                        <img src="<?= BASE_URL . htmlspecialchars($client['PHOTO_CLIENT'] ?: 'uploads/photoDefault.jpg') ?>"
-                            alt="<?= htmlspecialchars($client['NAME_CLIENT']) ?>" class="fotoClient">
-                    </td>
+    <img 
+        src="<?= $fotoCliente ?>"
+        alt="<?= htmlspecialchars($client['NAME_CLIENT'], ENT_QUOTES, 'UTF-8') ?>"
+        class="fotoClient"
+    >
+</td>
 
 
 
