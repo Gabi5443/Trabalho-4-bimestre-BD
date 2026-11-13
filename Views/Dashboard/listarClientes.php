@@ -192,10 +192,12 @@
 
 <td>
     <?php
-    $fotoCliente = !empty($client['PHOTO_CLIENT'])
-        ? BASE_URL . htmlspecialchars($client['PHOTO_CLIENT'], ENT_QUOTES, 'UTF-8')
-        : BASE_URL . 'uploads/photoDefault.jpg';
+   $fotoCliente = !empty($client['PHOTO_CLIENT'])
+    ? BASE_URL . 'uploads/' . htmlspecialchars($client['PHOTO_CLIENT'], ENT_QUOTES, 'UTF-8')
+    : BASE_URL . 'uploads/photoDefault.jpg';
     ?>
+
+    
 
     <img 
         src="<?= $fotoCliente ?>"

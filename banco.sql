@@ -106,5 +106,6 @@ VALUES
 ('Pudim de Tapioca', 'Pudim de tapioca com calda de caramelo.', 16.00, 'assets/images/products/pudimTapioca.webp', 6),
 ('Mousse de Maracujá', 'Mousse cremosa de maracujá.', 13.00, 'assets/images/products/Mousse.webp', 6);
 
-
+ALTER TABLE WORKER
+MODIFY REGISTRATION_WORKER VARCHAR(6) NULL;
 

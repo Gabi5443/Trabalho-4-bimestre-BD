@@ -143,18 +143,15 @@ if ($usuarioExistente) {
         }
 
         // Cria o registro de WORKER
-        elseif ($type === 'WORKER') {
-
-            $workerModel = new WorkerModel($this->db);
-
-            $sucesso = $workerModel->create(
-                $name,
-                null, // Matrícula
-                null, // Cargo
-                null, // Foto
-                $idAccount
-            );
-
+       elseif ($type === 'WORKER') {
+    $workerModel = new WorkerModel($this->db);
+    $sucesso = $workerModel->create(
+        $name,
+        '', // Matrícula provisória
+        '', // Cargo provisório
+        '', // Foto provisória
+        $idAccount
+    );
             if (!$sucesso) {
                 throw new RuntimeException("Erro ao criar o funcionário.");
             }
