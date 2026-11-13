@@ -3,45 +3,46 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar Produto</title>
 
 
 
-     <style>
-           * {
+    <style>
+        * {
             box-sizing: border-box;
         }
 
-       html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-}
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    font-family: "Manrope", sans-serif;
-    padding: 1.5rem 0;
-}
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            font-family: "Manrope", sans-serif;
+        }
 
         .box {
             position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: center;
             width: 100%;
             max-width: 28rem;
             padding: 2rem 2rem;
@@ -81,8 +82,12 @@ body {
         .formEdit {
             width: 100%;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+        }
+
+        form {
+            width: 90%;
         }
 
         .formGroup {
@@ -97,7 +102,7 @@ body {
             color: #556B2F;
             font-size: 0.95rem;
             margin-bottom: 0.4rem;
-            font-weight: 600;
+            font-weight: 700;
             align-items: flex-start;
         }
 
@@ -124,7 +129,7 @@ body {
 
         [name="NAME_PRODUCT"],
         [name="DESCRIPTION_PRODUCT"],
-         [name="PRICE_PRODUCT"],
+        [name="PRICE_PRODUCT"],
         [name="STOCK_PRODUCT"] {
             border-radius: 20px;
             border: 1.5px solid #556B2F;
@@ -139,7 +144,7 @@ body {
 
         [name="NAME_PRODUCT"]:focus,
         [name="DESCRIPTION_PRODUCT"]:focus,
-         [name="PRICE_PRODUCT"]:focus,
+        [name="PRICE_PRODUCT"]:focus,
         [name="STOCK_PRODUCT"]:focus {
             border: 2px solid #556B2F;
             outline: none;
@@ -148,6 +153,7 @@ body {
         .btn-submit {
             display: flex;
             justify-content: center;
+            justify-self: center;
             align-items: center;
             width: 85%;
             padding: 0.8rem;
@@ -173,51 +179,51 @@ body {
                 gap: 2rem;
             }
 
-            
-        }
 
+        }
     </style>
-        
+
 </head>
+
 <body>
     <div class="box">
-    <div class="formEdit">
-   <form method="POST"
-      action="<?= BASE_URL ?>product/update/<?= $produto['ID_PRODUCT'] ?>"
-      enctype="multipart/form-data">
-        <div class="formGroup">
-            <label for="Nome">Nome:</label>
-            <input type="text" name="NAME_PRODUCT">
+        <div class="formEdit">
+            <form method="POST" action="<?= BASE_URL ?>product/update/<?= $produto['ID_PRODUCT'] ?>"
+                enctype="multipart/form-data">
+                <div class="formGroup">
+                    <label for="Nome">Nome:</label>
+                    <input type="text" name="NAME_PRODUCT">
+                </div>
+
+
+                <div class="formGroup">
+                    <label for="Descrição">Descrição:</label>
+                    <input type="text" name="DESCRIPTION_PRODUCT">
+                </div>
+
+
+                <div class="formGroup">
+                    <label for="Preço">Preço:</label>
+                    <input type="number" name="PRICE_PRODUCT">
+                </div>
+
+
+                <div class="formGroup">
+                    <label for="Estoque">Quantidade em Estoque:</label>
+                    <input type="number" name="STOCK_PRODUCT">
+                </div>
+
+
+                <div class="formGroup">
+                    <label for="Foto">Foto</label>
+                    <input type="file" name="PHOTO_PRODUCT" accept="image/* ">
+                </div>
+
+                <button type="submit" class="btn-submit">Salvar alterações</button>
+
+
+            </form>
         </div>
+    </div>
 
-
-         <div class="formGroup">
-            <label for="Descrição">Descrição:</label>
-            <input type="text" name="DESCRIPTION_PRODUCT">
-        </div>
-
-
-         <div class="formGroup">
-            <label for="Preço">Preço:</label>
-            <input type="number" name="PRICE_PRODUCT">
-        </div>
-
-
-         <div class="formGroup">
-            <label for="Estoque">Quantidade em Estoque:</label>
-            <input type="number" name="STOCK_PRODUCT">
-        </div>
-
-
-        <div class="formGroup">
-            <label for="Foto">Foto</label>
-            <input type="file" name="PHOTO_PRODUCT" accept="image/* ">
-        </div>
-
-        <button type="submit" class="btn-submit">Salvar alterações</button>
-
-         
-</form>
-</div>
-</div>
 </html>

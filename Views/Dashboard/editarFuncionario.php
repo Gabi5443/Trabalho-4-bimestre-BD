@@ -3,38 +3,38 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar Funcionario</title>
 
 
-   <style>
-           * {
+    <style>
+        * {
             box-sizing: border-box;
         }
 
-       html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-}
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    font-family: "Manrope", sans-serif;
-    padding: 1.5rem 0;
-}
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            font-family: "Manrope", sans-serif;
+        }
 
         .box {
             position: relative;
@@ -84,6 +84,10 @@ body {
             align-items: center;
         }
 
+        form {
+            width: 90%;
+        }
+
         .formGroup {
             width: 100%;
             display: flex;
@@ -123,7 +127,7 @@ body {
 
         [name="NAME_WORKER"],
         [name="ROLE_WORKER"],
-         [name="REGISTRATION_WORKER"] {
+        [name="REGISTRATION_WORKER"] {
             border-radius: 20px;
             border: 1.5px solid #556B2F;
             width: 85%;
@@ -137,8 +141,7 @@ body {
 
         [name="NAME_WORKER"]:focus,
         [name="ROLE_WORKER"]:focus,
-         [name="REGISTRATION_WORKER"]:focus
-        {
+        [name="REGISTRATION_WORKER"]:focus {
             border: 2px solid #556B2F;
             outline: none;
         }
@@ -146,6 +149,7 @@ body {
         .btn-submit {
             display: flex;
             justify-content: center;
+            justify-self: center;
             align-items: center;
             width: 85%;
             padding: 0.8rem;
@@ -171,48 +175,48 @@ body {
                 gap: 2rem;
             }
 
-            
-        }
 
+        }
     </style>
 
 
 </head>
+
 <body>
     <div class="box">
-    <div class="formEdit">
-   <form method="POST"
-      action="<?= BASE_URL ?>worker/update/<?= $worker['ID_WORKER'] ?>"
-      enctype="multipart/form-data">
-        <div class="formGroup">
-            <label for="Nome">Nome:</label>
-            <input type="text" name="NAME_WORKER">
+        <div class="formEdit">
+            <form method="POST" action="<?= BASE_URL ?>worker/update/<?= $worker['ID_WORKER'] ?>"
+                enctype="multipart/form-data">
+                <div class="formGroup">
+                    <label for="Nome">Nome:</label>
+                    <input type="text" name="NAME_WORKER">
+                </div>
+
+
+                <div class="formGroup">
+                    <label for="Descrição">Cargo:</label>
+                    <input type="text" name="ROLE_WORKER">
+                </div>
+
+
+                <div class="formGroup">
+                    <label for="Preço">Registro:</label>
+                    <input type="number" name="REGISTRATION_WORKER">
+                </div>
+
+
+
+
+                <div class="formGroup">
+                    <label for="Foto">Foto</label>
+                    <input type="file" name="PHOTO_WORKER" accept="image/* ">
+                </div>
+
+                <button type="submit" class="btn-submit">Salvar alterações</button>
+
+
+            </form>
         </div>
+    </div>
 
-
-         <div class="formGroup">
-            <label for="Descrição">Cargo:</label>
-            <input type="text" name="ROLE_WORKER">
-        </div>
-
-
-         <div class="formGroup">
-            <label for="Preço">Registro:</label>
-            <input type="number" name="REGISTRATION_WORKER">
-        </div>
-
-
-
-
-        <div class="formGroup">
-            <label for="Foto">Foto</label>
-            <input type="file" name="PHOTO_WORKER" accept="image/* ">
-        </div>
-
-        <button type="submit" class="btn-submit">Salvar alterações</button>
-
-         
-</form>
-</div>
-</div>
 </html>

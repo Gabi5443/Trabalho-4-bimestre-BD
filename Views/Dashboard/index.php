@@ -1,4 +1,3 @@
-
 <?php
 /** @var int $qntProdutos */
 /** @var int $qntClientes */
@@ -106,7 +105,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         .produtos,
         .clientes,
         .funcionarios {
-            margin-inline: 3%;
+            
             margin-bottom: 7%;
             padding: 2%;
 
@@ -116,7 +115,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
             text-decoration: none;
             color: #b3b3b3;
-            border-radius: 10px;
+            
             transition: background 0.3s, color 0.3s;
         }
 
@@ -124,7 +123,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
         .clientes:hover,
         .funcionarios:hover {
             color: #ff7f2a;
-            background-color: #ff7f2a6c;
+            background-color: #ffefe5;
         }
 
         .produtoimg,
@@ -138,9 +137,9 @@ $fotoPerfil = !empty($_SESSION['photo'])
             display: flex;
             align-items: center;
             text-decoration: none;
-            margin-inline: 3%;
+            
             padding: 1%;
-            border-radius: 20px;
+            
             color: #b3b3b3;
             transition: background 0.3s;
             margin-bottom: 2rem;
@@ -155,7 +154,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             margin-inline: 5%;
             border-radius: 50%;
             object-fit: cover;
-           
+
             transition: transform 0.2s;
         }
 
@@ -163,7 +162,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             transform: scale(1.05);
         }
 
-   
+
 
         .cards {
             display: grid;
@@ -188,12 +187,12 @@ $fotoPerfil = !empty($_SESSION['photo'])
             min-height: 7rem;
             padding: 1.5rem;
             color: #526832;
-            background-color: #ffbe33;
+            background-color: #fff;
             border-radius: 0.5rem;
             display: flex;
-                align-items: center;
+            align-items: center;
             justify-content: center;
- 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             font-size: clamp(1rem, 1.5vw, 1.4rem);
             font-weight: 600;
         }
@@ -202,6 +201,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             color: #78675c;
             font-size: 0.9rem;
             text-align: center;
+            font-weight: 700;
         }
 
         /* ACESSO RÁPIDO */
@@ -216,7 +216,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             margin-bottom: 0.4rem;
         }
 
-        .acoesDashboard > p {
+        .acoesDashboard>p {
             color: #a3978e;
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
@@ -240,7 +240,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
             text-decoration: none;
             color: #526832;
-
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, border-color 0.2s;
         }
 
@@ -356,23 +356,23 @@ $fotoPerfil = !empty($_SESSION['photo'])
             }
         }
 
-        .info{
+        .info {
             color: #526832;
             font-size: clamp(1.2rem, 2vw, 1.6rem);
             margin-bottom: 0.4rem;
             margin-top: 2rem;
         }
 
-        .infoP{
+        .infoP {
             color: #a3978e;
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
 
         }
 
-        .brand{
-             font-size: clamp(1.2rem, 2vw, 1.6rem);
-             font-family: "Fascinate Inline", system-ui;
+        .brand {
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-family: "Fascinate Inline", system-ui;
 
         }
     </style>
@@ -380,14 +380,13 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
 <body>
 
-   
+
 
     <header class="sidebar">
 
         <div class="logo-marca">
             <h1>Defufu</h1>
-            <img src="<?= BASE_URL ?>assets/images/pimentinha.svg"
-                 alt="" class="pimentinha">
+            <img src="<?= BASE_URL ?>assets/images/pimentinha.svg" alt="" class="pimentinha">
         </div>
 
         <div class="middle">
@@ -395,20 +394,17 @@ $fotoPerfil = !empty($_SESSION['photo'])
             <nav class="list">
 
                 <a class="produtos" href="<?= BASE_URL ?>product/list">
-                    <img src="<?= BASE_URL ?>assets/images/produtos.svg"
-                         class="produtoimg" alt="">
+                    <img src="<?= BASE_URL ?>assets/images/produtos.svg" class="produtoimg" alt="">
                     Listar produtos
                 </a>
 
                 <a class="clientes" href="<?= BASE_URL ?>client/list">
-                    <img src="<?= BASE_URL ?>assets/images/cliente.svg"
-                         class="clienteimg" alt="">
+                    <img src="<?= BASE_URL ?>assets/images/cliente.svg" class="clienteimg" alt="">
                     Listar clientes
                 </a>
 
                 <a class="funcionarios" href="<?= BASE_URL ?>worker/list">
-                    <img src="<?= BASE_URL ?>assets/images/funcionario.svg"
-                         class="funcionarioimg" alt="">
+                    <img src="<?= BASE_URL ?>assets/images/funcionario.svg" class="funcionarioimg" alt="">
                     Listar funcionários
                 </a>
 
@@ -426,11 +422,11 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
     <main class="main">
 
-     
 
-      
 
-       
+
+
+
 
         <section class="acoesDashboard">
 
@@ -440,8 +436,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
             <div class="containerAcoes">
 
                 <a href="<?= BASE_URL ?>worker/create" class="cardAcao">
-                    <img src="<?= BASE_URL ?>assets/images/funcionario.svg"
-                         alt="">
+                    <img src="<?= BASE_URL ?>assets/images/funcionario.svg" alt="">
                     <div>
                         <h3>Novo funcionário</h3>
                         <p>Adicionar alguém à equipe</p>
@@ -449,8 +444,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
                 </a>
 
                 <a href="<?= BASE_URL ?>client/create" class="cardAcao">
-                    <img src="<?= BASE_URL ?>assets/images/cliente.svg"
-                         alt="">
+                    <img src="<?= BASE_URL ?>assets/images/cliente.svg" alt="">
                     <div>
                         <h3>Novo cliente</h3>
                         <p>Cadastrar um novo cliente</p>
@@ -458,8 +452,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
                 </a>
 
                 <a href="<?= BASE_URL ?>product/create" class="cardAcao">
-                    <img src="<?= BASE_URL ?>assets/images/produtos.svg"
-                         alt="">
+                    <img src="<?= BASE_URL ?>assets/images/produtos.svg" alt="">
                     <div>
                         <h3>Novo produto</h3>
                         <p>Adicionar ao cardápio</p>
@@ -470,14 +463,14 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
         </section>
 
-            <h2 class="info">Dados <span class='brand'>Defufu</span></h2>
-            <p class= "infoP">Informações importantes no sistema</p>
+        <h2 class="info">Dados <span class='brand'>Defufu</span></h2>
+        <p class="infoP">Informações importantes no sistema</p>
 
 
 
-          <section class="cards">
+        <section class="cards">
 
-          
+
 
             <div class="eachCard">
                 <div class="pratosCadastrados">
@@ -502,7 +495,7 @@ $fotoPerfil = !empty($_SESSION['photo'])
 
             <div class="eachCard">
                 <div class="precoMedio">
-                    <?= 'R$ ' . number_format((float)$precoMedio, 2, ',', '.') ?>
+                    <?= 'R$ ' . number_format((float) $precoMedio, 2, ',', '.') ?>
                 </div>
                 <p>Preço médio</p>
             </div>
@@ -512,4 +505,5 @@ $fotoPerfil = !empty($_SESSION['photo'])
     </main>
 
 </body>
+
 </html>
