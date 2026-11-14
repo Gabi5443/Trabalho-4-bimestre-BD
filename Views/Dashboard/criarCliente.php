@@ -224,9 +224,10 @@
 
                     <!-- aqui vou deixar pra vc colocar o input da foto ficar bonitinho igual do create de produto -->
 
-                    <div class="formGroup">
-                        <label for="Foto">Foto</label>
-                        <input type="file" name="PHOTO_CLIENT" accept="image/* " required>
+                   <div class="formGroup">
+                        <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
+                        <input type="file" name="PHOTO_PRODUCT" accept="image/* " required id="arquivo-upload">
+
                     </div>
 
                     <button type="submit" class="btn-submit">Salvar alterações</button>
