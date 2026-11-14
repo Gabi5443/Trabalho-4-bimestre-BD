@@ -2,17 +2,20 @@
 
 require_once __DIR__ . '/../models/workerModel.php';
 
-class WorkerController {
+class WorkerController
+{
     private $model;
     private $db;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->model = new workerModel($db);
         $this->db = $db;
     }
 
     // CRUD da API: recebe o método HTTP
-    public function handleRequest($method, $id = null) {
+    public function handleRequest($method, $id = null)
+    {
         switch (strtoupper($method)) {
             case 'GET':
                 if ($id !== null) {
@@ -54,16 +57,19 @@ class WorkerController {
     }
 
     // Página HTML do dashboard
-    public function dashboard() {
+    public function dashboard()
+    {
         require __DIR__ . '/../Views/Dashboard/index.php';
     }
 
-    private function getAll() {
+    private function getAll()
+    {
         $funcionarios = $this->model->listAll();
         $this->response($funcionarios, 200);
     }
 
-    private function getById($id) {
+    private function getById($id)
+    {
         $funcionario = $this->model->listById($id);
 
         if ($funcionario) {
@@ -75,7 +81,8 @@ class WorkerController {
         ], 404);
     }
 
-    private function create() {
+    private function create()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (
@@ -110,7 +117,8 @@ class WorkerController {
         require_once __DIR__ . '/../Views/Dashboard/criarFuncionario.php';
     }
 
-    private function update($id) {
+    private function update($id)
+    {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (
@@ -146,7 +154,8 @@ class WorkerController {
         require_once __DIR__ . '/../Views/Dashboard/editarFuncionario.php';
     }
 
-    private function delete($id) {
+    private function delete($id)
+    {
         $sucesso = $this->model->delete($id);
 
         if ($sucesso) {
@@ -159,218 +168,222 @@ class WorkerController {
             "message" => "Erro ao deletar funcionário"
         ], 500);
 
-        
+
     }
 
 
 
-    public function list() {
+    public function list()
+    {
 
-    $workers = $this->model->listAll();
+        $workers = $this->model->listAll();
 
-    if (!$workers) {
-        http_response_code(404);
-        echo "Funcionários não encontrados.";
-        return;
-    }
-
-    require_once __DIR__ . '/../Views/Dashboard/listarFuncionario.php';
-}
-
-
-
-
-
-
-
-public function editForm($id)
-{
-    $worker = $this->model->listById($id);
-
-    if (!$worker) {
-        http_response_code(404);
-        echo "Funcionário não encontrado.";
-        return;
-    }
-
-    require_once __DIR__ . '/../Views/Dashboard/editarFuncionario.php';
-
-
-
-}
-
-
-
-public function excluir($id)
-{
-    $sucesso = $this->model->delete($id);
-
-    if (!$sucesso) {
-        echo "Não foi possível excluir o produto.";
-        return;
-    }
-
-    header('Location: ' . BASE_URL . 'worker/list');
-    exit;
-}
-
-
-
-
-public function updateForm($id)
-{
-    $worker = $this->model->listById($id);
-
-    if (!$worker) {
-        http_response_code(404);
-        echo "Funcionário não encontrado.";
-        return;
-    }
-
-    // Recupera os dados enviados pelo formulário
-    $nome = trim($_POST['NAME_WORKER'] ?? '');
-    $role = trim($_POST['ROLE_WORKER'] ?? '');
-    $registration = $_POST['REGISTRATION_WORKER'] ?? '';
-
-    // Preserva o vínculo com a conta
-    $idAccount = $worker['ID_ACCOUNT_FK'];
-
-    // Mantém a foto atual caso nenhuma nova seja enviada
-    $foto = $worker['PHOTO_WORKER'];
-
-    // Verifica se foi enviada uma nova imagem
-    if (
-        isset($_FILES['PHOTO_WORKER']) &&
-        $_FILES['PHOTO_WORKER']['error'] !== UPLOAD_ERR_NO_FILE
-    ) {
-        if ($_FILES['PHOTO_WORKER']['error'] !== UPLOAD_ERR_OK) {
-            echo "Erro ao enviar a imagem.";
+        if (!$workers) {
+            http_response_code(404);
+            echo "Funcionários não encontrados.";
             return;
         }
 
-        $imagem = getimagesize($_FILES['PHOTO_WORKER']['tmp_name']);
+        require_once __DIR__ . '/../Views/Dashboard/listarFuncionario.php';
+    }
 
-        if ($imagem === false) {
-            echo "O arquivo enviado não é uma imagem válida.";
+
+
+
+
+
+
+    public function editForm($id)
+    {
+        $worker = $this->model->listById($id);
+
+        if (!$worker) {
+            http_response_code(404);
+            echo "Funcionário não encontrado.";
             return;
         }
 
-        $extensao = strtolower(pathinfo(
-            $_FILES['PHOTO_WORKER']['name'],
-            PATHINFO_EXTENSION
-        ));
+        require_once __DIR__ . '/../Views/Dashboard/editarFuncionario.php';
 
-        if (!in_array($extensao, ['jpg', 'jpeg', 'png', 'webp'])) {
-            echo "Formato de imagem não permitido.";
+
+
+    }
+
+
+
+    public function excluir($id)
+    {
+        $sucesso = $this->model->delete($id);
+
+        if (!$sucesso) {
+            echo "Não foi possível excluir o produto.";
             return;
         }
-
-        $nomeArquivo = uniqid() . '.' . $extensao;
-
-        $diretorio = __DIR__ . '/../uploads/';
-
-        if (!is_dir($diretorio)) {
-            mkdir($diretorio, 0755, true);
-        }
-
-        if (!move_uploaded_file(
-            $_FILES['PHOTO_WORKER']['tmp_name'],
-            $diretorio . $nomeArquivo
-        )) {
-            echo "Não foi possível salvar a imagem.";
-            return;
-        }
-
-        $foto = 'uploads/' . $nomeArquivo;
-    }
-
-    // Atualiza os dados na Model
-    $sucesso = $this->model->alter(
-        $id,
-        $nome,
-        $registration,
-        $role,
-        $foto,
-        $idAccount
-    );
-
-    if ($sucesso) {
-        header('Location: ' . BASE_URL . 'worker/list');
-        exit;
-    }
-
-    echo "Não foi possível atualizar o funcionário.";
-}
-
-
-
-public function createForm()
-{
-    require_once __DIR__ . '/../Views/Dashboard/criarFuncionario.php';
-}
-
-public function createFormSubmit()
-{
-   
-    $nome = trim($_POST['NAME_WORKER'] ?? '');
-    $role = trim($_POST['ROLE_WORKER'] ?? '');
-    $registration = $_POST['REGISTRATION_WORKER'] ?? '';
-    $idAccount = $_POST['ID_ACCOUNT_FK'] ?? '';
-
-    // A foto será recebida por $_FILES, não por $_POST.
-
-    $photo = null;
-
-if (isset($_FILES['PHOTO_WORKER']) &&
-    $_FILES['PHOTO_WORKER']['error'] === UPLOAD_ERR_OK) {
-
-    $nomeArquivo = uniqid() . '_' . basename($_FILES['PHOTO_WORKER']['name']);
-
-    $diretorio = __DIR__ . '/../uploads/';
-
-    if (!is_dir($diretorio)) {
-        mkdir($diretorio, 0755, true);
-    }
-
-    if (move_uploaded_file(
-        $_FILES['PHOTO_WORKER']['tmp_name'],
-        $diretorio . $nomeArquivo
-    )) {
-        $photo = 'uploads/' . $nomeArquivo;
-    }
-}
-
-     
-
-
-    $this->db->begin_transaction();
-
-    $sucesso = $this->model->create(
-       
-        $nome,
-        $registration,
-        $role,
-        $photo,
-        $idAccount
-    );
-
-    if ($sucesso) {
-
-     $_SESSION['mensagem'] = 'Produto criado com sucesso!';
-
-        $this->db->commit();
 
         header('Location: ' . BASE_URL . 'worker/list');
         exit;
     }
 
-    $this->db->rollback();
-
-    echo "Erro ao cadastrar produto.";
-}
 
 
 
+    public function updateForm($id)
+    {
+        $worker = $this->model->listById($id);
+
+        if (!$worker) {
+            http_response_code(404);
+            echo "Funcionário não encontrado.";
+            return;
+        }
+
+        // Recupera os dados enviados pelo formulário
+        $nome = trim($_POST['NAME_WORKER'] ?? '') !== '' ? trim($_POST['NAME_WORKER']) : $worker['NAME_WORKER'];
+        $role = trim($_POST['ROLE_WORKER'] ?? '') !== '' ? trim($_POST['ROLE_WORKER']) : $worker['ROLE_WORKER'];
+        $registration = trim($_POST['REGISTRATION_WORKER'] ?? '') !== '' ? trim($_POST['REGISTRATION_WORKER']) : $worker['REGISTRATION_WORKER'];
+
+        // Preserva o vínculo com a conta
+        $idAccount = $worker['ID_ACCOUNT_FK'];
+
+        // Mantém a foto atual caso nenhuma nova seja enviada
+        $foto = $worker['PHOTO_WORKER'];
+
+        // Verifica se foi enviada uma nova imagem
+        if (
+            isset($_FILES['PHOTO_WORKER']) &&
+            $_FILES['PHOTO_WORKER']['error'] !== UPLOAD_ERR_NO_FILE
+        ) {
+            if ($_FILES['PHOTO_WORKER']['error'] !== UPLOAD_ERR_OK) {
+                echo "Erro ao enviar a imagem.";
+                return;
+            }
+
+            $imagem = getimagesize($_FILES['PHOTO_WORKER']['tmp_name']);
+
+            if ($imagem === false) {
+                echo "O arquivo enviado não é uma imagem válida.";
+                return;
+            }
+
+            $extensao = strtolower(pathinfo(
+                $_FILES['PHOTO_WORKER']['name'],
+                PATHINFO_EXTENSION
+            ));
+
+            if (!in_array($extensao, ['jpg', 'jpeg', 'png', 'webp'])) {
+                echo "Formato de imagem não permitido.";
+                return;
+            }
+
+            $nomeArquivo = uniqid() . '.' . $extensao;
+
+            $diretorio = __DIR__ . '/../uploads/';
+
+            if (!is_dir($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+
+            if (
+                !move_uploaded_file(
+                    $_FILES['PHOTO_WORKER']['tmp_name'],
+                    $diretorio . $nomeArquivo
+                )
+            ) {
+                echo "Não foi possível salvar a imagem.";
+                return;
+            }
+
+            $foto = 'uploads/' . $nomeArquivo;
+        }
+
+        // Atualiza os dados na Model
+        $sucesso = $this->model->alter(
+            $id,
+            $nome,
+            $registration,
+            $role,
+            $foto,
+            $idAccount
+        );
+
+        if ($sucesso) {
+            header('Location: ' . BASE_URL . 'worker/list');
+            exit;
+        }
+
+        echo "Não foi possível atualizar o funcionário.";
+    }
+
+
+
+    public function createForm()
+    {
+        require_once __DIR__ . '/../Views/Dashboard/criarFuncionario.php';
+    }
+
+    public function createFormSubmit()
+    {
+
+        $nome = trim($_POST['NAME_WORKER'] ?? '');
+        $role = trim($_POST['ROLE_WORKER'] ?? '');
+        $registration = $_POST['REGISTRATION_WORKER'] ?? '';
+        $idAccount = $_POST['ID_ACCOUNT_FK'] ?? '';
+
+        // A foto será recebida por $_FILES, não por $_POST.
+
+        $photo = null;
+
+        if (
+            isset($_FILES['PHOTO_WORKER']) &&
+            $_FILES['PHOTO_WORKER']['error'] === UPLOAD_ERR_OK
+        ) {
+
+            $nomeArquivo = uniqid() . '_' . basename($_FILES['PHOTO_WORKER']['name']);
+
+            $diretorio = __DIR__ . '/../uploads/';
+
+            if (!is_dir($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+
+            if (
+                move_uploaded_file(
+                    $_FILES['PHOTO_WORKER']['tmp_name'],
+                    $diretorio . $nomeArquivo
+                )
+            ) {
+                $photo = 'uploads/' . $nomeArquivo;
+            }
+        }
+
+
+
+
+        $this->db->begin_transaction();
+
+        $sucesso = $this->model->create(
+
+            $nome,
+            $registration,
+            $role,
+            $photo,
+            $idAccount
+        );
+
+        if ($sucesso) {
+
+            $_SESSION['mensagem'] = 'Produto criado com sucesso!';
+
+            $this->db->commit();
+
+            header('Location: ' . BASE_URL . 'worker/list');
+            exit;
+        }
+
+        $this->db->rollback();
+
+        echo "Erro ao cadastrar produto.";
+    }
 
 
 
@@ -383,7 +396,11 @@ if (isset($_FILES['PHOTO_WORKER']) &&
 
 
 
-    private function response($data, $statusCode = 200) {
+
+
+
+    private function response($data, $statusCode = 200)
+    {
         header('Content-Type: application/json; charset=UTF-8');
         http_response_code($statusCode);
         echo json_encode($data);

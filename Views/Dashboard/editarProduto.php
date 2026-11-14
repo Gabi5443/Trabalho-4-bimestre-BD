@@ -2,7 +2,7 @@
 /** @var array $produto*/
 
 ?>
-<?php 
+<?php
 /** @var array $categorias*/
 ?>
 
@@ -184,54 +184,54 @@
         }
 
 
-          #arquivo-upload{
-              display: none;
+        #arquivo-upload {
+            display: none;
         }
 
-        .formGroup label.botaoPer{
-           
-  background:  color-mix( in srgb , #ff7f2ad5 20%, #eee8dc);
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  color: #556B2F;
-  padding: 5px 20px;
-  border-radius: 12px;
-   border: 1.5px solid #556B2F;
-  font-family: sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  
+        .formGroup label.botaoPer {
+
+            background: color-mix(in srgb, #ff7f2ad5 20%, #eee8dc);
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            color: #556B2F;
+            padding: 5px 20px;
+            border-radius: 12px;
+            border: 1.5px solid #556B2F;
+            font-family: sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            align-items: center;
+            justify-content: center;
+            justify-items: center;
+
         }
 
         .formGroup label.botaoPer:hover {
-    background:  color-mix( in srgb , #ff7f2ad5 40%, #eee8dc);
-    transform: translateY(-2px);
-    
-}
+            background: color-mix(in srgb, #ff7f2ad5 40%, #eee8dc);
+            transform: translateY(-2px);
+
+        }
 
 
 
-[name="ID_CATEGORY_FK"] {
-    border-radius: 20px;
-    border: 1.5px solid #556B2F;
-    width: 100%;
-    padding: 0.6rem 1rem;
-    font-size: 1rem;
-    color: #333333;
-    background-color: #FAFAFA;
-    box-shadow: 0 0 8px rgba(226, 114, 91, 0.15);
-    cursor: pointer;
-}
+        [name="ID_CATEGORY_FK"] {
+            border-radius: 20px;
+            border: 1.5px solid #556B2F;
+            width: 100%;
+            padding: 0.6rem 1rem;
+            font-size: 1rem;
+            color: #333333;
+            background-color: #FAFAFA;
+            box-shadow: 0 0 8px rgba(226, 114, 91, 0.15);
+            cursor: pointer;
+        }
 
-[name="ID_CATEGORY_FK"]:focus {
-    border: 2px solid #556B2F;
-    outline: none;
-}
+        [name="ID_CATEGORY_FK"]:focus {
+            border: 2px solid #556B2F;
+            outline: none;
+        }
     </style>
 
 </head>
@@ -243,49 +243,54 @@
                 enctype="multipart/form-data">
                 <div class="formGroup">
                     <label for="Nome">Nome:</label>
-                    <input type="text" name="NAME_PRODUCT">
+                    <input type="text" name="NAME_PRODUCT"
+                        value="<?= htmlspecialchars($produto['NAME_PRODUCT'] ?? '') ?>">
                 </div>
 
 
                 <div class="formGroup">
                     <label for="Descrição">Descrição:</label>
-                    <input type="text" name="DESCRIPTION_PRODUCT">
+                    <input type="text" name="DESCRIPTION_PRODUCT"
+                        value="<?= htmlspecialchars($produto['DESCRIPTION_PRODUCT'] ?? '') ?>">
                 </div>
 
 
                 <div class="formGroup">
                     <label for="Preço">Preço:</label>
-                    <input type="number" name="PRICE_PRODUCT">
+                    <input type="number" step="0.01" name="PRICE_PRODUCT"
+                        value="<?= htmlspecialchars($produto['PRICE_PRODUCT'] ?? '') ?>">
                 </div>
 
 
                 <div class="formGroup">
                     <label for="Estoque">Quantidade em Estoque:</label>
-                    <input type="number" name="STOCK_PRODUCT">
+                    <input type="number" name="STOCK_PRODUCT"
+                        value="<?= htmlspecialchars($produto['STOCK_PRODUCT'] ?? '') ?>">
                 </div>
-              
+
 
                 <div class="formGroup">
-            <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
-            <input type="file" name="PHOTO_PRODUCT" accept="image/* " id="arquivo-upload">
-           
-        </div>
+                    <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
+                    <input type="file" name="PHOTO_PRODUCT" accept="image/* " id="arquivo-upload">
+
+                </div>
 
 
-<div class="formGroup">
-    <label for="categoria">Categoria:</label>
+                <div class="formGroup">
+                    <label for="categoria">Categoria:</label>
 
-    <select name="ID_CATEGORY_FK" id="categoria" required>
-        <option value="" disabled selected>Selecione uma categoria</option>
+                    <select name="ID_CATEGORY_FK" id="categoria" required>
+                        <option value="" disabled selected>Selecione uma categoria</option>
 
-        <?php foreach ($categorias as $categoria): ?>
-            <option value="<?= $categoria['ID_CATEGORY'] ?>">
-                <?= htmlspecialchars($categoria['NAME_CATEGORY']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</div>
-               
+                        <?php foreach ($categorias as $categoria): ?>
+                            <option value="<?= $categoria['ID_CATEGORY'] ?>">
+                                <?= (isset($produto['ID_CATEGORY_FK']) && $produto['ID_CATEGORY_FK'] == $categoria['ID_CATEGORY']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($categoria['NAME_CATEGORY']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
                 <button type="submit" class="btn-submit">Salvar alterações </button>
 
 

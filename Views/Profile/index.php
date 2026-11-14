@@ -26,26 +26,26 @@ $caminhoFoto = $foto
             box-sizing: border-box;
         }
 
-       html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-}
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    font-family: "Manrope", sans-serif;
-    padding: 1.5rem 0;
-}
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("/Trabalho-4-bimestre-BD/assets/images/fundo2.webp");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            font-family: "Manrope", sans-serif;
+            padding: 1.5rem 0;
+        }
 
         .box {
             position: relative;
@@ -178,14 +178,13 @@ body {
                 gap: 2rem;
             }
 
-            
-        }
 
+        }
     </style>
 </head>
 
 <body>
-   
+
 
     <div class="box">
 
@@ -200,13 +199,30 @@ body {
                     <p>Não foi possível atualizar o perfil. Verifique os dados e tente novamente.</p>
                 <?php endif; ?>
 
-                <?php if ($caminhoFoto): ?>
-                    <div class="box-photo">
-                        <p>Foto atual:</p>
-                        <img src="<?= htmlspecialchars($caminhoFoto, ENT_QUOTES, 'UTF-8') ?>" alt="Foto de perfil"
-                            width="150" height="150" style="object-fit: cover;">
-                    </div>
-                <?php endif; ?>
+                <?php
+                $tipoUsuario = $_SESSION['type_account'] ?? 'CLIENT';
+
+                if ($tipoUsuario === 'WORKER') {
+                    $fotoBanco = trim($usuario['PHOTO_WORKER'] ?? '');
+                } else {
+                    $fotoBanco = trim($usuario['PHOTO_CLIENT'] ?? '');
+                }
+
+                // Caminho físico real no servidor para verificar se o arquivo existe de verdade
+                $caminhoFisico = __DIR__ . '/../' . $fotoBanco; // Ajuste os pontos caso a pasta Views esteja em outro nível
+                
+                if (!empty($fotoBanco) && file_exists($caminhoFisico)) {
+                    $caminhoFoto = BASE_URL . $fotoBanco;
+                } else {
+                    $caminhoFoto = BASE_URL . 'uploads/photoDefault.jpg';
+                }
+                ?>
+
+                <div class="box-photo">
+                    <p>Foto atual:</p>
+                    <img src="<?= htmlspecialchars($caminhoFoto, ENT_QUOTES, 'UTF-8') ?>" alt="Foto de perfil"
+                        width="150" height="150" style="object-fit: cover; border-radius: 20px;">
+                </div>
 
                 <div class="form-group">
                     <label for="name">Nome:</label>

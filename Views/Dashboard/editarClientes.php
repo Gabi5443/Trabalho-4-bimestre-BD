@@ -1,5 +1,5 @@
 <?php
-/** @var array $produto*/
+/** @var array $client*/
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +27,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-           background: radial-gradient(circle, #ff7f2ad5, #eee8dc);
+            background: radial-gradient(circle, #ff7f2ad5, #eee8dc);
             font-family: "Manrope", sans-serif;
         }
 
@@ -173,35 +173,35 @@
 
         }
 
-          #arquivo-upload{
-              display: none;
+        #arquivo-upload {
+            display: none;
         }
 
-        .formGroup label.botaoPer{
-           
-  background:  color-mix( in srgb , #ff7f2ad5 20%, #eee8dc);
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  color: #556B2F;
-  padding: 5px 20px;
-  border-radius: 12px;
-   border: 1.5px solid #556B2F;
-  font-family: sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  
+        .formGroup label.botaoPer {
+
+            background: color-mix(in srgb, #ff7f2ad5 20%, #eee8dc);
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            color: #556B2F;
+            padding: 5px 20px;
+            border-radius: 12px;
+            border: 1.5px solid #556B2F;
+            font-family: sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            align-items: center;
+            justify-content: center;
+            justify-items: center;
+
         }
 
         .formGroup label.botaoPer:hover {
-    background:  color-mix( in srgb , #ff7f2ad5 40%, #eee8dc);
-    transform: translateY(-2px);
-    
-}
+            background: color-mix(in srgb, #ff7f2ad5 40%, #eee8dc);
+            transform: translateY(-2px);
+
+        }
     </style>
 
 
@@ -211,33 +211,34 @@
     <div class="box">
 
         <div class="formEdit">
-            <form method="POST" action="<?= BASE_URL ?>client/update/<?= $produto['ID_CLIENT'] ?>"
+            <form method="POST" action="<?= BASE_URL ?>client/update/<?= $client['ID_CLIENT'] ?>"
                 enctype="multipart/form-data">
                 <div class="formGroup">
                     <label for="Nome">Nome:</label>
-                    <input type="text" name="NAME_CLIENT">
+                    <input type="text" name="NAME_CLIENT" value="<?= htmlspecialchars($client['NAME_CLIENT'] ?? '') ?>">
                 </div>
 
 
                 <div class="formGroup">
                     <label for="CPF">CPF:</label>
-                    <input type="text" name="CPF_CLIENT">
+                    <input type="text" name="CPF_CLIENT" value="<?= htmlspecialchars($client['CPF_CLIENT'] ?? '') ?>">
                 </div>
 
 
                 <div class="formGroup">
                     <label for="Telefone">Telefone</label>
-                    <input type="number" name="NUMBER_CLIENT">
+                    <input type="text" name="NUMBER_CLIENT"
+                        value="<?= htmlspecialchars($client['NUMBER_CLIENT'] ?? '') ?>">
                 </div>
 
 
 
 
                 <div class="formGroup">
-            <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
-            <input type="file" name="PHOTO_CLIENT" accept="image/* "  id="arquivo-upload">
-           
-        </div>
+                    <label for="arquivo-upload" class="botaoPer"> Escolha a foto </label>
+                    <input type="file" name="PHOTO_CLIENT" accept="image/* " id="arquivo-upload">
+
+                </div>
 
 
 

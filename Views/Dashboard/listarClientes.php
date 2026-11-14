@@ -190,21 +190,26 @@
 
 
 
-<td>
-    <?php
-   $fotoCliente = !empty($client['PHOTO_CLIENT'])
-    ? BASE_URL . 'uploads/' . htmlspecialchars($client['PHOTO_CLIENT'], ENT_QUOTES, 'UTF-8')
-    : BASE_URL . 'uploads/photoDefault.jpg';
-    ?>
+                    <td>
+                        <?php
+                        // Limpa espaços e verifica se o valor existe e não é um texto lixo
+                        $fotoBanco = trim($client['PHOTO_CLIENT'] ?? '');
 
-    
+                        // Caminho físico real no servidor para verificar se o arquivo existe de verdade
+                        $caminhoFisico = __DIR__ . '/../../' . $fotoBanco; // Ajuste os pontos se necessário para chegar na raiz onde fica a pasta uploads
+                    
+                        if (!empty($fotoBanco) && file_exists($caminhoFisico)) {
+                            $fotoCliente = BASE_URL . $fotoBanco;
+                        } else {
+                            $fotoCliente = BASE_URL . 'uploads/photoDefault.jpg';
+                        }
+                        ?>
 
-    <img 
-        src="<?= $fotoCliente ?>"
-        alt="<?= htmlspecialchars($client['NAME_CLIENT'], ENT_QUOTES, 'UTF-8') ?>"
-        class="fotoClient"
-    >
-</td>
+
+
+                        <img src="<?= $fotoCliente ?>"
+                            alt="<?= htmlspecialchars($client['NAME_CLIENT'], ENT_QUOTES, 'UTF-8') ?>" class="fotoClient">
+                    </td>
 
 
 

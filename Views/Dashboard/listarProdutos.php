@@ -191,8 +191,19 @@
                     <td><?= $produto['STOCK_PRODUCT'] ?></td>
 
                     <td>
-                        <img src="<?= BASE_URL . htmlspecialchars($produto['PHOTO_PRODUCT']) ?>"
-                            alt="<?= htmlspecialchars($produto['NAME_PRODUCT']) ?>" class="fotoProduto">
+                        <?php
+                            $fotoBanco = trim($produto['PHOTO_PRODUCT'] ?? '');
+                            $caminhoFisico = __DIR__ . '/../../' . $fotoBanco;
+
+                            if (!empty($fotoBanco) && file_exists($caminhoFisico)) {
+                                $fotoProduto = BASE_URL . $fotoBanco;
+                            } else {
+                                $fotoProduto = BASE_URL . 'uploads/photoDefault.jpg';
+                            }
+                        ?>
+                        <img src="<?= $fotoProduto ?>"
+                             alt="<?= htmlspecialchars($produto['NAME_PRODUCT']) ?>" 
+                             class="fotoProduto">
                     </td>
 
                     <td>
